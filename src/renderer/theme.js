@@ -2,7 +2,11 @@ import { createMuiTheme } from '@material-ui/core/styles'
 
 export default createMuiTheme({
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
+    caption: {
+      color: '#b2b2b2',
+      fontSize: '0.71rem'
+    }
   },
   palette: {
     primary: {
