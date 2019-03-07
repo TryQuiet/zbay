@@ -14,5 +14,17 @@ export default createMuiTheme({
       main: '#8d8d8d',
       dark: '#4a4a4a'
     }
+  },
+  overrides: {
+    MuiButton: {
+      sizeSmall: {
+        textTransform: 'none',
+        boxShadow: 'none',
+        paddingLeft: '16px',
+        paddingRight: '14px',
+        fontWeight: 400,
+        fontSize: '14px'
+      }
+    }
   }
 })

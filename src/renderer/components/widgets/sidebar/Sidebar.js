@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import NodePanel from '../node/NodePanel'
 import IdentityPanel from '../../ui/IdentityPanel'
-import WalletPanel from '../WalletPanel'
+import WalletPanel from '../walletPanel/WalletPanel'
 import SidebarHeader from '../../ui/SidebarHeader'
 
 const styles = {
