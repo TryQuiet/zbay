@@ -6,8 +6,8 @@ import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 
 import WalletPanelActions from './WalletPanelActions'
-import ZecBalance from './ZecBalance'
-import UsdBalance from './UsdBalance'
+import UsdBalance from '../../../containers/widgets/walletPanel/UsdBalance'
+import ZecBalance from '../../../containers/widgets/walletPanel/ZecBalance'
 
 const styles = theme => ({
   root: {
@@ -29,10 +29,10 @@ export const WalletPanel = ({ classes }) => (
     <Grid item>
       <Grid container direction='row' justify='space-between' alignItems='center' >
         <Grid item>
-          <UsdBalance value='2,366' />
+          <UsdBalance />
         </Grid>
         <Grid item className={classes.zec}>
-          <ZecBalance value='33.583004' />
+          <ZecBalance />
         </Grid>
       </Grid>
     </Grid>

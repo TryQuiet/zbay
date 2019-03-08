@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import BigNumber from 'bignumber.js'
 import * as R from 'ramda'
 
 import Grid from '@material-ui/core/Grid'
@@ -23,14 +24,14 @@ const ZecBalance = ({ classes, value }) => (
   <Grid container>
     <ZcashIcon size={14} className={classes.icon} />
     <Typography variant='caption' className={classes.value}>
-      {R.isNil(value) ? '-' : value}
+      {R.isNil(value) ? '-' : value.toFormat(6)}
     </Typography>
   </Grid>
 )
 
 ZecBalance.propTypes = {
   classes: PropTypes.object.isRequired,
-  value: PropTypes.string
+  value: PropTypes.instanceOf(BigNumber)
 }
 
 export default R.compose(

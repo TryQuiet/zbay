@@ -1,4 +1,5 @@
 import React from 'react'
+import BigNumber from 'bignumber.js'
 import PropTypes from 'prop-types'
 import * as R from 'ramda'
 
@@ -21,14 +22,14 @@ const UsdBalance = ({ classes, value }) => (
       Available
     </Typography>
     <Typography variant='h5' className={classes.value}>
-      ${R.isNil(value) ? '-' : value} USD
+      ${R.isNil(value) ? '-' : value.toFormat(2)} USD
     </Typography>
   </Grid>
 )
 
 UsdBalance.propTypes = {
   classes: PropTypes.object.isRequired,
-  value: PropTypes.string
+  value: PropTypes.instanceOf(BigNumber)
 }
 
 export default R.compose(

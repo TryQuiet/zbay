@@ -8,8 +8,9 @@ const store = s => s
 const identity = createSelector(store, state => state.get('identity'))
 
 const balance = currency => createSelector(
-  [identity, rate(currency)],
-  (i, rate) => (new BigNumber(i.get('balance'))).times(rate) // use big number
+  identity,
+  rate(currency),
+  (i, rate) => rate.times(new BigNumber(i.get('balance', 0))) // use big number
 )
 
 export default {
