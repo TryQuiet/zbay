@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export const ZcashIcon = ({ size, color, className }) => (
+export const ZcashIcon = ({ size, className }) => (
   <svg
     id='Layer_1'
     data-name='Layer 1'
@@ -20,7 +20,6 @@ ZcashIcon.propTypes = {
 }
 
 ZcashIcon.defaultProps = {
-  color: '#000',
   size: 16
 }
 

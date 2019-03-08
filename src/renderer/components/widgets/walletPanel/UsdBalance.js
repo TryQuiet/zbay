@@ -16,7 +16,7 @@ const styles = {
   }
 }
 
-const UsdBalance = ({ classes, value }) => (
+export const UsdBalance = ({ classes, value }) => (
   <Grid container direction='column'>
     <Typography variant='body2' className={classes.title}>
       Available

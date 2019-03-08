@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 
 import NodePanel from '../node/NodePanel'
-import IdentityPanel from '../../ui/IdentityPanel'
+import IdentityPanel from '../../../containers/ui/IdentityPanel'
 import WalletPanel from '../walletPanel/WalletPanel'
 import SidebarHeader from '../../ui/SidebarHeader'
 
@@ -25,10 +25,7 @@ const Sidebar = ({ classes }) => (
     <Grid item>
       <Grid container direction='column'>
         <Grid item>
-          <IdentityPanel identity={{
-            name: 'Saturn',
-            address: 'zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9sly'
-          }} />
+          <IdentityPanel />
         </Grid>
         <Grid item>
           <WalletPanel />

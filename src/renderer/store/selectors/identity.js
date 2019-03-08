@@ -14,5 +14,6 @@ const balance = currency => createSelector(
 )
 
 export default {
+  identity,
   balance
 }

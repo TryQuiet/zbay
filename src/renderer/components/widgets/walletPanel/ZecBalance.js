@@ -20,7 +20,7 @@ const styles = theme => ({
   }
 })
 
-const ZecBalance = ({ classes, value }) => (
+export const ZecBalance = ({ classes, value }) => (
   <Grid container>
     <ZcashIcon size={14} className={classes.icon} />
     <Typography variant='caption' className={classes.value}>

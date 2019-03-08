@@ -5,7 +5,7 @@ import * as R from 'ramda'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 
-import WalletPanelActions from './WalletPanelActions'
+import WalletPanelActions from '../../../containers/widgets/walletPanel/WalletPanelActions'
 import UsdBalance from '../../../containers/widgets/walletPanel/UsdBalance'
 import ZecBalance from '../../../containers/widgets/walletPanel/ZecBalance'
 
@@ -37,7 +37,7 @@ export const WalletPanel = ({ classes }) => (
       </Grid>
     </Grid>
     <Grid item className={classes.actions}>
-      <WalletPanelActions onSend={() => null} onReceive={() => null} />
+      <WalletPanelActions />
     </Grid>
   </Grid>
 )
