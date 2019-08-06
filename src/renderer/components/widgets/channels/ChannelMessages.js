@@ -11,6 +11,7 @@ import RootRef from '@material-ui/core/RootRef'
 import { withStyles } from '@material-ui/core/styles'
 
 import ChannelMessage from '../../../containers/widgets/channels/ChannelMessage'
+import ChannelTransferMessage from '../../../containers/widgets/channels/ChannelTransferMessage'
 
 const styles = theme => ({
   wrapper: {
@@ -26,9 +27,10 @@ const styles = theme => ({
 // TODO: scrollbar smart pagination
 export const ChannelMessages = ({ classes, messages, measureRef, contentRect }) => {
   const scrollbarRef = ref => ref && ref.scrollToBottom()
+
   return (
     <RootRef rootRef={measureRef}>
-      <Grid container direction='column' justify='flex-end' className={classes.wrapper} >
+      <Grid container direction='column' justify='flex-end' className={classes.wrapper}>
         <Scrollbars
           autoHide
           autoHeight
@@ -37,7 +39,13 @@ export const ChannelMessages = ({ classes, messages, measureRef, contentRect }) 
           autoHideTimeout={500}
         >
           <List disablePadding className={classes.list}>
-            { messages.map(msg => (<ChannelMessage key={msg.get('id')} message={msg} />))}
+            {messages.map(msg =>
+              msg.get('type') === 1 ? (
+                <ChannelMessage key={msg.get('id')} message={msg} />
+              ) : msg.get('type') === 4 ? (
+                <ChannelTransferMessage key={msg.get('id')} message={msg} />
+              ) : null
+            )}
           </List>
         </Scrollbars>
       </Grid>
