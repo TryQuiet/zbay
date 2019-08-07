@@ -6,6 +6,7 @@ import { withKnobs, select, boolean } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 import BigNumber from 'bignumber.js'
 
+import { DisplayableMessage } from '../../../zbay/messages'
 import ChannelTransferMessage from './ChannelTransferMessage'
 
 storiesOf('Components/Widgets/Channels/ChannelTransferMessage', module)
@@ -28,6 +29,10 @@ storiesOf('Components/Widgets/Channels/ChannelTransferMessage', module)
         replyTo: 'zs1testaddress1234',
         username: 'Saturn'
       },
+      receiver: {
+        replyTo: 'zs1testaddress1234',
+        username: 'Nobody'
+      },
       createdAt: DateTime.utc().toSeconds(),
       status: stateValue,
       fromYou: boolean('fromYou', false),
@@ -36,7 +41,7 @@ storiesOf('Components/Widgets/Channels/ChannelTransferMessage', module)
     }).set('error', error)
     return (
       <ChannelTransferMessage
-        message={message}
+        message={DisplayableMessage(message)}
         onResend={action('Resending')}
         onReply={action('Replying')}
         onCancel={action('Cancelling')}
