@@ -12,15 +12,16 @@ export const messageType = {
   TRANSFER: 4
 }
 
-export const MessageSender = Immutable.Record({
+export const MessageParticipant = Immutable.Record({
   replyTo: '',
   username: 'Unnamed'
-}, 'MessageSender')
+}, 'MessageParticipant')
 
 export const _DisplayableMessage = Immutable.Record({
   id: null,
   type: messageType.BASIC,
-  sender: MessageSender(),
+  sender: MessageParticipant(),
+  receiver: MessageParticipant(),
   createdAt: null,
   message: '',
   spent: new BigNumber(0),
@@ -31,7 +32,7 @@ export const _DisplayableMessage = Immutable.Record({
 
 export const DisplayableMessage = (values) => {
   const record = _DisplayableMessage(values)
-  return record.set('sender', MessageSender(record.sender))
+  return record.set('sender', MessageParticipant(record.sender))
 }
 
 const _isOwner = (address, message) => message.getIn(['sender', 'replyTo']) === address
