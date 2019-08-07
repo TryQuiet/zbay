@@ -30,7 +30,7 @@ storiesOf('Components/Widgets/Channels/ChannelTransferMessage', module)
         username: 'Saturn'
       },
       receiver: {
-        replyTo: 'zs1testaddress1234',
+        replyTo: 'zs1testaddress12341',
         username: 'Nobody'
       },
       createdAt: DateTime.utc().toSeconds(),

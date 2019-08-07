@@ -62,15 +62,17 @@ export const ChannelTransferMessage = ({
   const [actionsOpen, setActionsOpen] = useState(false)
 
   const tnx = message.id
-  const fromYou = message.fromYou || false
   const spentZec = message.spent
   const spentUsd = rateUsd.times(new BigNumber(spentZec || 0)).toFormat(2)
   const info = message.message
   const receiver = message.receiver
-  const receiverUsername = receiver.username || 'Unnamed'
+  const receiverUsername = receiver.username || 'Not Defined'
+  const fromYou = message.fromYou || false
+  const toYou = message.sender.replyTo === message.receiver.replyTo || false
 
   const status = message.status || 'broadcasted'
   const error = message.error
+
   return (
     <BasicMessage message={message} actionsOpen={actionsOpen} setActionsOpen={setActionsOpen}>
       <React.Fragment>
@@ -101,7 +103,7 @@ export const ChannelTransferMessage = ({
             </Grid>
             <Grid item xs={12}>
               <Typography variant='subtitle2' className={classes.boldText}>
-                {fromYou ? 'You' : receiverUsername}
+                {toYou ? 'You' : receiverUsername}
               </Typography>
             </Grid>
             <Grid item xs={12}>
