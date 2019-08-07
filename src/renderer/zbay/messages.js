@@ -32,7 +32,8 @@ export const _DisplayableMessage = Immutable.Record({
 
 export const DisplayableMessage = (values) => {
   const record = _DisplayableMessage(values)
-  return record.merge({ sender: ExchangeParticipant(record.sender),
+  return record.merge({
+    sender: ExchangeParticipant(record.sender),
     receiver: ExchangeParticipant(values.receiver) })
 }
 
