@@ -85,22 +85,22 @@ export const ChannelTransferMessage = ({
             spacing={0}
           >
             <Grid item xs={12}>
-              <Typography variant='h4' className={classes.boldText}>
+              <Typography variant='h5' className={classes.boldText}>
                 ${spentUsd}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant='h4' className={classes.boldText}>
-                <ZecBalance size={20} value={spentZec} />
+              <Typography variant='h5' className={classes.boldText}>
+                <ZecBalance size={18} value={spentZec} />
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant='subtitle1' className={classes.boldText}>
+              <Typography variant='subtitle2' className={classes.boldText}>
                 Sent to :
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant='subtitle1' className={classes.boldText}>
+              <Typography variant='subtitle2' className={classes.boldText}>
                 {fromYou ? 'You' : receiverUsername}
               </Typography>
             </Grid>
