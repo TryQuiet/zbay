@@ -59,7 +59,7 @@ export const ChannelTransferMessage = ({
   onReply,
   onCancel
 }) => {
-  const [actionsOpen, setActionsOpen] = useState(null)
+  const [actionsOpen, setActionsOpen] = useState(false)
 
   const tnx = message.get('id')
   const fromYou = message.get('fromYou', false)
@@ -122,16 +122,16 @@ export const ChannelTransferMessage = ({
               </Typography>
             </Grid>
           </Grid>
-          <Collapse in={actionsOpen} timeout='auto'>
-            <ChannelMessageActions
-              onReply={() => onReply(message)}
-              onResend={() => onResend(message)}
-              onCancel={onCancel}
-              fromYou={fromYou}
-              status={status}
-            />
-          </Collapse>
         </Grid>
+        <Collapse in={actionsOpen} timeout='auto'>
+          <ChannelMessageActions
+            onReply={() => onReply(message)}
+            onResend={() => onResend(message)}
+            onCancel={onCancel}
+            fromYou={fromYou}
+            status={status}
+          />
+        </Collapse>
       </React.Fragment>
     </BasicMessage>
   )

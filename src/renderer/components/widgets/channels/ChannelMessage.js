@@ -21,7 +21,7 @@ const styles = theme => ({
 export const ChannelMessage = ({ classes, message, onResend, onReply, onCancel }) => {
   const fromYou = message.get('fromYou', false)
   const status = message.get('status', 'broadcasted')
-  const [actionsOpen, setActionsOpen] = useState(null)
+  const [actionsOpen, setActionsOpen] = useState(false)
 
   return (
     <BasicMessage message={message} actionsOpen={actionsOpen} setActionsOpen={setActionsOpen}>

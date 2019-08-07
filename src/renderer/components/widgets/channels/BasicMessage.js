@@ -78,7 +78,7 @@ const getTimeFormat = time => {
   return 'LLL dd, y, HH:mm'
 }
 
-export const ChannelTransferMessage = ({
+export const BasicMessage = ({
   classes,
   message,
   children,
@@ -148,12 +148,15 @@ export const ChannelTransferMessage = ({
   )
 }
 
-ChannelTransferMessage.propTypes = {
+BasicMessage.propTypes = {
   classes: PropTypes.object.isRequired,
-  message: PropTypes.instanceOf(_DisplayableMessage).isRequired
+  message: PropTypes.instanceOf(_DisplayableMessage).isRequired,
+  children: PropTypes.node,
+  setActionsOpen: PropTypes.func.isRequired,
+  actionsOpen: PropTypes.bool.isRequired
 }
 
 export default R.compose(
   React.memo,
   withStyles(styles)
-)(ChannelTransferMessage)
+)(BasicMessage)

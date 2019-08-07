@@ -19,4 +19,7 @@ export const mapDispatchToProps = (dispatch, ownProps) =>
     dispatch
   )
 
-export default connect(mapStateToProps)(ChannelTransferMessage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChannelTransferMessage)
