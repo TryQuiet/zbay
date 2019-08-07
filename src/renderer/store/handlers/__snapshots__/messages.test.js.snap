@@ -384,36 +384,6 @@ Object {
     "traceback": "",
   },
   "messages": Immutable.Map {
-    0: Immutable.ChannelMessages {
-      "messages": Immutable.List [
-        Immutable.ReceivedMessage {
-          "id": "tx-id-0-zs1testaddress0",
-          "type": 1,
-          "sender": Immutable.MessageSender {
-            "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
-            "username": "Wenus",
-          },
-          "createdAt": 1551963828,
-          "message": "message 0 for zs1testaddress0",
-          "spent": "0.0001",
-        },
-        Immutable.ReceivedMessage {
-          "id": "tx-id-1-zs1testaddress0",
-          "type": 1,
-          "sender": Immutable.MessageSender {
-            "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
-            "username": "Wenus",
-          },
-          "createdAt": 1551960228,
-          "message": "message 1 for zs1testaddress0",
-          "spent": "0.0001",
-        },
-      ],
-      "newMessages": Immutable.List [
-        "tx-id-0-zs1testaddress0",
-        "tx-id-1-zs1testaddress0",
-      ],
-    },
     1: Immutable.ChannelMessages {
       "messages": Immutable.List [
         Immutable.ReceivedMessage {
@@ -442,6 +412,36 @@ Object {
       "newMessages": Immutable.List [
         "tx-id-0-zs1testaddress1",
         "tx-id-1-zs1testaddress1",
+      ],
+    },
+    0: Immutable.ChannelMessages {
+      "messages": Immutable.List [
+        Immutable.ReceivedMessage {
+          "id": "tx-id-0-zs1testaddress0",
+          "type": 1,
+          "sender": Immutable.MessageSender {
+            "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
+            "username": "Wenus",
+          },
+          "createdAt": 1551963828,
+          "message": "message 0 for zs1testaddress0",
+          "spent": "0.0001",
+        },
+        Immutable.ReceivedMessage {
+          "id": "tx-id-1-zs1testaddress0",
+          "type": 1,
+          "sender": Immutable.MessageSender {
+            "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
+            "username": "Wenus",
+          },
+          "createdAt": 1551960228,
+          "message": "message 1 for zs1testaddress0",
+          "spent": "0.0001",
+        },
+      ],
+      "newMessages": Immutable.List [
+        "tx-id-0-zs1testaddress0",
+        "tx-id-1-zs1testaddress0",
       ],
     },
   },

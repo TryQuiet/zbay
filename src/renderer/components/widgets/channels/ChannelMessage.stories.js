@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 import { storiesOf } from '@storybook/react'
 import { withKnobs, select, text, boolean } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
-
+import { DisplayableMessage } from '../../../zbay/messages'
 import ChannelMessage from './ChannelMessage'
 
 storiesOf('Components/Widgets/Channels/ChannelMessage', module)
@@ -34,7 +34,7 @@ storiesOf('Components/Widgets/Channels/ChannelMessage', module)
     }).set('error', error)
     return (
       <ChannelMessage
-        message={message}
+        message={DisplayableMessage(message)}
         onResend={action('Resending')}
         onReply={action('Replying')}
         onCancel={action('Cancelling')}
@@ -60,7 +60,7 @@ storiesOf('Components/Widgets/Channels/ChannelMessage', module)
     }).set('error', error)
     return (
       <ChannelMessage
-        message={message}
+        message={DisplayableMessage(message)}
         onResend={action('Resending')}
         onReply={action('Replying')}
         onCancel={action('Cancelling')}
