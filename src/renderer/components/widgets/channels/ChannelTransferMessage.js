@@ -61,16 +61,16 @@ export const ChannelTransferMessage = ({
 }) => {
   const [actionsOpen, setActionsOpen] = useState(false)
 
-  const tnx = message.get('id')
-  const fromYou = message.get('fromYou', false)
-  const spentZec = message.get('spent')
-  const spentUsd = rateUsd.times(new BigNumber(message.get('spent') || 0)).toFormat(2)
-  const info = message.get('message')
-  const receiver = message.get('receiver')
-  const receiverUsername = receiver.get('username', 'Unnamed')
+  const tnx = message.id
+  const fromYou = message.fromYou || false
+  const spentZec = message.spent
+  const spentUsd = rateUsd.times(new BigNumber(spentZec || 0)).toFormat(2)
+  const info = message.message
+  const receiver = message.receiver
+  const receiverUsername = receiver.username || 'Unnamed'
 
-  const status = message.get('status', 'broadcasted')
-  const error = message.get('error')
+  const status = message.status || 'broadcasted'
+  const error = message.error
   return (
     <BasicMessage message={message} actionsOpen={actionsOpen} setActionsOpen={setActionsOpen}>
       <React.Fragment>

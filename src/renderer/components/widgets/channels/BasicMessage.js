@@ -78,25 +78,19 @@ const getTimeFormat = time => {
   return 'LLL dd, y, HH:mm'
 }
 
-export const BasicMessage = ({
-  classes,
-  message,
-  children,
-  actionsOpen,
-  setActionsOpen
-}) => {
-  const fromYou = message.get('fromYou', false)
-  const sender = message.get('sender')
-  const username = sender.get('username', 'Unnamed')
-  const address = getZbayAddress(sender.get('replyTo'))
+export const BasicMessage = ({ classes, message, children, actionsOpen, setActionsOpen }) => {
+  const fromYou = message.fromYou || false
+  const sender = message.sender
+  const username = sender.username || 'Unnamed'
+  const address = getZbayAddress(message.sender)
 
-  const time = DateTime.fromSeconds(message.get('createdAt'))
+  const time = DateTime.fromSeconds(message.createdAt)
   const timeFormat = getTimeFormat(time)
   const timeString = time.toFormat(timeFormat)
 
-  const status = message.get('status', 'broadcasted')
+  const status = message.status || 'broadcasted'
   const StatusIcon = statusComponent[status]
-  const error = message.get('error')
+  const error = message.error
   return (
     <ListItem
       className={classNames({
