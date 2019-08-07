@@ -12,16 +12,16 @@ export const messageType = {
   TRANSFER: 4
 }
 
-export const MessageParticipant = Immutable.Record({
+export const ExchangeParticipant = Immutable.Record({
   replyTo: '',
   username: 'Unnamed'
-}, 'MessageParticipant')
+}, 'ExchangeParticipant')
 
 export const _DisplayableMessage = Immutable.Record({
   id: null,
   type: messageType.BASIC,
-  sender: MessageParticipant(),
-  receiver: MessageParticipant(),
+  sender: ExchangeParticipant(),
+  receiver: ExchangeParticipant(),
   createdAt: null,
   message: '',
   spent: new BigNumber(0),
@@ -32,36 +32,45 @@ export const _DisplayableMessage = Immutable.Record({
 
 export const DisplayableMessage = (values) => {
   const record = _DisplayableMessage(values)
-  return record.set('sender', MessageParticipant(record.sender))
+  return record.merge({ sender: ExchangeParticipant(record.sender),
+    receiver: ExchangeParticipant(record.receiver) })
 }
 
 const _isOwner = (address, message) => message.getIn(['sender', 'replyTo']) === address
 
 export const receivedToDisplayableMessage = ({
   message,
-  identityAddress
-}) => DisplayableMessage(message).set(
-  'fromYou', _isOwner(identityAddress, message)
-)
+  identityAddress,
+  receiver = { replyTo: '', username: 'Unnamed' }
+}) => {
+  return (DisplayableMessage(message).merge({
+    fromYou: _isOwner(identityAddress, message),
+    receiver: receiver
+  }))
+}
 
 export const operationToDisplayableMessage = ({
   operation,
-  identityAddress
+  identityAddress,
+  receiver = { replyTo: '', username: 'Unnamed' }
 }) => DisplayableMessage(operation.meta.message).merge({
   error: operation.error,
   status: operation.status,
   id: operation.opId,
-  fromYou: _isOwner(identityAddress, operation.meta.message)
+  fromYou: _isOwner(identityAddress, operation.meta.message),
+  receiver: receiver
 })
 
 export const queuedToDisplayableMessage = ({
   messageKey,
   queuedMessage,
-  identityAddress
+  identityAddress,
+  receiver = { replyTo: '', username: 'Unnamed' }
 }) => DisplayableMessage(queuedMessage.message).merge({
   fromYou: _isOwner(identityAddress, queuedMessage.message),
   id: messageKey,
-  status: 'pending'
+  status: 'pending',
+  receiver: receiver
 })
 
 export const messageSchema = Yup.object().shape({
