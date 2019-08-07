@@ -44,11 +44,11 @@ Immutable.List [
   Immutable.DisplayableMessage {
     "id": 3,
     "type": 1,
-    "sender": Immutable.MessageParticipant {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Wenus",
     },
-    "receiver": Immutable.MessageParticipant {
+    "receiver": Object {
       "replyTo": "",
       "username": "Unnamed",
     },
@@ -62,11 +62,11 @@ Immutable.List [
   Immutable.DisplayableMessage {
     "id": "test-operation-id-3",
     "type": 1,
-    "sender": Immutable.MessageParticipant {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Unnamed",
     },
-    "receiver": Immutable.MessageParticipant {
+    "receiver": Object {
       "replyTo": "",
       "username": "Unnamed",
     },
@@ -80,11 +80,11 @@ Immutable.List [
   Immutable.DisplayableMessage {
     "id": 2,
     "type": 1,
-    "sender": Immutable.MessageParticipant {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Wenus",
     },
-    "receiver": Immutable.MessageParticipant {
+    "receiver": Object {
       "replyTo": "",
       "username": "Unnamed",
     },
@@ -98,11 +98,11 @@ Immutable.List [
   Immutable.DisplayableMessage {
     "id": 1,
     "type": 1,
-    "sender": Immutable.MessageParticipant {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Wenus",
     },
-    "receiver": Immutable.MessageParticipant {
+    "receiver": Object {
       "replyTo": "",
       "username": "Unnamed",
     },
@@ -116,11 +116,11 @@ Immutable.List [
   Immutable.DisplayableMessage {
     "id": "messageHash",
     "type": 1,
-    "sender": Immutable.MessageParticipant {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Unnamed",
     },
-    "receiver": Immutable.MessageParticipant {
+    "receiver": Object {
       "replyTo": "",
       "username": "Unnamed",
     },
@@ -134,11 +134,11 @@ Immutable.List [
   Immutable.DisplayableMessage {
     "id": "test-operation-id",
     "type": 1,
-    "sender": Immutable.MessageParticipant {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Unnamed",
     },
-    "receiver": Immutable.MessageParticipant {
+    "receiver": Object {
       "replyTo": "",
       "username": "Unnamed",
     },
@@ -152,11 +152,11 @@ Immutable.List [
   Immutable.DisplayableMessage {
     "id": 0,
     "type": 1,
-    "sender": Immutable.MessageParticipant {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Wenus",
     },
-    "receiver": Immutable.MessageParticipant {
+    "receiver": Object {
       "replyTo": "",
       "username": "Unnamed",
     },

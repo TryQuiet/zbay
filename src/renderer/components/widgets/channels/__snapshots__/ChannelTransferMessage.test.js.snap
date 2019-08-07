@@ -7,11 +7,11 @@ exports[`ChannelTransferMessage renders component 1`] = `
     Immutable.DisplayableMessage {
       "id": null,
       "type": 4,
-      "sender": Immutable.MessageParticipant {
+      "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
       },
-      "receiver": Immutable.Map {
+      "receiver": Immutable.ExchangeParticipant {
         "replyTo": "zs1z9rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Sun",
       },
@@ -48,7 +48,7 @@ exports[`ChannelTransferMessage renders component 1`] = `
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           $
           0.32
@@ -60,10 +60,10 @@ exports[`ChannelTransferMessage renders component 1`] = `
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           <Memo(WithStyles(ZecBalance))
-            size={20}
+            size={18}
             value={"0.32"}
           />
         </WithStyles(Typography)>
@@ -74,7 +74,7 @@ exports[`ChannelTransferMessage renders component 1`] = `
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sent to :
         </WithStyles(Typography)>
@@ -85,7 +85,7 @@ exports[`ChannelTransferMessage renders component 1`] = `
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sun
         </WithStyles(Typography)>
@@ -145,18 +145,18 @@ exports[`ChannelTransferMessage renders component when message is broadcasted 1`
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 4,
-      "sender": Immutable.MessageParticipant {
+      "type": 1,
+      "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
       },
-      "receiver": Immutable.Map {
+      "receiver": Immutable.ExchangeParticipant {
         "replyTo": "zs1z9rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Sun",
       },
       "createdAt": 1551963828,
-      "message": "This is a message with id undefined",
-      "spent": "0.32",
+      "message": "",
+      "spent": "0",
       "fromYou": false,
       "status": "broadcasted",
       "error": null,
@@ -187,10 +187,10 @@ exports[`ChannelTransferMessage renders component when message is broadcasted 1`
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           $
-          0.32
+          0.00
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -199,11 +199,11 @@ exports[`ChannelTransferMessage renders component when message is broadcasted 1`
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           <Memo(WithStyles(ZecBalance))
-            size={20}
-            value={"0.32"}
+            size={18}
+            value={"0"}
           />
         </WithStyles(Typography)>
       </WithStyles(Grid)>
@@ -213,7 +213,7 @@ exports[`ChannelTransferMessage renders component when message is broadcasted 1`
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sent to :
         </WithStyles(Typography)>
@@ -224,7 +224,7 @@ exports[`ChannelTransferMessage renders component when message is broadcasted 1`
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sun
         </WithStyles(Typography)>
@@ -257,9 +257,7 @@ exports[`ChannelTransferMessage renders component when message is broadcasted 1`
         <WithStyles(Typography)
           className="message-mock"
           variant="body2"
-        >
-          This is a message with id undefined
-        </WithStyles(Typography)>
+        />
       </WithStyles(Grid)>
     </WithStyles(Grid)>
   </WithStyles(Grid)>
@@ -284,18 +282,18 @@ exports[`ChannelTransferMessage renders component when message is cancelled 1`] 
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 4,
-      "sender": Immutable.MessageParticipant {
+      "type": 1,
+      "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
       },
-      "receiver": Immutable.Map {
+      "receiver": Immutable.ExchangeParticipant {
         "replyTo": "zs1z9rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Sun",
       },
       "createdAt": 1551963828,
-      "message": "This is a message with id undefined",
-      "spent": "0.32",
+      "message": "",
+      "spent": "0",
       "fromYou": false,
       "status": "cancelled",
       "error": null,
@@ -326,10 +324,10 @@ exports[`ChannelTransferMessage renders component when message is cancelled 1`] 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           $
-          0.32
+          0.00
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -338,11 +336,11 @@ exports[`ChannelTransferMessage renders component when message is cancelled 1`] 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           <Memo(WithStyles(ZecBalance))
-            size={20}
-            value={"0.32"}
+            size={18}
+            value={"0"}
           />
         </WithStyles(Typography)>
       </WithStyles(Grid)>
@@ -352,7 +350,7 @@ exports[`ChannelTransferMessage renders component when message is cancelled 1`] 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sent to :
         </WithStyles(Typography)>
@@ -363,7 +361,7 @@ exports[`ChannelTransferMessage renders component when message is cancelled 1`] 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sun
         </WithStyles(Typography)>
@@ -402,9 +400,7 @@ exports[`ChannelTransferMessage renders component when message is cancelled 1`] 
         <WithStyles(Typography)
           className="message-mock"
           variant="body2"
-        >
-          This is a message with id undefined
-        </WithStyles(Typography)>
+        />
       </WithStyles(Grid)>
     </WithStyles(Grid)>
   </WithStyles(Grid)>
@@ -429,18 +425,18 @@ exports[`ChannelTransferMessage renders component when message is failed 1`] = `
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 4,
-      "sender": Immutable.MessageParticipant {
+      "type": 1,
+      "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
       },
-      "receiver": Immutable.Map {
+      "receiver": Immutable.ExchangeParticipant {
         "replyTo": "zs1z9rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Sun",
       },
       "createdAt": 1551963828,
-      "message": "This is a message with id undefined",
-      "spent": "0.32",
+      "message": "",
+      "spent": "0",
       "fromYou": false,
       "status": "failed",
       "error": Object {
@@ -474,10 +470,10 @@ exports[`ChannelTransferMessage renders component when message is failed 1`] = `
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           $
-          0.32
+          0.00
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -486,11 +482,11 @@ exports[`ChannelTransferMessage renders component when message is failed 1`] = `
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           <Memo(WithStyles(ZecBalance))
-            size={20}
-            value={"0.32"}
+            size={18}
+            value={"0"}
           />
         </WithStyles(Typography)>
       </WithStyles(Grid)>
@@ -500,7 +496,7 @@ exports[`ChannelTransferMessage renders component when message is failed 1`] = `
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sent to :
         </WithStyles(Typography)>
@@ -511,7 +507,7 @@ exports[`ChannelTransferMessage renders component when message is failed 1`] = `
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sun
         </WithStyles(Typography)>
@@ -550,9 +546,7 @@ exports[`ChannelTransferMessage renders component when message is failed 1`] = `
         <WithStyles(Typography)
           className="message-mock"
           variant="body2"
-        >
-          This is a message with id undefined
-        </WithStyles(Typography)>
+        />
       </WithStyles(Grid)>
     </WithStyles(Grid)>
   </WithStyles(Grid)>
@@ -577,18 +571,18 @@ exports[`ChannelTransferMessage renders component when message is pending 1`] = 
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 4,
-      "sender": Immutable.MessageParticipant {
+      "type": 1,
+      "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
       },
-      "receiver": Immutable.Map {
+      "receiver": Immutable.ExchangeParticipant {
         "replyTo": "zs1z9rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Sun",
       },
       "createdAt": 1551963828,
-      "message": "This is a message with id undefined",
-      "spent": "0.32",
+      "message": "",
+      "spent": "0",
       "fromYou": false,
       "status": "pending",
       "error": null,
@@ -619,10 +613,10 @@ exports[`ChannelTransferMessage renders component when message is pending 1`] = 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           $
-          0.32
+          0.00
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -631,11 +625,11 @@ exports[`ChannelTransferMessage renders component when message is pending 1`] = 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           <Memo(WithStyles(ZecBalance))
-            size={20}
-            value={"0.32"}
+            size={18}
+            value={"0"}
           />
         </WithStyles(Typography)>
       </WithStyles(Grid)>
@@ -645,7 +639,7 @@ exports[`ChannelTransferMessage renders component when message is pending 1`] = 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sent to :
         </WithStyles(Typography)>
@@ -656,7 +650,7 @@ exports[`ChannelTransferMessage renders component when message is pending 1`] = 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sun
         </WithStyles(Typography)>
@@ -687,9 +681,7 @@ exports[`ChannelTransferMessage renders component when message is pending 1`] = 
         <WithStyles(Typography)
           className="message-mock"
           variant="body2"
-        >
-          This is a message with id undefined
-        </WithStyles(Typography)>
+        />
       </WithStyles(Grid)>
     </WithStyles(Grid)>
   </WithStyles(Grid)>
@@ -714,18 +706,18 @@ exports[`ChannelTransferMessage renders component when message is sent by owner 
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 4,
-      "sender": Immutable.MessageParticipant {
+      "type": 1,
+      "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
       },
-      "receiver": Immutable.Map {
+      "receiver": Immutable.ExchangeParticipant {
         "replyTo": "zs1z9rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Sun",
       },
       "createdAt": 1551963828,
-      "message": "This is a message with id undefined",
-      "spent": "0.32",
+      "message": "",
+      "spent": "0",
       "fromYou": true,
       "status": "broadcasted",
       "error": null,
@@ -756,10 +748,10 @@ exports[`ChannelTransferMessage renders component when message is sent by owner 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           $
-          0.32
+          0.00
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -768,11 +760,11 @@ exports[`ChannelTransferMessage renders component when message is sent by owner 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           <Memo(WithStyles(ZecBalance))
-            size={20}
-            value={"0.32"}
+            size={18}
+            value={"0"}
           />
         </WithStyles(Typography)>
       </WithStyles(Grid)>
@@ -782,7 +774,7 @@ exports[`ChannelTransferMessage renders component when message is sent by owner 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sent to :
         </WithStyles(Typography)>
@@ -793,9 +785,9 @@ exports[`ChannelTransferMessage renders component when message is sent by owner 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
-          You
+          Sun
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -826,9 +818,7 @@ exports[`ChannelTransferMessage renders component when message is sent by owner 
         <WithStyles(Typography)
           className="message-mock"
           variant="body2"
-        >
-          This is a message with id undefined
-        </WithStyles(Typography)>
+        />
       </WithStyles(Grid)>
     </WithStyles(Grid)>
   </WithStyles(Grid)>
@@ -853,18 +843,18 @@ exports[`ChannelTransferMessage renders component when message is success 1`] = 
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 4,
-      "sender": Immutable.MessageParticipant {
+      "type": 1,
+      "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
       },
-      "receiver": Immutable.Map {
+      "receiver": Immutable.ExchangeParticipant {
         "replyTo": "zs1z9rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Sun",
       },
       "createdAt": 1551963828,
-      "message": "This is a message with id undefined",
-      "spent": "0.32",
+      "message": "",
+      "spent": "0",
       "fromYou": false,
       "status": "success",
       "error": null,
@@ -895,10 +885,10 @@ exports[`ChannelTransferMessage renders component when message is success 1`] = 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           $
-          0.32
+          0.00
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -907,11 +897,11 @@ exports[`ChannelTransferMessage renders component when message is success 1`] = 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="h4"
+          variant="h5"
         >
           <Memo(WithStyles(ZecBalance))
-            size={20}
-            value={"0.32"}
+            size={18}
+            value={"0"}
           />
         </WithStyles(Typography)>
       </WithStyles(Grid)>
@@ -921,7 +911,7 @@ exports[`ChannelTransferMessage renders component when message is success 1`] = 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sent to :
         </WithStyles(Typography)>
@@ -932,7 +922,7 @@ exports[`ChannelTransferMessage renders component when message is success 1`] = 
       >
         <WithStyles(Typography)
           className="boldText-mock"
-          variant="subtitle1"
+          variant="subtitle2"
         >
           Sun
         </WithStyles(Typography)>
@@ -964,9 +954,7 @@ exports[`ChannelTransferMessage renders component when message is success 1`] = 
         <WithStyles(Typography)
           className="message-mock"
           variant="body2"
-        >
-          This is a message with id undefined
-        </WithStyles(Typography)>
+        />
       </WithStyles(Grid)>
     </WithStyles(Grid)>
   </WithStyles(Grid)>
