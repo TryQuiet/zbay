@@ -10,7 +10,8 @@ import List from '@material-ui/core/List'
 import RootRef from '@material-ui/core/RootRef'
 import { withStyles } from '@material-ui/core/styles'
 
-import ChannelMessage from '../../../containers/widgets/channels/ChannelMessage'
+import { messageType } from '../../../zbay/messages'
+// import ChannelMessage from '../../../containers/widgets/channels/ChannelMessage'
 import ChannelTransferMessage from '../../../containers/widgets/channels/ChannelTransferMessage'
 
 const styles = theme => ({
@@ -39,18 +40,20 @@ export const ChannelMessages = ({ classes, messages, measureRef, contentRect }) 
           autoHideTimeout={500}
         >
           <List disablePadding className={classes.list}>
-            {messages.map(msg =>
-              msg.get('type') === 1 ? (
-                <ChannelMessage key={msg.get('id')} message={msg} />
-              ) : msg.get('type') === 4 ? (
-                <ChannelTransferMessage key={msg.get('id')} message={msg} />
-              ) : null
-            )}
+            {messages.map(msg => {
+              const MessageComponent = typeToMessageComponent[msg.get('type')]
+              return <MessageComponent key={msg.get('id')} message={msg} />
+            })}
           </List>
         </Scrollbars>
       </Grid>
     </RootRef>
   )
+}
+
+const typeToMessageComponent = {
+  [messageType.BASIC]: ChannelTransferMessage,
+  [messageType.TRANSFER]: ChannelTransferMessage
 }
 
 ChannelMessages.propTypes = {
