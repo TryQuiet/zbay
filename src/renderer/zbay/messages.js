@@ -33,7 +33,7 @@ export const _DisplayableMessage = Immutable.Record({
 export const DisplayableMessage = (values) => {
   const record = _DisplayableMessage(values)
   return record.merge({ sender: ExchangeParticipant(record.sender),
-    receiver: ExchangeParticipant(record.receiver) })
+    receiver: ExchangeParticipant(values.receiver) })
 }
 
 const _isOwner = (address, message) => message.getIn(['sender', 'replyTo']) === address
@@ -45,7 +45,7 @@ export const receivedToDisplayableMessage = ({
 }) => {
   return (DisplayableMessage(message).merge({
     fromYou: _isOwner(identityAddress, message),
-    receiver: receiver
+    receiver: ExchangeParticipant(receiver)
   }))
 }
 
@@ -58,7 +58,7 @@ export const operationToDisplayableMessage = ({
   status: operation.status,
   id: operation.opId,
   fromYou: _isOwner(identityAddress, operation.meta.message),
-  receiver: receiver
+  receiver: ExchangeParticipant(receiver)
 })
 
 export const queuedToDisplayableMessage = ({
@@ -70,7 +70,7 @@ export const queuedToDisplayableMessage = ({
   fromYou: _isOwner(identityAddress, queuedMessage.message),
   id: messageKey,
   status: 'pending',
-  receiver: receiver
+  receiver: ExchangeParticipant(receiver)
 })
 
 export const messageSchema = Yup.object().shape({
