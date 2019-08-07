@@ -11,7 +11,7 @@ import RootRef from '@material-ui/core/RootRef'
 import { withStyles } from '@material-ui/core/styles'
 
 import { messageType } from '../../../zbay/messages'
-// import ChannelMessage from '../../../containers/widgets/channels/ChannelMessage'
+import ChannelMessage from '../../../containers/widgets/channels/ChannelMessage'
 import ChannelTransferMessage from '../../../containers/widgets/channels/ChannelTransferMessage'
 
 const styles = theme => ({
@@ -52,7 +52,7 @@ export const ChannelMessages = ({ classes, messages, measureRef, contentRect }) 
 }
 
 const typeToMessageComponent = {
-  [messageType.BASIC]: ChannelTransferMessage,
+  [messageType.BASIC]: ChannelMessage,
   [messageType.TRANSFER]: ChannelTransferMessage
 }
 
