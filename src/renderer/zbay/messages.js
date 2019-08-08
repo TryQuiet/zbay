@@ -34,7 +34,7 @@ export const DisplayableMessage = (values) => {
   const record = _DisplayableMessage(values)
   return record.merge({
     sender: ExchangeParticipant(record.sender),
-    receiver: ExchangeParticipant(values.receiver) })
+    receiver: ExchangeParticipant(record.receiver) })
 }
 
 const _isOwner = (address, message) => message.getIn(['sender', 'replyTo']) === address
