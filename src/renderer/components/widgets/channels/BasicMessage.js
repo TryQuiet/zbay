@@ -82,8 +82,7 @@ export const BasicMessage = ({ classes, message, children, actionsOpen, setActio
   const fromYou = message.fromYou || false
   const sender = message.sender
   const username = sender.username || 'Unnamed'
-  const address = getZbayAddress(message.sender)
-
+  const address = getZbayAddress(message.sender.replyTo)
   const time = DateTime.fromSeconds(message.createdAt)
   const timeFormat = getTimeFormat(time)
   const timeString = time.toFormat(timeFormat)
@@ -111,7 +110,7 @@ export const BasicMessage = ({ classes, message, children, actionsOpen, setActio
                 {username}
                 {fromYou ? ' (You)' : null}
               </Typography>
-              <Typography variant='caption'>{address.substring(0, 32)}...</Typography>
+              <Typography variant='caption'>{address}...</Typography>
             </Grid>
             <Grid item>
               <Grid container direction='row' alignItems='center' justify='flex-end'>
