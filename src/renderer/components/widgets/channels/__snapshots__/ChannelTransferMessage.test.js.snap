@@ -145,7 +145,7 @@ exports[`ChannelTransferMessage renders component when message is broadcasted 1`
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 1,
+      "type": 4,
       "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
@@ -282,7 +282,7 @@ exports[`ChannelTransferMessage renders component when message is cancelled 1`] 
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 1,
+      "type": 4,
       "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
@@ -425,7 +425,7 @@ exports[`ChannelTransferMessage renders component when message is failed 1`] = `
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 1,
+      "type": 4,
       "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
@@ -571,7 +571,7 @@ exports[`ChannelTransferMessage renders component when message is pending 1`] = 
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 1,
+      "type": 4,
       "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
@@ -706,7 +706,7 @@ exports[`ChannelTransferMessage renders component when message is sent by owner 
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 1,
+      "type": 4,
       "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",
@@ -843,7 +843,7 @@ exports[`ChannelTransferMessage renders component when message is success 1`] = 
   message={
     Immutable.DisplayableMessage {
       "id": null,
-      "type": 1,
+      "type": 4,
       "sender": Immutable.ExchangeParticipant {
         "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
         "username": "Wenus",

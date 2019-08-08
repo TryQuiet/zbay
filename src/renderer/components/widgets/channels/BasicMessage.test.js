@@ -30,6 +30,7 @@ describe('BasicMessage', () => {
 
   it('renders component when message is sent by owner', () => {
     const message = Immutable.fromJS(createMessage(1)).set('fromYou', true)
+
     const result = shallow(
       <BasicMessage
         classes={mockClasses}
