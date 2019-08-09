@@ -49,7 +49,17 @@ const styles = theme => ({
   }
 })
 
-export const Modal = ({ classes, open, handleClose, title, fullPage, step, setStep, children }) => (
+export const Modal = ({
+  classes,
+  open,
+  handleClose,
+  title,
+  fullPage,
+  canGoBack,
+  step,
+  setStep,
+  children
+}) => (
   <MaterialModal open={open} onClose={handleClose} className={classes.root}>
     <Grid
       container
@@ -60,13 +70,13 @@ export const Modal = ({ classes, open, handleClose, title, fullPage, step, setSt
     >
       <Grid container item className={classes.header} direction='row' alignItems='center'>
         <Grid item xs className={classes.actions}>
-          {step === 1 ? (
-            <IconButton onClick={handleClose}>
-              <ClearIcon />
-            </IconButton>
-          ) : (
+          {canGoBack ? (
             <IconButton onClick={() => setStep(step - 1)}>
               <BackIcon />
+            </IconButton>
+          ) : (
+            <IconButton onClick={handleClose}>
+              <ClearIcon />
             </IconButton>
           )}
         </Grid>
@@ -99,13 +109,14 @@ Modal.propTypes = {
   fullPage: PropTypes.bool.isRequired,
   step: PropTypes.number,
   setStep: PropTypes.func,
+  canGoBack: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element])
     .isRequired
 }
 
 Modal.defaultProps = {
   fullPage: false,
-  step: 1
+  canGoBack: false
 }
 
 export default R.compose(
