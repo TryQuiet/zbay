@@ -65,7 +65,7 @@ export const Modal = ({ classes, open, handleClose, title, fullPage, step, setSt
               <ClearIcon />
             </IconButton>
           ) : (
-            <IconButton onClick={setStep(step - 1)}>
+            <IconButton onClick={() => setStep(step - 1)}>
               <BackIcon />
             </IconButton>
           )}
