@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Modal from '../Modal'
 import SendMoneyForm from './SendMoneyForm'
 import SendMoneyTransactionDetails from './SendMoneyTransactionDetails'
+import SendMoneySending from './SendMoneySending'
 
 const styles = theme => ({
   paper: {
@@ -19,55 +20,86 @@ const formSchema = Yup.object().shape({
   password: Yup.string().required('Required')
 })
 
-export const SendMoneyModal = ({ classes, balance, handleOpen, handleClose, open }) => {
-  const [step, setStep] = React.useState(1)
-  const stepToTitle = {
-    1: 'Send Money',
-    2: `Send Money to ################`,
-    3: 'Send Complete',
-    4: 'Transaction Details'
-  }
+export const SendMoneyModal = ({
+  classes,
+  initialValues,
+  step,
+  setStep,
+  balanceZec,
+  handleOpen,
+  handleClose,
+  sent = false,
+  open,
+  rateUsd,
+  rateZec
+}) => {
   const StepComponent = stepToComponent[step]
   return (
     <Formik
       onSubmit={() => {}}
       validationSchema={formSchema}
-      // initialValues={initialValues}
+      initialValues={initialValues}
       // validate={validateForm}
     >
-      <Modal
-        title={stepToTitle[step]}
-        step={step}
-        setStep={setStep}
-        open={open}
-        handleClose={handleClose}
-      >
-        <StepComponent
-          step={step}
-          setStep={setStep}
-          amountUsd={200}
-          amountZec={300}
-          feeZec={0.1}
-          feeUsd={0.1}
-          memo='test MESS'
-          recipient='ztestsapling1k059n2xjz5apmu49ud6xa0g4lywetd0zgpz2txe9xs5pu27fjjnp7c9yvtkcqlwz0n7qxrhylnn'
-          balanceZec={'20.0000'}
-          balanceUsd={'20.0000'}
-        />
-      </Modal>
+      {({ values, isValid }) => {
+        const stepToTitle = {
+          1: 'Send Money',
+          2: `Send Money to ${values.recipient.substring(0, 32)}...`,
+          3: 'Send Complete',
+          4: 'Transaction Details'
+        }
+        return (
+          <Modal
+            title={stepToTitle[step]}
+            step={step}
+            setStep={setStep}
+            open={open}
+            canGoBack={step === 2}
+            handleClose={handleClose}
+          >
+            <StepComponent
+              step={step}
+              setStep={setStep}
+              amountUsd={values.amountUsd}
+              amountZec={values.amountZec}
+              feeZec={0.1}
+              feeUsd={0.1}
+              sent={sent}
+              values={values}
+              lastStep={step === 4}
+              memo={values.memo}
+              recipient={values.recipient}
+              balanceZec={balanceZec}
+              isValid={isValid}
+              rateZec={rateZec}
+              rateUsd={rateUsd}
+            />
+          </Modal>
+        )
+      }}
     </Formik>
   )
 }
 const stepToComponent = {
   1: SendMoneyForm,
-  2: SendMoneyTransactionDetails
+  2: SendMoneyTransactionDetails,
+  3: SendMoneySending,
+  4: SendMoneyTransactionDetails
 }
 
 SendMoneyModal.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-SendMoneyModal.defaultProps = {}
+SendMoneyModal.defaultProps = {
+  initialValues: {
+    recipient: '',
+    amountZec: '',
+    amountUsd: '',
+    memo: '',
+    shippingInfo: false
+  }
+}
 
 export default R.compose(
   React.memo,

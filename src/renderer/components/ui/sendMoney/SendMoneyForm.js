@@ -8,6 +8,7 @@ import classNames from 'classnames'
 import Button from '@material-ui/core/Button'
 
 import { TextField } from '../form/TextField'
+import { LinkedTextField } from '../form/LinkedTextField'
 import { CheckboxWithLabel } from '../form/CheckboxWithLabel'
 import ZcashIcon from '../ZcashIcon'
 
@@ -47,7 +48,7 @@ const styles = theme => ({
   }
 })
 
-export const SendMoneyForm = ({ classes, balanceZec, balanceUsd, step, setStep }) => {
+export const SendMoneyForm = ({ classes, balanceZec, step, setStep, rateZec, rateUsd }) => {
   return (
     <Grid container className={classes.root} spacing={24}>
       <Grid item xs={12}>
@@ -78,12 +79,12 @@ export const SendMoneyForm = ({ classes, balanceZec, balanceUsd, step, setStep }
             <Grid container direction='column' justify='center' alignItems='flex-end'>
               <Grid item xs={12}>
                 <Typography variant='title' className={classes.balanceZec}>
-                  {balanceZec} ZEC
+                  {balanceZec.toString()} ZEC
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant='caption' className={classes.balanceUsd}>
-                  ${balanceUsd}
+                  ${(balanceZec * rateUsd).toString()}
                 </Typography>
               </Grid>
             </Grid>
@@ -94,9 +95,11 @@ export const SendMoneyForm = ({ classes, balanceZec, balanceUsd, step, setStep }
         <Typography variant='body1'>Amount</Typography>
         <Grid container justify='space-between' alignItems='center'>
           <Grid item xs={5}>
-            <TextField
+            <LinkedTextField
               name='amountZec'
+              otherField='amountUsd'
               placeholder='0.00'
+              transformer={rateUsd}
               InputProps={{
                 className: classes.field,
                 endAdornment: <InputAdornment position='end'>ZEC</InputAdornment>
@@ -109,9 +112,11 @@ export const SendMoneyForm = ({ classes, balanceZec, balanceUsd, step, setStep }
             </Typography>
           </Grid>
           <Grid item xs={5}>
-            <TextField
+            <LinkedTextField
               name='amountUsd'
+              otherField='amountZec'
               placeholder='0.00'
+              transformer={rateZec}
               InputProps={{
                 className: classes.field,
                 endAdornment: <InputAdornment position='end'>USD</InputAdornment>

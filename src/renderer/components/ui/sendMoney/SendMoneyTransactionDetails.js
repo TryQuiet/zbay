@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 
@@ -16,6 +17,9 @@ const styles = theme => ({
   },
   address: {
     wordBreak: 'break-all'
+  },
+  button: {
+    padding: 2 * theme.spacing.unit
   }
 })
 
@@ -27,14 +31,21 @@ export const SendMoneyTransactionDetails = ({
   feeZec,
   feeUsd,
   memo,
-  handleSend
+  handleSend,
+  step,
+  setStep,
+  lastStep
 }) => {
   return (
     <Grid container className={classes.root} spacing={24}>
-      <Grid item xs={12}>
-        <Typography variant='body1'>Transaction Details</Typography>
-      </Grid>
-      <Divider className={classes.divider} />
+      {!lastStep && (
+        <>
+          <Grid item xs={12}>
+            <Typography variant='body1'>Transaction Details</Typography>
+          </Grid>
+          <Divider className={classes.divider} />
+        </>
+      )}
       <Grid item xs={4}>
         <Typography variant='body1'>To</Typography>
       </Grid>
@@ -75,6 +86,19 @@ export const SendMoneyTransactionDetails = ({
           {amountZec + feeZec} ZEC (${amountUsd + feeUsd} USD)
         </Typography>
       </Grid>
+      {!lastStep && (
+        <Grid item xs={12}>
+          <Button
+            color='primary'
+            variant='contained'
+            onClick={() => setStep(step + 1)}
+            fullWidth
+            className={classes.button}
+          >
+            Confirm
+          </Button>
+        </Grid>
+      )}
     </Grid>
   )
 }
