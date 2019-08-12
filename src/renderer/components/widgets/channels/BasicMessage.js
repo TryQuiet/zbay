@@ -110,7 +110,7 @@ export const BasicMessage = ({ classes, message, children, actionsOpen, setActio
                 {username}
                 {fromYou ? ' (You)' : null}
               </Typography>
-              <Typography variant='caption'>{address}...</Typography>
+              <Typography variant='caption'>{address.substring(0, 32)}...</Typography>
             </Grid>
             <Grid item>
               <Grid container direction='row' alignItems='center' justify='flex-end'>
