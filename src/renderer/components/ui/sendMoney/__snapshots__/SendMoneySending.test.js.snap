@@ -55,9 +55,9 @@ exports[`SendMoneySending renders component when sent = true 1`] = `
       variant="body1"
     >
       You sent 
-      200.1
+      20.1
        ZEC ($
-      100.1
+      10.1000
        USD) to the address you specified.
     </WithStyles(Typography)>
   </WithStyles(Grid)>
