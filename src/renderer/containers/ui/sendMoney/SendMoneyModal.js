@@ -5,12 +5,13 @@ import { connect } from 'react-redux'
 import { withModal } from '../../../store/handlers/modals'
 import SendMoneyModalComponent from '../../../components/ui/sendMoney'
 import { rate } from '../../../store/selectors/rates'
-import { balance } from '../../../store/selectors/identity'
+import identitySelector from '../../../store/selectors/identity'
 
 export const mapStateToProps = state => ({
   rateUsd: rate('usd')(state),
   rateZec: rate('zec')(state),
-  balanceZec: balance('zec')(state)
+  balanceZec: identitySelector.balance('zec')(state),
+  userData: identitySelector.data(state)
 })
 
 export const SendMoneyModal = props => {

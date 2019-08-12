@@ -11,6 +11,7 @@ import { TextField } from '../form/TextField'
 import { LinkedTextField } from '../form/LinkedTextField'
 import { CheckboxWithLabel } from '../form/CheckboxWithLabel'
 import ZcashIcon from '../ZcashIcon'
+import BigNumber from 'bignumber.js'
 
 const styles = theme => ({
   root: {
@@ -19,7 +20,8 @@ const styles = theme => ({
   textBetweenInputs: {
     width: '100%',
     fontSize: `1.3rem`,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: 2 * theme.spacing.unit
   },
   button: {
     padding: 2 * theme.spacing.unit
@@ -48,7 +50,15 @@ const styles = theme => ({
   }
 })
 
-export const SendMoneyForm = ({ classes, balanceZec, step, setStep, rateZec, rateUsd }) => {
+export const SendMoneyForm = ({
+  classes,
+  balanceZec,
+  step,
+  setStep,
+  rateZec,
+  rateUsd,
+  isValid
+}) => {
   return (
     <Grid container className={classes.root} spacing={24}>
       <Grid item xs={12}>
@@ -84,7 +94,11 @@ export const SendMoneyForm = ({ classes, balanceZec, step, setStep, rateZec, rat
               </Grid>
               <Grid item xs={12}>
                 <Typography variant='caption' className={classes.balanceUsd}>
-                  ${(balanceZec * rateUsd).toString()}
+                  $
+                  {balanceZec
+                    .times(rateUsd)
+                    .toFixed(4)
+                    .toString()}
                 </Typography>
               </Grid>
             </Grid>
@@ -93,7 +107,7 @@ export const SendMoneyForm = ({ classes, balanceZec, step, setStep, rateZec, rat
       </Grid>
       <Grid item xs={12}>
         <Typography variant='body1'>Amount</Typography>
-        <Grid container justify='space-between' alignItems='center'>
+        <Grid container justify='space-between'>
           <Grid item xs={5}>
             <LinkedTextField
               name='amountZec'
@@ -144,6 +158,7 @@ export const SendMoneyForm = ({ classes, balanceZec, step, setStep, rateZec, rat
           onClick={() => setStep(step + 1)}
           fullWidth
           className={classes.button}
+          disabled={!isValid}
         >
           Continue
         </Button>
@@ -153,7 +168,13 @@ export const SendMoneyForm = ({ classes, balanceZec, step, setStep, rateZec, rat
 }
 
 SendMoneyForm.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  balanceZec: PropTypes.instanceOf(BigNumber).isRequired,
+  step: PropTypes.number.isRequired,
+  setStep: PropTypes.func.isRequired,
+  rateZec: PropTypes.instanceOf(BigNumber).isRequired,
+  rateUsd: PropTypes.instanceOf(BigNumber).isRequired,
+  isValid: PropTypes.bool.isRequired
 }
 
 SendMoneyForm.defaultProps = {}

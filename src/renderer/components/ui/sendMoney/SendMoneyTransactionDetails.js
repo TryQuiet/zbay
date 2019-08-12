@@ -31,14 +31,13 @@ export const SendMoneyTransactionDetails = ({
   feeZec,
   feeUsd,
   memo,
-  handleSend,
+  submitForm,
   step,
-  setStep,
-  lastStep
+  setStep
 }) => {
   return (
     <Grid container className={classes.root} spacing={24}>
-      {!lastStep && (
+      {!(step === 4) && (
         <>
           <Grid item xs={12}>
             <Typography variant='body1'>Transaction Details</Typography>
@@ -68,7 +67,7 @@ export const SendMoneyTransactionDetails = ({
         <Typography variant='body1'>Fee</Typography>
       </Grid>
       <Grid item xs={8}>
-        <Typography variant='body1'>${feeUsd}</Typography>
+        <Typography variant='body1'>${feeUsd.toFixed(4).toString()}</Typography>
       </Grid>
       <Divider className={classes.divider} />
       <Grid item xs={4}>
@@ -83,15 +82,18 @@ export const SendMoneyTransactionDetails = ({
       </Grid>
       <Grid item xs={8}>
         <Typography variant='body1'>
-          {amountZec + feeZec} ZEC (${amountUsd + feeUsd} USD)
+          {parseInt(amountZec) + feeZec} ZEC (${(parseInt(amountUsd) + feeUsd).toFixed(4)} USD)
         </Typography>
       </Grid>
-      {!lastStep && (
+      {!(step === 4) && (
         <Grid item xs={12}>
           <Button
             color='primary'
             variant='contained'
-            onClick={() => setStep(step + 1)}
+            onClick={() => {
+              submitForm()
+              setStep(step + 1)
+            }}
             fullWidth
             className={classes.button}
           >
@@ -104,7 +106,16 @@ export const SendMoneyTransactionDetails = ({
 }
 
 SendMoneyTransactionDetails.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  recipient: PropTypes.string.isRequired,
+  amountUsd: PropTypes.string.isRequired,
+  amountZec: PropTypes.string.isRequired,
+  memo: PropTypes.string.isRequired,
+  feeUsd: PropTypes.number.isRequired,
+  feeZec: PropTypes.number.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  setStep: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired
 }
 
 SendMoneyTransactionDetails.defaultProps = {}

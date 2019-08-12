@@ -9,39 +9,76 @@ import Modal from '../Modal'
 import SendMoneyForm from './SendMoneyForm'
 import SendMoneyTransactionDetails from './SendMoneyTransactionDetails'
 import SendMoneySending from './SendMoneySending'
+import { createTransfer } from '../../../zbay/messages'
+import BigNumber from 'bignumber.js'
 
 const styles = theme => ({
-  paper: {
-    padding: '20px'
+})
+
+export const formSchema = Yup.object().shape(
+  {
+    recipient: Yup.string()
+      .min(35, 'Please insert correct address')
+      .required('Required'),
+    amountZec: Yup.number()
+      .min(0.01, 'Please insert amount to send')
+      .required('Required'),
+    amountUsd: Yup.number()
+      .min(0.01, 'Please insert amount to send')
+      .required('Required'),
+    memo: Yup.string().max(300, 'Your messsage is too long'),
+    shippingInfo: Yup.bool().required('Required')
+  },
+  ['recipient', 'amountZec', 'amountUsd', 'memo', 'shippingInfo']
+)
+
+export const validateForm = balanceZec => values => {
+  return (
+    values.amountZec > balanceZec.toString() && {
+      amountZec: `You cant send more than ${balanceZec}`
+    }
+  )
+}
+const handleCloseForm = ({ step, handleClose, resetForm, setStep }) => {
+  handleClose()
+  if (step === 4 || step === 3) {
+    resetForm()
+    setStep(1)
   }
-})
-
-const formSchema = Yup.object().shape({
-  password: Yup.string().required('Required')
-})
-
+}
 export const SendMoneyModal = ({
   classes,
   initialValues,
   step,
   setStep,
   balanceZec,
-  handleOpen,
   handleClose,
-  sent = false,
+  sent = true,
   open,
   rateUsd,
-  rateZec
+  rateZec,
+  feeZec = 0.001,
+  feeUsd = rateUsd.times(feeZec).toNumber(),
+  userData
 }) => {
   const StepComponent = stepToComponent[step]
   return (
     <Formik
-      onSubmit={() => {}}
+      onSubmit={(values, { resetForm }) => {
+        createTransfer({
+          ...values,
+          sender: {
+            address: userData.address,
+            name: userData.name
+          }
+        })
+        // Send to handler
+      }}
       validationSchema={formSchema}
       initialValues={initialValues}
-      // validate={validateForm}
+      validate={validateForm(balanceZec)}
     >
-      {({ values, isValid }) => {
+      {({ values, isValid, submitForm, resetForm }) => {
         const stepToTitle = {
           1: 'Send Money',
           2: `Send Money to ${values.recipient.substring(0, 32)}...`,
@@ -55,24 +92,25 @@ export const SendMoneyModal = ({
             setStep={setStep}
             open={open}
             canGoBack={step === 2}
-            handleClose={handleClose}
+            handleClose={() => handleCloseForm({ handleClose, setStep, step, resetForm })}
           >
             <StepComponent
               step={step}
               setStep={setStep}
               amountUsd={values.amountUsd}
               amountZec={values.amountZec}
-              feeZec={0.1}
-              feeUsd={0.1}
+              feeZec={feeZec}
+              feeUsd={feeUsd}
               sent={sent}
               values={values}
-              lastStep={step === 4}
               memo={values.memo}
               recipient={values.recipient}
               balanceZec={balanceZec}
               isValid={isValid}
               rateZec={rateZec}
               rateUsd={rateUsd}
+              submitForm={submitForm}
+              resetForm={resetForm}
             />
           </Modal>
         )
@@ -88,7 +126,23 @@ const stepToComponent = {
 }
 
 SendMoneyModal.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  initialValues: PropTypes.shape({
+    recipient: PropTypes.string.isRequired,
+    amountZec: PropTypes.string.isRequired,
+    amountUsd: PropTypes.string.isRequired,
+    memo: PropTypes.string.isRequired,
+    shippingInfo: PropTypes.bool.isRequired
+  }).isRequired,
+  step: PropTypes.number.isRequired,
+  setStep: PropTypes.func.isRequired,
+  balanceZec: PropTypes.instanceOf(BigNumber).isRequired,
+  rateUsd: PropTypes.instanceOf(BigNumber).isRequired,
+  rateZec: PropTypes.instanceOf(BigNumber).isRequired,
+  feeZec: PropTypes.number,
+  feeUsd: PropTypes.number,
+  handleClose: PropTypes.func.isRequired,
+  userData: PropTypes.object.isRequired
 }
 
 SendMoneyModal.defaultProps = {
