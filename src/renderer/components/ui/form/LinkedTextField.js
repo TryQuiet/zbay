@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Field } from 'formik'
 import { formikLinkedTextField } from './helpers'
 
-export const LinkedTextField = ({ name, transformer, label, ...props }) => {
+export const LinkedTextField = ({ name, label, ...props }) => {
   return (
     <Field
       name={name}
@@ -11,7 +11,6 @@ export const LinkedTextField = ({ name, transformer, label, ...props }) => {
       label={label}
       variant='outlined'
       fullWidth
-      transformer={transformer}
       {...props}
     />
   )
