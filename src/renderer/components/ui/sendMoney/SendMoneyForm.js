@@ -6,12 +6,12 @@ import Typography from '@material-ui/core/Typography'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import classNames from 'classnames'
 import Button from '@material-ui/core/Button'
+import BigNumber from 'bignumber.js'
 
 import { TextField } from '../form/TextField'
 import { LinkedTextField } from '../form/LinkedTextField'
 import { CheckboxWithLabel } from '../form/CheckboxWithLabel'
 import ZcashIcon from '../ZcashIcon'
-import BigNumber from 'bignumber.js'
 
 const styles = theme => ({
   root: {

@@ -2,6 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { withKnobs, boolean, number } from '@storybook/addon-knobs'
 import BigNumber from 'bignumber.js'
+
 import SendMoneyModal from './SendMoneyModal'
 
 storiesOf('Components/Widgets/SendMoneyModal', module)
@@ -11,13 +12,13 @@ storiesOf('Components/Widgets/SendMoneyModal', module)
     return (
       <SendMoneyModal
         step={step}
-        setStep={() => {}}
+        setStep={jest.fn()}
         rateUsd={new BigNumber(50)}
         rateZec={new BigNumber(0.4)}
         balanceZec={new BigNumber(0.7)}
         open={boolean('Disabled', true)}
         sent={boolean('sent', true)}
-        handleClose={() => {}}
+        handleClose={jest.fn()}
       />
     )
   })

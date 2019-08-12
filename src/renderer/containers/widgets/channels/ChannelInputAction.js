@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as R from 'ramda'
+
 import { actionCreators } from '../../../store/handlers/modals'
 import ChannelInputAction from '../../../components/widgets/channels/ChannelInputAction'
 

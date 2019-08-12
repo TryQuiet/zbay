@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import * as Yup from 'yup'
 import * as R from 'ramda'
 import { Formik } from 'formik'
+import BigNumber from 'bignumber.js'
 import { withStyles } from '@material-ui/core/styles'
 
 import Modal from '../Modal'
@@ -10,7 +11,6 @@ import SendMoneyForm from './SendMoneyForm'
 import SendMoneyTransactionDetails from './SendMoneyTransactionDetails'
 import SendMoneySending from './SendMoneySending'
 import { createTransfer } from '../../../zbay/messages'
-import BigNumber from 'bignumber.js'
 
 const styles = theme => ({})
 
@@ -33,8 +33,8 @@ export const formSchema = Yup.object().shape(
 
 export const validateForm = balanceZec => values => {
   return (
-    values.amountZec > balanceZec.toString() && {
-      amountZec: `You cant send more than ${balanceZec}`
+    balanceZec.isLessThan(values.amountZec) && {
+      amountZec: `You can't send more than ${balanceZec}`
     }
   )
 }
