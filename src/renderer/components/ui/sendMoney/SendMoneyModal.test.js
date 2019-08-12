@@ -12,13 +12,13 @@ describe('SendMoneyModal', () => {
       <SendMoneyModal
         classes={mockClasses}
         step={1}
-        setStep={() => {}}
+        setStep={jest.fn()}
         rateUsd={new BigNumber(50)}
         rateZec={new BigNumber(0.4)}
         balanceZec={new BigNumber(0.7)}
         userData={{ userData: { address: 'test', name: 'test' } }}
         open
-        handleClose={() => {}}
+        handleClose={jest.fn()}
       />
     )
     expect(result).toMatchSnapshot()
@@ -28,13 +28,13 @@ describe('SendMoneyModal', () => {
       <SendMoneyModal
         classes={mockClasses}
         step={2}
-        setStep={() => {}}
+        setStep={jest.fn()}
         rateUsd={new BigNumber(50)}
         rateZec={new BigNumber(0.4)}
         balanceZec={new BigNumber(0.7)}
         userData={{ userData: { address: 'test', name: 'test' } }}
         open
-        handleClose={() => {}}
+        handleClose={jest.fn()}
       />
     )
     expect(result).toMatchSnapshot()
@@ -44,13 +44,13 @@ describe('SendMoneyModal', () => {
       <SendMoneyModal
         classes={mockClasses}
         step={3}
-        setStep={() => {}}
+        setStep={jest.fn()}
         rateUsd={new BigNumber(50)}
         rateZec={new BigNumber(0.4)}
         balanceZec={new BigNumber(0.7)}
         userData={{ userData: { address: 'test', name: 'test' } }}
         open
-        handleClose={() => {}}
+        handleClose={jest.fn()}
       />
     )
     expect(result).toMatchSnapshot()
@@ -60,13 +60,13 @@ describe('SendMoneyModal', () => {
       <SendMoneyModal
         classes={mockClasses}
         step={4}
-        setStep={() => {}}
+        setStep={jest.fn()}
         rateUsd={new BigNumber(50)}
         rateZec={new BigNumber(0.4)}
         balanceZec={new BigNumber(0.7)}
         userData={{ userData: { address: 'test', name: 'test' } }}
         open
-        handleClose={() => {}}
+        handleClose={jest.fn()}
       />
     )
     expect(result).toMatchSnapshot()

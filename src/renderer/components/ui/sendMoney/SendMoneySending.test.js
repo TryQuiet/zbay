@@ -11,7 +11,7 @@ describe('SendMoneySending', () => {
       <SendMoneySending
         classes={mockClasses}
         step={1}
-        setStep={() => {}}
+        setStep={jest.fn()}
         amountUsd='10'
         amountZec='20'
         feeUsd={0.1}
@@ -26,7 +26,7 @@ describe('SendMoneySending', () => {
       <SendMoneySending
         classes={mockClasses}
         step={1}
-        setStep={() => {}}
+        setStep={jest.fn()}
         amountUsd='10'
         amountZec='20'
         feeUsd={0.1}

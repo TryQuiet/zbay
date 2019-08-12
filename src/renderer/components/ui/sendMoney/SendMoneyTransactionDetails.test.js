@@ -11,15 +11,15 @@ describe('SendMoneyTransactionDetails', () => {
       <SendMoneyTransactionDetails
         classes={mockClasses}
         step={1}
-        setStep={() => {}}
-        submitForm={() => {}}
+        setStep={jest.fn()}
+        submitForm={jest.fn()}
         amountUsd='10'
         amountZec='20'
         memo='test'
         recipient='test'
         feeUsd={0.1}
         feeZec={0.1}
-        handleClose={() => {}}
+        handleClose={jest.fn()}
       />
     )
     expect(result).toMatchSnapshot()

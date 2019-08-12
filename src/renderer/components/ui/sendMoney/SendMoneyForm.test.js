@@ -12,7 +12,7 @@ describe('SendMoneyForm', () => {
       <SendMoneyForm
         classes={mockClasses}
         step={1}
-        setStep={() => {}}
+        setStep={jest.fn()}
         rateUsd={new BigNumber(50)}
         rateZec={new BigNumber(0.4)}
         balanceZec={new BigNumber(0.7)}
@@ -26,7 +26,7 @@ describe('SendMoneyForm', () => {
       <SendMoneyForm
         classes={mockClasses}
         step={1}
-        setStep={() => {}}
+        setStep={jest.fn()}
         rateUsd={new BigNumber(50)}
         rateZec={new BigNumber(0.4)}
         balanceZec={new BigNumber(0.7)}

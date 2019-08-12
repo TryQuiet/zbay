@@ -12,13 +12,13 @@ storiesOf('Components/Widgets/SendMoneyModal', module)
     return (
       <SendMoneyModal
         step={step}
-        setStep={jest.fn()}
+        setStep={() => {}}
         rateUsd={new BigNumber(50)}
         rateZec={new BigNumber(0.4)}
         balanceZec={new BigNumber(0.7)}
         open={boolean('Disabled', true)}
         sent={boolean('sent', true)}
-        handleClose={jest.fn()}
+        handleClose={() => {}}
       />
     )
   })
