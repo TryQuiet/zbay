@@ -12,8 +12,7 @@ import SendMoneySending from './SendMoneySending'
 import { createTransfer } from '../../../zbay/messages'
 import BigNumber from 'bignumber.js'
 
-const styles = theme => ({
-})
+const styles = theme => ({})
 
 export const formSchema = Yup.object().shape(
   {
@@ -53,7 +52,7 @@ export const SendMoneyModal = ({
   setStep,
   balanceZec,
   handleClose,
-  sent = true,
+  sent = true, // TODO get confirmation from node
   open,
   rateUsd,
   rateZec,

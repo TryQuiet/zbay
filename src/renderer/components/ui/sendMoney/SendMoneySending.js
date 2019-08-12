@@ -26,7 +26,6 @@ const styles = theme => ({
 
 export const SendMoneySending = ({
   classes,
-  recipient,
   amountZec,
   amountUsd,
   feeZec,
@@ -73,7 +72,14 @@ export const SendMoneySending = ({
 }
 
 SendMoneySending.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  amountUsd: PropTypes.string.isRequired,
+  amountZec: PropTypes.string.isRequired,
+  feeUsd: PropTypes.number.isRequired,
+  feeZec: PropTypes.number.isRequired,
+  setStep: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired,
+  sent: PropTypes.bool.isRequired
 }
 
 SendMoneySending.defaultProps = {}
