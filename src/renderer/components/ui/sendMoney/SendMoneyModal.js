@@ -17,7 +17,7 @@ const styles = theme => ({})
 export const formSchema = Yup.object().shape(
   {
     recipient: Yup.string()
-      .min(35, 'Please insert correct address')
+      .matches(/^(?:.{35}|.{78}|.{88})$/, 'Please insert correct address')
       .required('Required'),
     amountZec: Yup.number()
       .min(0.01, 'Please insert amount to send')
