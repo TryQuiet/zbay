@@ -20,7 +20,7 @@ export const mapDispatchToProps = dispatch =>
   )
 
 export const ChannelMessages = ({ className, messages, loadMessages, fetchMessages, loader }) => {
-  useInterval(fetchMessages, 2000)
+  useInterval(fetchMessages, 15000)
   const [scrollPosition, setScrollPosition] = React.useState(-1)
   return (
     <ChannelMessagesComponent
