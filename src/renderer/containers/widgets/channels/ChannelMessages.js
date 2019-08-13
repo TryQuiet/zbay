@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as R from 'ramda'
-import { lifecycle } from 'recompose'
 import ChannelMessagesComponent from '../../../components/widgets/channels/ChannelMessages'
 import channelSelectors from '../../../store/selectors/channel'
 import messagesHandlers from '../../../store/handlers/messages'
@@ -38,12 +37,5 @@ export default R.compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  lifecycle({
-    shouldComponentUpdate (nextProps) {
-      if (nextProps.messages.equals(this.props.messages)) {
-        return false
-      }
-      return true
-    }
-  })
+  React.memo
 )(ChannelMessages)
