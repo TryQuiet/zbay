@@ -57,7 +57,6 @@ exports[`SendMoneyModal renders component step 1 1`] = `
           "_conditions": Array [],
           "_deps": Array [],
           "_exclusive": Object {
-            "min": true,
             "required": true,
           },
           "_mutate": undefined,
@@ -72,7 +71,6 @@ exports[`SendMoneyModal renders component step 1 1`] = `
             "refs": Map {},
           },
           "tests": Array [
-            [Function],
             [Function],
           ],
           "transforms": Array [
@@ -264,7 +262,6 @@ exports[`SendMoneyModal renders component step 2 1`] = `
           "_conditions": Array [],
           "_deps": Array [],
           "_exclusive": Object {
-            "min": true,
             "required": true,
           },
           "_mutate": undefined,
@@ -279,7 +276,6 @@ exports[`SendMoneyModal renders component step 2 1`] = `
             "refs": Map {},
           },
           "tests": Array [
-            [Function],
             [Function],
           ],
           "transforms": Array [
@@ -471,7 +467,6 @@ exports[`SendMoneyModal renders component step 3 1`] = `
           "_conditions": Array [],
           "_deps": Array [],
           "_exclusive": Object {
-            "min": true,
             "required": true,
           },
           "_mutate": undefined,
@@ -486,7 +481,6 @@ exports[`SendMoneyModal renders component step 3 1`] = `
             "refs": Map {},
           },
           "tests": Array [
-            [Function],
             [Function],
           ],
           "transforms": Array [
@@ -678,7 +672,6 @@ exports[`SendMoneyModal renders component step 4 1`] = `
           "_conditions": Array [],
           "_deps": Array [],
           "_exclusive": Object {
-            "min": true,
             "required": true,
           },
           "_mutate": undefined,
@@ -693,7 +686,6 @@ exports[`SendMoneyModal renders component step 4 1`] = `
             "refs": Map {},
           },
           "tests": Array [
-            [Function],
             [Function],
           ],
           "transforms": Array [

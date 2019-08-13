@@ -20,10 +20,9 @@ export const formSchema = Yup.object().shape(
       .matches(/^(?:.{35}|.{78}|.{88})$/, 'Please insert correct address')
       .required('Required'),
     amountZec: Yup.number()
-      .min(0.01, 'Please insert amount to send')
+      .min(0.00000001, 'Please insert amount to send')
       .required('Required'),
     amountUsd: Yup.number()
-      .min(0.01, 'Please insert amount to send')
       .required('Required'),
     memo: Yup.string().max(300, 'Your messsage is too long'),
     shippingInfo: Yup.bool().required('Required')
