@@ -19,7 +19,7 @@ export const mapDispatchToProps = dispatch => bindActionCreators({
 
 export const ChannelMessages = ({ className, messages, loadMessages, directMessagesHandlers, fetchMessages, loader }) => {
   useInterval(fetchMessages, 15000)
-  useInterval(directMessagesHandlers, 2000)
+  useInterval(directMessagesHandlers, 5000)
   return (
     <ChannelMessagesComponent messages={messages} loader={loader} />
   )

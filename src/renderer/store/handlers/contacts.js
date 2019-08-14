@@ -15,12 +15,14 @@ import { ReceivedMessage } from './messages'
 const initialState = Immutable.Map()
 
 const setMessages = createAction('SET_DIRECT_MESSAGES')
+const setVaultMessages = createAction('SET_VAULT_DIRECT_MESSAGES')
 const cleanNewMessages = createAction('CLEAN_NEW_DIRECT_MESSAGESS')
 const appendNewMessages = createAction('APPEND_NEW_DIRECT_MESSAGES')
 const setLastSeen = createAction('SET_CONTACTS_LAST_SEEN')
 
 export const actions = {
   setMessages,
+  setVaultMessages,
   cleanNewMessages,
   appendNewMessages,
   setLastSeen
@@ -44,6 +46,7 @@ export const fetchMessages = () => async (dispatch, getState) => {
   await Promise.all(Object.entries(senderToMessages).map(
     async ([contactAddress, contactMessages]) => {
       const contact = contactMessages[0].sender
+      await dispatch(loadVaultMessages({ contact }))
       const previousMessages = selectors.messages(contactAddress)(getState())
       let lastSeen = selectors.lastSeen(contactAddress)(getState())
       if (!lastSeen) {
@@ -62,10 +65,17 @@ export const fetchMessages = () => async (dispatch, getState) => {
         contactAddress,
         messagesIds: newMessages.map(R.prop('id'))
       }))
-      dispatch(setMessages({ messages: contactMessages, contactAddress }))
+      dispatch(loadFechedMessages({ messages: contactMessages, contactAddress }))
       newMessages.map(nm => displayDirectMessageNotification({ message: nm, username: contact.username }))
     }
   ))
+}
+
+export const loadFechedMessages = ({ messages: contactMessages, contactAddress }) => async (dispatch, getState) => {
+  const identityAddress = identitySelectors.address(getState())
+  const identityName = identitySelectors.name(getState())
+  const fetchedMessagesToDisplay = contactMessages.map(msg => zbayMessages.receivedToDisplayableMessage({ message: msg, identityAddress, receiver: { replyTo: identityAddress, username: identityName } }))
+  dispatch(setMessages({ messages: fetchedMessagesToDisplay, contactAddress }))
 }
 
 export const updateLastSeen = ({ contact }) => async (dispatch, getState) => {
@@ -83,6 +93,17 @@ export const updateLastSeen = ({ contact }) => async (dispatch, getState) => {
   }))
 }
 
+export const loadVaultMessages = ({ contact }) => async (dispatch, getState) => {
+  const identityId = identitySelectors.id(getState())
+  const identityAddress = identitySelectors.address(getState())
+  const { messages: vaultMessages } = await getVault().contacts.listMessages({ identityId, recipientUsername: contact.username, recipientAddress: contact.replyTo })
+  const vaultMessagesToDisplay = vaultMessages.map(msg => zbayMessages.vaultToDisplayableMessage({ message: msg, identityAddress, receiver: { replyTo: contact.replyTo, username: contact.username } }))
+  dispatch(setVaultMessages({
+    contactAddress: contact.replyTo,
+    vaultMessagesToDisplay
+  }))
+}
+
 export const epics = {
   fetchMessages,
   updateLastSeen
@@ -93,6 +114,11 @@ export const reducer = handleActions({
     contactAddress,
     Contact(),
     cm => cm.set('messages', Immutable.fromJS(messages))
+  ),
+  [setVaultMessages]: (state, { payload: { contactAddress, vaultMessagesToDisplay } }) => state.update(
+    contactAddress,
+    Contact(),
+    cm => cm.set('vaultMessages', Immutable.fromJS(vaultMessagesToDisplay))
   ),
   [cleanNewMessages]: (state, { payload: { contactAddress } }) => state.update(
     contactAddress,
