@@ -15,6 +15,24 @@ import { displayDirectMessageNotification } from '../../notifications'
 import { ReceivedMessage } from './messages'
 import directMessagesQueueHandlers from './directMessagesQueue'
 
+// const sendDirectMessageOnEnter = (event) => async (dispatch, getState) => {
+//   const enterPressed = event.nativeEvent.keyCode === 13
+//   const shiftPressed = event.nativeEvent.shiftKey === true
+//   if (enterPressed && !shiftPressed) {
+//     event.preventDefault()
+//     const message = zbayMessages.createMessage({
+//       identity: identitySelectors.data(getState()).toJS(),
+//       messageData: {
+//         type: zbayMessages.messageType.BASIC,
+//         data: event.target.value
+//       }
+//     })
+//     const channel = channelSelectors.data(getState()).toJS()
+//     dispatch(messagesQueueHandlers.epics.addMessage({ message, channelId: channel.id }))
+//     dispatch(setMessage(''))
+//   }
+// }
+
 const sendDirectMessage = (payload) => async (dispatch, getState) => {
   const { spent, type, message: messageData } = payload
   const message = zbayMessages.createMessage({
