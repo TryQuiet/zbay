@@ -1,28 +1,49 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import * as R from 'ramda'
 import ChannelMessagesComponent from '../../../components/widgets/channels/ChannelMessages'
 import channelSelectors from '../../../store/selectors/channel'
+import contactsSelectors from '../../../store/selectors/contacts'
 import messagesHandlers from '../../../store/handlers/messages'
-import directMessagesHandlers from '../../../store/handlers/contacts'
+import contactsHandlers from '../../../store/handlers/contacts'
 import { useInterval } from '../../hooks'
 
-export const mapStateToProps = state => ({
-  messages: channelSelectors.messages(state)
-})
+export const mapStateToProps = (state, { contactId }) => {
+  return {
+    messages: contactId
+      ? contactsSelectors.messages(contactId)(state)
+      : channelSelectors.messages(state)
+  }
+}
 
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchMessages: messagesHandlers.epics.fetchMessages,
-  directMessagesHandlers: directMessagesHandlers.epics.fetchMessages
-}, dispatch)
-
-export const ChannelMessages = ({ className, messages, loadMessages, directMessagesHandlers, fetchMessages, loader }) => {
+export const mapDispatchToProps = (dispatch, { contactId }) => {
+  return bindActionCreators(
+    {
+      fetchMessages: contactId
+        ? contactsHandlers.epics.fetchMessages
+        : messagesHandlers.epics.fetchMessages
+    },
+    dispatch
+  )
+}
+export const ChannelMessages = ({ className, messages, loadMessages, fetchMessages, loader }) => {
   useInterval(fetchMessages, 15000)
-  useInterval(directMessagesHandlers, 5000)
+  const [scrollPosition, setScrollPosition] = React.useState(-1)
   return (
-    <ChannelMessagesComponent messages={messages} loader={loader} />
+    <ChannelMessagesComponent
+      scrollPosition={scrollPosition}
+      setScrollPosition={setScrollPosition}
+      messages={messages}
+      loader={loader}
+    />
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelMessages)
+export default R.compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  React.memo
+)(ChannelMessages)
