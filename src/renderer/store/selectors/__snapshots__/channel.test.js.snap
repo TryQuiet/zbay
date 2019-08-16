@@ -11,6 +11,8 @@ Immutable.ChannelState {
     "message": "Test loading message",
   },
   "members": "0",
+  "targetRecipientAddress": null,
+  "targetRecipientUsername": null,
 }
 `;
 

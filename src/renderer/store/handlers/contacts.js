@@ -8,30 +8,33 @@ import BigNumber from 'bignumber.js'
 import identitySelectors from '../selectors/identity'
 import nodeSelectors from '../selectors/node'
 import selectors, { Contact } from '../selectors/contacts'
+import channelSelectors from '../selectors/channel'
 import { messages as zbayMessages } from '../../zbay'
 import { getClient } from '../../zcash'
 import { getVault } from '../../vault'
 import { displayDirectMessageNotification } from '../../notifications'
 import { ReceivedMessage } from './messages'
 import directMessagesQueueHandlers from './directMessagesQueue'
+import channelHandlers from './channel'
 
-// const sendDirectMessageOnEnter = (event) => async (dispatch, getState) => {
-//   const enterPressed = event.nativeEvent.keyCode === 13
-//   const shiftPressed = event.nativeEvent.shiftKey === true
-//   if (enterPressed && !shiftPressed) {
-//     event.preventDefault()
-//     const message = zbayMessages.createMessage({
-//       identity: identitySelectors.data(getState()).toJS(),
-//       messageData: {
-//         type: zbayMessages.messageType.BASIC,
-//         data: event.target.value
-//       }
-//     })
-//     const channel = channelSelectors.data(getState()).toJS()
-//     dispatch(messagesQueueHandlers.epics.addMessage({ message, channelId: channel.id }))
-//     dispatch(setMessage(''))
-//   }
-// }
+const sendDirectMessageOnEnter = (event) => async (dispatch, getState) => {
+  const enterPressed = event.nativeEvent.keyCode === 13
+  const shiftPressed = event.nativeEvent.shiftKey === true
+  if (enterPressed && !shiftPressed) {
+    event.preventDefault()
+    const message = zbayMessages.createMessage({
+      identity: identitySelectors.data(getState()).toJS(),
+      messageData: {
+        type: zbayMessages.messageType.BASIC,
+        data: event.target.value,
+        spent: new BigNumber('0.0001')
+      }
+    })
+    const channel = channelSelectors.channel(getState()).toJS()
+    dispatch(directMessagesQueueHandlers.epics.addDirectMessage({ message, recipientAddress: channel.targetRecipientAddress, recipientUsername: channel.targetRecipientUsername }))
+    dispatch(channelHandlers.actions.setMessage(''))
+  }
+}
 
 const sendDirectMessage = (payload) => async (dispatch, getState) => {
   const { spent, type, message: messageData } = payload
@@ -143,7 +146,8 @@ export const epics = {
   fetchMessages,
   updateLastSeen,
   sendDirectMessage,
-  loadVaultMessages
+  loadVaultMessages,
+  sendDirectMessageOnEnter
 }
 
 export const reducer = handleActions({
