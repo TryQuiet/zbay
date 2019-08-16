@@ -26,7 +26,6 @@ const sendDirectMessage = (payload) => async (dispatch, getState) => {
     }
   })
   const { replyTo: recipientAddress, username: recipientUsername } = payload.receiver
-  console.log(message, recipientAddress, recipientUsername)
   dispatch(directMessagesQueueHandlers.epics.addDirectMessage({ message, recipientAddress, recipientUsername }))
 }
 
@@ -125,7 +124,8 @@ export const loadVaultMessages = ({ contact }) => async (dispatch, getState) => 
 export const epics = {
   fetchMessages,
   updateLastSeen,
-  sendDirectMessage
+  sendDirectMessage,
+  loadVaultMessages
 }
 
 export const reducer = handleActions({

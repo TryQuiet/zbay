@@ -13,7 +13,7 @@ const _entryToMessage = (message) => {
     type: parseInt(entryObj.properties.type),
     message: JSON.parse(entryObj.properties.message),
     spent: new BigNumber(entryObj.properties.spent),
-    createdAt: DateTime.fromSeconds(parseInt(entryObj.properties.createdAt)),
+    createdAt: parseInt(entryObj.properties.createdAt),
     status: entryObj.properties.status
   }
 }

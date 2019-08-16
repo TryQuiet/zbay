@@ -12,6 +12,7 @@ import notificationsHandlers from './notifications'
 import { errorNotification } from './utils'
 import { getClient } from '../../zcash'
 import { getVault } from '../../vault'
+import contactsHandlers from './contacts'
 
 export const DEFAULT_DEBOUNCE_INTERVAL = 3000
 const POLLING_OFFSET = 60000
@@ -54,10 +55,15 @@ export const checkConfirmationNumber = async ({ opId, status, txId, error, dispa
   const messageContent = message.message
   const { recipientAddress, recipientUsername } = message
   await getVault().contacts.saveMessage({ identityId, message: messageContent, recipientAddress, recipientUsername, status, txId })
+  dispatch(operationsHandlers.actions.removeOperation(opId))
+  await dispatch(contactsHandlers.epics.loadVaultMessages({ contact: {
+    replyTo: recipientAddress,
+    username: recipientUsername
+  } }))
   const subscribe = async (callback) => {
     async function poll () {
       const { confirmations } = await getClient().confirmations.getResult(txId) || {}
-      if (confirmations >= 2) {
+      if (confirmations >= 1) {
         return callback(error, { confirmations })
       } else {
         setTimeout(poll, POLLING_OFFSET)
@@ -67,11 +73,10 @@ export const checkConfirmationNumber = async ({ opId, status, txId, error, dispa
   }
 
   return subscribe(async (error, { confirmations }) => {
-    await getVault().contacts.updateMessage({ identityId, messageId: txId, recipientAddress, recipientUsername, newMessageStatus: 'confirmed' })
-    dispatch(operationsHandlers.actions.removeOperation(opId))
+    await getVault().contacts.updateMessage({ identityId, messageId: txId, recipientAddress, recipientUsername, newMessageStatus: 'broadcasted' })
     if (error) {
       await getVault().contacts.deleteMessage({ identityId, messageId: txId, recipientAddress, recipientUsername })
-      dispatch(operationsHandlers.actions.resolveOperation({ opId, status: 'failed', txId, error }))
+      dispatch(operationsHandlers.actions.resolveOperation({ opId, status: 'error', txId, error }))
     }
   })
 }

@@ -26,24 +26,23 @@ const vaultMessages = address => createSelector(contact(address), c => c.vaultMe
 
 export const queuedMessages = address => createSelector(
   directMssagesQueueSelectors.queue,
-  address,
-  (queue, recipientAddress) => queue.filter(m => m.recipientAddress === recipientAddress)
+  (queue) => queue.filter(m => m.recipientAddress === address)
 )
 
 export const pendingMessages = address => createSelector(
   operationsSelectors.operations,
-  address,
-  (operations, recipientAddress) => operations.filter(
-    o => o.type === operationTypes.pendingDirectMessage && o.meta.recipientAddress === address.recipientAddress
-  )
+  (operations) =>
+    operations.filter(
+      o => o.type === operationTypes.pendingDirectMessage && o.meta.recipientAddress === address
+    )
 )
 
-export const directMessages = createSelector(
+export const directMessages = address => createSelector(
   identitySelectors.data,
-  messages,
-  vaultMessages,
-  pendingMessages,
-  queuedMessages,
+  messages(address),
+  vaultMessages(address),
+  pendingMessages(address),
+  queuedMessages(address),
   (identity, messages, vaultMessages, pendingMessages, queuedMessages) => {
     const identityAddress = identity.address
 
@@ -66,6 +65,8 @@ export const directMessages = createSelector(
 
 export default {
   contacts,
+  queuedMessages,
+  pendingMessages,
   contact,
   messages,
   directMessages,

@@ -33,7 +33,7 @@ Object {
   "address": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slba",
   "messages": Array [
     Object {
-      "createdAt": "2019-03-07T11:03:48.000Z",
+      "createdAt": 1551956628,
       "id": "87ccae921436493ff4ec03edd9c0fe66d863cf0e05b5f9ee49f08fa6823f700c",
       "message": "This is some message 2",
       "sender": Object {
@@ -45,7 +45,7 @@ Object {
       "type": 1,
     },
     Object {
-      "createdAt": "2019-03-07T12:03:48.000Z",
+      "createdAt": 1551960228,
       "id": "1c2001077c2475c8a241fb514bec5224de3ca73be7ed7d782f2efbf689fea6bb",
       "message": "This is some message 1",
       "sender": Object {

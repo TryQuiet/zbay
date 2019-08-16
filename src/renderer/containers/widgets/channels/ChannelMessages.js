@@ -12,7 +12,7 @@ import { useInterval } from '../../hooks'
 export const mapStateToProps = (state, { contactId }) => {
   return {
     messages: contactId
-      ? contactsSelectors.messages(contactId)(state)
+      ? contactsSelectors.directMessages(contactId)(state)
       : channelSelectors.messages(state)
   }
 }
