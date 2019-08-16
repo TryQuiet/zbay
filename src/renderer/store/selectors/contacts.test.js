@@ -18,6 +18,15 @@ describe('operations selectors', () => {
       })
     ))
   )
+  const vaultMessages = Immutable.List(
+    R.range(0, 2).map(id => ReceivedMessage(
+      testUtils.messages.createReceivedMessage({
+        id,
+        createdAt: testUtils.now.minus({ hours: 2 * id }).toSeconds(),
+        sender: identity1
+      })
+    ))
+  )
 
   let store = null
   beforeEach(() => {
@@ -28,6 +37,7 @@ describe('operations selectors', () => {
             username: identity1.username,
             address: identity1.address,
             messages,
+            vaultMessages,
             lastSeen: testUtils.now
           }),
           [identity2.address]: Contact({

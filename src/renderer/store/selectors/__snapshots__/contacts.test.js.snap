@@ -30,6 +30,7 @@ Immutable.Record {
     },
   ],
   "newMessages": Immutable.List [],
+  "vaultMessages": Immutable.List [],
 }
 `;
 
@@ -64,6 +65,7 @@ Immutable.Map {
       },
     ],
     "newMessages": Immutable.List [],
+    "vaultMessages": Immutable.List [],
   },
   "zs1dhqp9dtr4pksnmaynp2k22qduvywejg3neqq4swd4a6gnz6w0m208kefcdm9n2067yn5clcvgsq": Immutable.Record {
     "lastSeen": null,
@@ -71,6 +73,7 @@ Immutable.Map {
     "address": "zs1dhqp9dtr4pksnmaynp2k22qduvywejg3neqq4swd4a6gnz6w0m208kefcdm9n2067yn5clcvgsq",
     "messages": Immutable.List [],
     "newMessages": Immutable.List [],
+    "vaultMessages": Immutable.List [],
   },
 }
 `;

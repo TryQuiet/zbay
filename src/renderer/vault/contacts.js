@@ -8,7 +8,7 @@ const _entryToMessage = (message) => {
     id: entryObj.properties.title,
     sender: {
       replyTo: entryObj.properties.sender,
-      username: entryObj.properties.username
+      username: entryObj.properties.senderUsername
     },
     type: parseInt(entryObj.properties.type),
     message: JSON.parse(entryObj.properties.message),
