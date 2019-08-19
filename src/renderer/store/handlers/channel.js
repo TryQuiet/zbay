@@ -21,9 +21,7 @@ export const ChannelState = Immutable.Record({
   message: '',
   shareableUri: '',
   loader: LoaderState({ loading: true }),
-  members: null,
-  targetRecipientAddress: null,
-  targetRecipientUsername: null
+  members: null
 }, 'ChannelState')
 
 export const initialState = ChannelState()
@@ -34,8 +32,6 @@ const setChannelId = createAction('SET_CHANNEL_ID')
 const setLoading = createAction('SET_CHANNEL_LOADING')
 const setLoadingMessage = createAction('SET_CHANNEL_LOADING_MESSAGE')
 const setShareableUri = createAction('SET_CHANNEL_SHAREABLE_URI')
-const setDirectMessageRecipientUsername = createAction('SET_DIRECT_MESSAGE_RECIPIENT_USERNAME')
-const setDirectMessageRecipientAddress = createAction('SET_DIRECT_MESSAGE_RECIPIENT_ADDRESS')
 
 export const actions = {
   setLoading,
@@ -43,9 +39,7 @@ export const actions = {
   setSpentFilterValue,
   setMessage,
   setShareableUri,
-  setChannelId,
-  setDirectMessageRecipientAddress,
-  setDirectMessageRecipientUsername
+  setChannelId
 }
 
 const loadChannel = (id) => async (dispatch, getState) => {
@@ -135,9 +129,7 @@ export const reducer = handleActions({
   [setSpentFilterValue]: (state, { payload: value }) => state.set('spentFilterValue', new BigNumber(value)),
   [setMessage]: (state, { payload: value }) => state.set('message', value),
   [setChannelId]: (state, { payload: id }) => state.set('id', id),
-  [setShareableUri]: (state, { payload: uri }) => state.set('shareableUri', uri),
-  [setDirectMessageRecipientAddress]: (state, { payload: id }) => state.set('targetRecipientAddress', id),
-  [setDirectMessageRecipientUsername]: (state, { payload: username }) => state.set('targetRecipientUsername', username)
+  [setShareableUri]: (state, { payload: uri }) => state.set('shareableUri', uri)
 }, initialState)
 
 export default {

@@ -56,7 +56,7 @@ export default (vault) => {
         .setProperty('sender', message.sender.replyTo)
         .setProperty('senderUsername', message.sender.username)
         .setProperty('message', JSON.stringify(message.message))
-        .setProperty('spent', message.spent.toString())
+        .setProperty('spent', message.spent ? message.spent.toString() : null)
         .setProperty('createdAt', message.createdAt.toString())
         .setProperty('status', status)
       workspace.save()

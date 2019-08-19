@@ -8,7 +8,7 @@ import BigNumber from 'bignumber.js'
 import identitySelectors from '../selectors/identity'
 import nodeSelectors from '../selectors/node'
 import selectors, { Contact } from '../selectors/contacts'
-import channelSelectors from '../selectors/channel'
+import { directMessageChannel } from '../selectors/directMessageChannel'
 import { messages as zbayMessages } from '../../zbay'
 import { getClient } from '../../zcash'
 import { getVault } from '../../vault'
@@ -26,11 +26,10 @@ const sendDirectMessageOnEnter = (event) => async (dispatch, getState) => {
       identity: identitySelectors.data(getState()).toJS(),
       messageData: {
         type: zbayMessages.messageType.BASIC,
-        data: event.target.value,
-        spent: new BigNumber('0.0001')
+        data: event.target.value
       }
     })
-    const channel = channelSelectors.channel(getState()).toJS()
+    const channel = directMessageChannel(getState()).toJS()
     dispatch(directMessagesQueueHandlers.epics.addDirectMessage({ message, recipientAddress: channel.targetRecipientAddress, recipientUsername: channel.targetRecipientUsername }))
     dispatch(channelHandlers.actions.setMessage(''))
   }

@@ -56,7 +56,7 @@ export const checkConfirmationNumber = async ({ opId, status, txId, error, dispa
   const { recipientAddress, recipientUsername } = message
   await getVault().contacts.saveMessage({ identityId, message: messageContent, recipientAddress, recipientUsername, status, txId })
   dispatch(operationsHandlers.actions.removeOperation(opId))
-  await dispatch(contactsHandlers.epics.loadVaultMessages({ contact: {
+  dispatch(contactsHandlers.epics.loadVaultMessages({ contact: {
     replyTo: recipientAddress,
     username: recipientUsername
   } }))
@@ -75,8 +75,7 @@ export const checkConfirmationNumber = async ({ opId, status, txId, error, dispa
   return subscribe(async (error, { confirmations }) => {
     await getVault().contacts.updateMessage({ identityId, messageId: txId, recipientAddress, recipientUsername, newMessageStatus: 'broadcasted' })
     if (error) {
-      await getVault().contacts.deleteMessage({ identityId, messageId: txId, recipientAddress, recipientUsername })
-      dispatch(operationsHandlers.actions.resolveOperation({ opId, status: 'error', txId, error }))
+      await getVault().contacts.updateMessage({ identityId, messageId: txId, recipientAddress, recipientUsername, newMessageStatus: 'error' })
     }
   })
 }
