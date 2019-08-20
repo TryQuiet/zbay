@@ -162,16 +162,23 @@ Immutable.List [
     "status": "success",
     "error": null,
   },
-  Immutable.ReceivedMessage {
+  Immutable.DisplayableMessage {
     "id": 1,
     "type": 1,
-    "sender": Immutable.MessageSender {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Wenus",
+    },
+    "receiver": Immutable.ExchangeParticipant {
+      "replyTo": "",
+      "username": [Function],
     },
     "createdAt": 1551956628,
     "message": "This is a message with id 1",
     "spent": "0.32",
+    "fromYou": false,
+    "status": "broadcasted",
+    "error": null,
   },
   Immutable.ReceivedMessage {
     "id": 1,
@@ -220,16 +227,23 @@ Immutable.List [
     "status": "success",
     "error": null,
   },
-  Immutable.ReceivedMessage {
+  Immutable.DisplayableMessage {
     "id": 0,
     "type": 1,
-    "sender": Immutable.MessageSender {
+    "sender": Immutable.ExchangeParticipant {
       "replyTo": "zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya",
       "username": "Wenus",
+    },
+    "receiver": Immutable.ExchangeParticipant {
+      "replyTo": "",
+      "username": [Function],
     },
     "createdAt": 1551963828,
     "message": "This is a message with id 0",
     "spent": "0.32",
+    "fromYou": false,
+    "status": "broadcasted",
+    "error": null,
   },
   Immutable.ReceivedMessage {
     "id": 0,

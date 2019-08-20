@@ -103,6 +103,19 @@ export default (vault) => {
     }
   }
 
+  const loadAllSentMessages = async ({ identityId }) => {
+    let messagesGroups = []
+    await vault.withWorkspace(workspace => {
+      const identityGroup = _getIdentityMessages({ identityId, workspace })
+      messagesGroups = identityGroup.getGroups()
+    })
+    const initialMessages = await Promise.all(messagesGroups.map(async (group) => {
+      const messages = await listMessages({ identityId, recipientAddress: group.getAttribute('address'), recipientUsername: group.getAttribute('username') })
+      return messages
+    }))
+    return initialMessages
+  }
+
   const updateLastSeen = async ({ identityId, recipientAddress, recipientUsername, lastSeen }) => {
     await vault.withWorkspace(workspace => {
       const identityGroup = _getIdentityMessages({ identityId, workspace })
@@ -128,6 +141,7 @@ export default (vault) => {
     updateLastSeen,
     getLastSeen,
     deleteMessage,
-    updateMessage
+    updateMessage,
+    loadAllSentMessages
   }
 }

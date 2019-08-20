@@ -6,6 +6,7 @@ import { createAction, handleActions } from 'redux-actions'
 import selectors from '../selectors/directMessagesQueue'
 import operationsSelectors from '../selectors/operations'
 import identitySelectors from '../selectors/identity'
+import contactsSelectors from '../selectors/contacts'
 import { messageToTransfer, messageType } from '../../zbay/messages'
 import operationsHandlers, { PendingDirectMessageOp, operationTypes } from './operations'
 import notificationsHandlers from './notifications'
@@ -55,6 +56,13 @@ export const checkConfirmationNumber = async ({ opId, status, txId, error, dispa
   const messageContent = message.message
   const { recipientAddress, recipientUsername } = message
   await getVault().contacts.saveMessage({ identityId, message: messageContent, recipientAddress, recipientUsername, status, txId })
+  const { username } = contactsSelectors.contact(recipientAddress)(getState())
+  if (!username) {
+    await dispatch(contactsHandlers.epics.updateLastSeen({ contact: {
+      replyTo: recipientAddress,
+      username: recipientAddress.substring(1, 10)
+    } }))
+  }
   dispatch(operationsHandlers.actions.removeOperation(opId))
   dispatch(contactsHandlers.epics.loadVaultMessages({ contact: {
     replyTo: recipientAddress,
@@ -74,6 +82,10 @@ export const checkConfirmationNumber = async ({ opId, status, txId, error, dispa
 
   return subscribe(async (error, { confirmations }) => {
     await getVault().contacts.updateMessage({ identityId, messageId: txId, recipientAddress, recipientUsername, newMessageStatus: 'broadcasted' })
+    dispatch(contactsHandlers.epics.loadVaultMessages({ contact: {
+      replyTo: recipientAddress,
+      username: recipientUsername
+    } }))
     if (error) {
       await getVault().contacts.updateMessage({ identityId, messageId: txId, recipientAddress, recipientUsername, newMessageStatus: 'error' })
     }

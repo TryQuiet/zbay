@@ -45,6 +45,7 @@ export const directMessages = address => createSelector(
   queuedMessages(address),
   (identity, messages, vaultMessages, pendingMessages, queuedMessages) => {
     const identityAddress = identity.address
+    const identityName = identitySelectors.name
 
     const displayablePending = pendingMessages.map(
       operation => zbayMessages.operationToDisplayableMessage({ operation, identityAddress })
@@ -55,7 +56,10 @@ export const directMessages = address => createSelector(
         queuedMessage, messageKey, identityAddress
       })
     )
-    return messages.concat(
+
+    const fetchedMessagesToDisplay = messages.map(msg => zbayMessages.receivedToDisplayableMessage({ message: msg, identityAddress, receiver: { replyTo: identityAddress, username: identityName } }))
+
+    return fetchedMessagesToDisplay.concat(
       vaultMessages.values(),
       displayableQueued.values(),
       displayablePending.values()
