@@ -8,8 +8,6 @@ exports[`ChannelContent renders component 1`] = `
   justify="center"
 >
   <Connect(Component) />
-  <Connect(ChannelInput)
-    inputState={1}
-  />
+  <Connect(ChannelInput) />
 </WithStyles(Grid)>
 `;

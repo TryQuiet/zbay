@@ -41,22 +41,19 @@ const storeState = {
   }),
   messages: Immutable.Map({
     [channelId]: ChannelMessages({
-      messages: Immutable.List(
-        Immutable.fromJS(
-          R.range(0, 4).map(id =>
-            ReceivedMessage(
-              createReceivedMessage({ id, createdAt: now.minus({ hours: 2 * id }).toSeconds() })
-            )
-          )
-        )
-      )
+      messages: Immutable.List(Immutable.fromJS(
+        R.range(0, 4).map(id => ReceivedMessage(
+          createReceivedMessage({ id, createdAt: now.minus({ hours: 2 * id }).toSeconds() })
+        ))
+      ))
+
     })
   }),
   channels: ChannelsState({
     data: Immutable.fromJS([createChannel(channelId)])
   }),
   messagesQueue: Immutable.Map({
-    messageHash: PendingMessage({
+    'messageHash': PendingMessage({
       channelId,
       message: Immutable.fromJS(
         createMessage('test-pending-message', now.minus({ hours: 2 }).toSeconds())
@@ -69,9 +66,10 @@ const storeState = {
       txId: 'transaction-id',
       type: operationTypes.pendingMessage,
       meta: PendingMessageOp({
-        message: Immutable.fromJS(
-          createMessage('test-message-id', now.minus({ hours: 1 }).toSeconds())
-        ),
+        message: Immutable.fromJS(createMessage(
+          'test-message-id',
+          now.minus({ hours: 1 }).toSeconds()
+        )),
         channelId
       }),
       status: 'success'
@@ -81,9 +79,10 @@ const storeState = {
       txId: 'transaction-id-2',
       type: operationTypes.pendingMessage,
       meta: PendingMessageOp({
-        message: Immutable.fromJS(
-          createMessage('test-message-id-2', now.minus({ hours: 3 }).toSeconds())
-        ),
+        message: Immutable.fromJS(createMessage(
+          'test-message-id-2',
+          now.minus({ hours: 3 }).toSeconds()
+        )),
         channelId: `not-${channelId}`
       }),
       status: 'success'
@@ -93,9 +92,10 @@ const storeState = {
       txId: 'transaction-id-3',
       type: operationTypes.pendingMessage,
       meta: PendingMessageOp({
-        message: Immutable.fromJS(
-          createMessage('test-message-id-3', now.minus({ hours: 5 }).toSeconds())
-        ),
+        message: Immutable.fromJS(createMessage(
+          'test-message-id-3',
+          now.minus({ hours: 5 }).toSeconds()
+        )),
         channelId
       }),
       status: 'success'

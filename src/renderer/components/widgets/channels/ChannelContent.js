@@ -11,8 +11,7 @@ import { withSpinnerLoader } from '../../ui/SpinnerLoader'
 
 const styles = {
   fullHeight: {
-    minHeight: '100%',
-    position: 'relative'
+    minHeight: '100%'
   }
 }
 
@@ -34,10 +33,6 @@ ChannelContent.propTypes = {
   channelId: PropTypes.string,
   contactId: PropTypes.string,
   inputState: PropTypes.number
-}
-
-ChannelContent.defaultProps = {
-  inputState: 1
 }
 
 export default R.compose(
