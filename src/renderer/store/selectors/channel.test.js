@@ -4,7 +4,7 @@ import Immutable from 'immutable'
 import BigNumber from 'bignumber.js'
 import * as R from 'ramda'
 
-import channelSelectors from './channel'
+import channelSelectors, { INPUT_STATE } from './channel'
 import { operationTypes, PendingMessageOp, Operation } from '../handlers/operations'
 import create from '../create'
 import { ChannelState } from '../handlers/channel'
@@ -41,18 +41,22 @@ const storeState = {
   }),
   messages: Immutable.Map({
     [channelId]: ChannelMessages({
-      messages: Immutable.List(Immutable.fromJS(
-        R.range(0, 4).map(id => ReceivedMessage(
-          createReceivedMessage({ id, createdAt: now.minus({ hours: 2 * id }).toSeconds() })
-        ))
-      ))
+      messages: Immutable.List(
+        Immutable.fromJS(
+          R.range(0, 4).map(id =>
+            ReceivedMessage(
+              createReceivedMessage({ id, createdAt: now.minus({ hours: 2 * id }).toSeconds() })
+            )
+          )
+        )
+      )
     })
   }),
   channels: ChannelsState({
     data: Immutable.fromJS([createChannel(channelId)])
   }),
   messagesQueue: Immutable.Map({
-    'messageHash': PendingMessage({
+    messageHash: PendingMessage({
       channelId,
       message: Immutable.fromJS(
         createMessage('test-pending-message', now.minus({ hours: 2 }).toSeconds())
@@ -65,10 +69,9 @@ const storeState = {
       txId: 'transaction-id',
       type: operationTypes.pendingMessage,
       meta: PendingMessageOp({
-        message: Immutable.fromJS(createMessage(
-          'test-message-id',
-          now.minus({ hours: 1 }).toSeconds()
-        )),
+        message: Immutable.fromJS(
+          createMessage('test-message-id', now.minus({ hours: 1 }).toSeconds())
+        ),
         channelId
       }),
       status: 'success'
@@ -78,10 +81,9 @@ const storeState = {
       txId: 'transaction-id-2',
       type: operationTypes.pendingMessage,
       meta: PendingMessageOp({
-        message: Immutable.fromJS(createMessage(
-          'test-message-id-2',
-          now.minus({ hours: 3 }).toSeconds()
-        )),
+        message: Immutable.fromJS(
+          createMessage('test-message-id-2', now.minus({ hours: 3 }).toSeconds())
+        ),
         channelId: `not-${channelId}`
       }),
       status: 'success'
@@ -91,10 +93,9 @@ const storeState = {
       txId: 'transaction-id-3',
       type: operationTypes.pendingMessage,
       meta: PendingMessageOp({
-        message: Immutable.fromJS(createMessage(
-          'test-message-id-3',
-          now.minus({ hours: 5 }).toSeconds()
-        )),
+        message: Immutable.fromJS(
+          createMessage('test-message-id-3', now.minus({ hours: 5 }).toSeconds())
+        ),
         channelId
       }),
       status: 'success'
@@ -145,7 +146,7 @@ describe('Channel selector', () => {
 
   describe('inputLocked', () => {
     it('when balance=0 and lockedBalance > 0', () => {
-      expect(channelSelectors.inputLocked(store.getState())).toBeTruthy()
+      expect(channelSelectors.inputLocked(store.getState())).toEqual(INPUT_STATE.LOCKED)
     })
 
     it('when balance=0 and lockedBalance=0', () => {
@@ -160,10 +161,10 @@ describe('Channel selector', () => {
           })
         })
       })
-      expect(channelSelectors.inputLocked(store.getState())).toBeFalsy()
+      expect(channelSelectors.inputLocked(store.getState())).toEqual(INPUT_STATE.DISABLE)
     })
 
-    it('when balance > 0 and lockedBalance > 0', () => {
+    it('when balance > 0.0002 and lockedBalance > 0.0002', () => {
       store = create({
         initialState: Immutable.Map({
           ...storeState,
@@ -175,7 +176,7 @@ describe('Channel selector', () => {
           })
         })
       })
-      expect(channelSelectors.inputLocked(store.getState())).toBeFalsy()
+      expect(channelSelectors.inputLocked(store.getState())).toEqual(INPUT_STATE.AVAILABLE)
     })
 
     it('when balance > 0 and lockedBalance=0', () => {
@@ -190,7 +191,7 @@ describe('Channel selector', () => {
           })
         })
       })
-      expect(channelSelectors.inputLocked(store.getState())).toBeFalsy()
+      expect(channelSelectors.inputLocked(store.getState())).toEqual(INPUT_STATE.AVAILABLE)
     })
   })
 
