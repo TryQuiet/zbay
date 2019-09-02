@@ -108,7 +108,6 @@ export const Tooltip = ({
   ...props
 }) => {
   const [arrowRef, setArrowRef] = useState(null)
-  console.log(title)
   return (
     <MuiTooltip
       {...props}
