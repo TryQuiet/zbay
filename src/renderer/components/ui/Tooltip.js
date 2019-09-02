@@ -93,6 +93,9 @@ const styles = theme => ({
       borderStyle: 'solid'
     }
   },
+  text: {
+    color: theme.palette.primary.dark
+  },
   arrowPopper: arrowGenerator(theme.palette.background.default, theme)
 })
 
@@ -105,12 +108,13 @@ export const Tooltip = ({
   ...props
 }) => {
   const [arrowRef, setArrowRef] = useState(null)
+  console.log(title)
   return (
     <MuiTooltip
       {...props}
       title={
-        <React.Fragment>
-          {title}
+        <React.Fragment >
+          <span className={classes.text}>{title}</span>
           <span className={classes.arrow} ref={setArrowRef} />
         </React.Fragment>
       }
