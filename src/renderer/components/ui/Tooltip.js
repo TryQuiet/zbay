@@ -22,7 +22,7 @@ function arrowGenerator (color, theme) {
     '&[x-placement*="bottom-end"] $arrow': {
       opacity: 1,
       top: 0,
-      left: `calc(100% - ${theme.spacing.unit}px - ${constants.arrowSize}) !important`,
+      left: `calc(100% - ${theme.spacing(1)}px - ${constants.arrowSize}) !important`,
       marginTop: '-0.95em',
       '&::before': {
         borderWidth: '0 1em 1em 1em',
@@ -32,7 +32,7 @@ function arrowGenerator (color, theme) {
     '&[x-placement*="bottom-start"] $arrow': {
       opacity: 1,
       top: 0,
-      left: `${theme.spacing.unit}px !important`,
+      left: `${theme.spacing(1)}px !important`,
       marginTop: '-0.95em',
       '&::before': {
         borderWidth: '0 1em 1em 1em',
