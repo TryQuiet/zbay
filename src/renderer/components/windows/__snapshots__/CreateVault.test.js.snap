@@ -77,7 +77,6 @@ exports[`CreateVault renders component 1`] = `
             <VaultCreator
               buttonStyles="button-mock"
               className="vault-mock"
-              finished={false}
               inProgress={false}
             />
           </WithStyles(ForwardRef(Grid))>
@@ -165,7 +164,6 @@ exports[`CreateVault renders error 1`] = `
             <VaultCreator
               buttonStyles="button-mock"
               className="vault-mock"
-              finished={false}
               inProgress={false}
             />
           </WithStyles(ForwardRef(Grid))>
@@ -253,7 +251,6 @@ exports[`CreateVault renders inProgress 1`] = `
             <VaultCreator
               buttonStyles="button-mock"
               className="vault-mock"
-              finished={false}
               inProgress={true}
             />
           </WithStyles(ForwardRef(Grid))>
