@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import WindowWrapper from '../ui/WindowWrapper'
 import Snackbar from '../ui/Snackbar'
+import Icon from '../ui/Icon'
 import VaultCreator from '../../containers/VaultCreator'
 import icon from '../../static/images/zcash/logo-lockup--circle.svg'
 
@@ -24,14 +25,14 @@ const styles = (theme) => ({
   welcome: {
     width: '100%',
     height: '100vh',
-    marginRight: '20px'
+    marginRight: 20
   },
   vault: {
     width: '100%'
   },
   button: {
     backgroundColor: theme.palette.colors.zbayBlue,
-    color: '#fff',
+    color: theme.palette.colors.white,
     '&:hover': {
       backgroundColor: theme.palette.colors.zbayBlue
     }
@@ -55,12 +56,10 @@ const styles = (theme) => ({
     marginTop: 25
   },
   icon: {
-    width: '285px',
-    height: '67px'
+    width: 285,
+    height: 67
   }
 })
-
-const Icon = ({ className }) => <img className={className} src={icon} />
 
 export const CreateVault = ({
   classes,
@@ -90,7 +89,7 @@ export const CreateVault = ({
           <Paper className={classes.paper}>
             <Grid container direction='row' justify='center' alignContent='flex-start' wrap='wrap' className={classes.welcome}>
               <Grid className={classes.logoContainer} container item xs={12} justify='center' alignItems={'center'}>
-                <Icon className={classes.icon} />
+                <Icon className={classes.icon} src={icon} />
               </Grid>
               <Grid container item xs={12} wrap='wrap' justify='center'>
                 <Typography className={classes.title} variant='h4' gutterBottom>

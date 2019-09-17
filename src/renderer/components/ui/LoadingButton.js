@@ -9,13 +9,13 @@ const styles = theme => ({
     minWidth: 150,
     height: 60,
     backgroundColor: theme.palette.colors.zbayBlue,
-    color: '#fff',
+    color: theme.palette.colors.white,
     '&:hover': {
       backgroundColor: theme.palette.colors.zbayBlue
     }
   },
   progress: {
-    color: 'white'
+    color: theme.palette.colors.white
   }
 })
 

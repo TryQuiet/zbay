@@ -43,8 +43,9 @@ exports[`CreateVault renders component 1`] = `
             justify="center"
             xs={12}
           >
-            <Icon
+            <Memo(Icon)
               className="icon-mock"
+              src="test-file-stub"
             />
           </WithStyles(ForwardRef(Grid))>
           <WithStyles(ForwardRef(Grid))
@@ -130,8 +131,9 @@ exports[`CreateVault renders error 1`] = `
             justify="center"
             xs={12}
           >
-            <Icon
+            <Memo(Icon)
               className="icon-mock"
+              src="test-file-stub"
             />
           </WithStyles(ForwardRef(Grid))>
           <WithStyles(ForwardRef(Grid))
@@ -217,8 +219,9 @@ exports[`CreateVault renders inProgress 1`] = `
             justify="center"
             xs={12}
           >
-            <Icon
+            <Memo(Icon)
               className="icon-mock"
+              src="test-file-stub"
             />
           </WithStyles(ForwardRef(Grid))>
           <WithStyles(ForwardRef(Grid))
