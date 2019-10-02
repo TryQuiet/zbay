@@ -17,12 +17,22 @@
     },
     "linux": {
       "target": [
-        "AppImage",
-        "deb"
+        "snap"
       ],
       "files": [
         "dist/**/*",
         "package.json"
+      ]
+    },
+    "snap": {
+      "stagePackages": [
+        "default",
+        "curl",
+        "build-essential",
+        "wget",
+        "libgomp1",
+        "gcc-6",
+        "libc6-dev"
       ]
     },
     "extraResources": "zcash/**/*"
@@ -34,6 +44,7 @@
   "scripts": {
     "dist": "aws s3 sync s3://zbay-zcash-binaries/darwin zcash/darwin  &&   npm run build:prod && electron-builder -p always --mac",
     "distlinux": "aws s3 sync s3://zbay-zcash-binaries/linux zcash/linux  && npm run build:prod && electron-builder --linux",
+    "snaplinux": "aws s3 sync s3://zbay-zcash-binaries/linux zcash/linux && npm run build:prod && electron-builder --linux snap",
     "lint": "standard",
     "test": "npm run lint && jest",
     "test:watch": "npm run lint && jest --watchAll",
@@ -71,7 +82,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
     "electron": "^4.0.3",
-    "electron-builder": "^20.43.0",
+    "electron-builder": "^21.2.0",
     "electron-debug": "^2.1.0",
     "electron-devtools-installer": "^2.2.4",
     "enzyme": "^3.8.0",
