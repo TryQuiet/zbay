@@ -24,7 +24,7 @@ const styles = theme => ({
 })
 
 export const Carousel = ({ classes }) => (
-  <AliceCarousel buttonsDisabled dotsDisabled autoPlay autoPlayInterval={4000}>
+  <AliceCarousel buttonsDisabled dotsDisabled autoPlay autoPlayInterval={8000}>
     {carouselStrings.map((text, i) => (
       <div key={i} className={classes.tipContainer}>
         <Typography className={classes.typography} variant='caption'>
