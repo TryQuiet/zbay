@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import AliceCarousel from 'react-alice-carousel'
 import Typography from '@material-ui/core/Typography'
-
+import * as R from 'ramda'
 import 'react-alice-carousel/lib/alice-carousel.css'
 
 import carouselStrings from '../../static/text/carouselStrings.js'
@@ -39,4 +39,7 @@ Carousel.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Carousel)
+export default R.compose(
+  withStyles(styles),
+  React.memo
+)(Carousel)
