@@ -13,6 +13,7 @@ describe('InvitationModalFinish', () => {
         handleClose={jest.fn()}
         open
         amount={9}
+        generatedInvitation='test invitation'
         setStep={jest.fn()}
         reset={jest.fn()}
       />
