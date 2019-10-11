@@ -47,7 +47,7 @@ export const IdentityPanel = ({ classes, identity, handleSettings, handleInvitat
       >
         <Grid item>
           <Grid container direction='column'>
-            <Typography variant='subtitle1' className={classes.name}>
+            <Typography variant='body2' className={classes.name}>
               {identity.name}
             </Typography>
             <Elipsis
