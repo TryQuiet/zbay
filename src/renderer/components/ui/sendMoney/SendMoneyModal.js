@@ -65,11 +65,13 @@ export const SendMoneyModal = ({
   feeUsd = rateUsd.times(feeZec).toNumber(),
   userData,
   sendMessageHandler,
-  shippingData
+  shippingData,
+  targetRecipientAddress
 }) => {
   const StepComponent = stepToComponent[step]
   return (
     <Formik
+      enableReinitialize
       onSubmit={(values, { resetForm }) => {
         const messageToTransfer = createTransfer({
           ...values,
@@ -82,7 +84,10 @@ export const SendMoneyModal = ({
         sendMessageHandler(messageToTransfer.toJS())
       }}
       validationSchema={formSchema}
-      initialValues={initialValues}
+      initialValues={{
+        ...initialValues,
+        recipient: targetRecipientAddress || ''
+      }}
       validate={validateForm({ balanceZec, shippingData })}
     >
       {({ values, isValid, submitForm, resetForm }) => {
@@ -111,7 +116,7 @@ export const SendMoneyModal = ({
               sent={sent}
               values={values}
               memo={values.memo}
-              recipient={values.recipient}
+              recipient={targetRecipientAddress || values.recipient}
               balanceZec={balanceZec}
               isValid={isValid}
               rateZec={rateZec}
