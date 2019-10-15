@@ -12,6 +12,7 @@ import identityHandlers from './identity'
 import { deflate, inflate } from '../../compression'
 import { messages } from '../../zbay'
 import { donationTarget } from '../../zcash/donation'
+import { actionCreators } from './modals'
 
 export const URI_PREFIX = 'https://zbay.io/invitation/'
 
@@ -94,10 +95,9 @@ export const handleInvitation = invitationPacked => async (dispatch, getState) =
       }
     }
     await dispatch(identityHandlers.epics.updateDonationAddress(invitation.donationAddress))
-    console.log('accepted show modal')
+    dispatch(actionCreators.openModal('receivedInvitationModal')())
   } catch (err) {
-    console.log('there was an error')
-    console.log(err)
+    dispatch(actionCreators.openModal('receivedInvitationModal', { err: 'Error, try again' })())
   }
 }
 export const epics = {
