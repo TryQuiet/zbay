@@ -27,7 +27,6 @@ exports[`Main renders component 1`] = `
               "type": [Function],
             }
           }
-          exact={true}
           path="test/channel/:id"
         />
         <Route
@@ -38,7 +37,6 @@ exports[`Main renders component 1`] = `
               "type": [Function],
             }
           }
-          exact={true}
           path="test/direct-messages/:id/:username"
         />
       </WithStyles(ForwardRef(Grid))>
