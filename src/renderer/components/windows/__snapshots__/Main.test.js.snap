@@ -20,7 +20,13 @@ exports[`Main renders component 1`] = `
         xs={true}
       >
         <Route
-          component={[Function]}
+          component={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": [Function],
+            }
+          }
           exact={true}
           path="test/channel/:id"
         />
