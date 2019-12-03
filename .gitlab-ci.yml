@@ -27,4 +27,4 @@ update-storybook:
     - npm install
     - npm run build-storybook
     - aws s3 sync storybook-static/ $STORYBOOK_BUCKET --exact-timestamps --delete
-    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
