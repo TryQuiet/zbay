@@ -51,7 +51,7 @@ const handleModerationAction = ({ moderationType, moderationTarget }) => async (
     // )
     dispatch(
       notificationsHandlers.actions.enqueueSnackbar(
-        successNotification({ message: 'Successfully sent inctruction to channel' })
+        successNotification({ message: 'Successfully sent instruction to channel' })
       )
     )
   } catch (err) {
