@@ -9,7 +9,8 @@ import identitySelectors from '../selectors/identity'
 import contactsSelectors from '../selectors/contacts'
 import usersSelectors from '../selectors/users'
 import offersSelectors from '../selectors/offers'
-import { messageToTransfer, messageType } from '../../zbay/messages'
+import { messageToTransfer } from '../../zbay/messages'
+import { messageType, actionTypes } from '../../../shared/static'
 import operationsHandlers, { PendingDirectMessageOp, operationTypes } from './operations'
 import notificationsHandlers from './notifications'
 import { errorNotification } from './utils'
@@ -34,7 +35,7 @@ export const PendingMessage = Immutable.Record(
 export const initialState = Immutable.Map()
 
 const addDirectMessage = createAction(
-  'ADD_PENDING_DIRECT_MESSAGE',
+  actionTypes.ADD_PENDING_DIRECT_MESSAGE,
   ({ message, recipientAddress, recipientUsername }) => {
     const messageDigest = crypto.createHash('sha256')
     const messageEssentials = R.pick(['type', 'sender'])(message)
@@ -55,7 +56,7 @@ const addDirectMessage = createAction(
     return response
   }
 )
-const removeMessage = createAction('REMOVE_PENDING_DIRECT_MESSAGE')
+const removeMessage = createAction(actionTypes.REMOVE_PENDING_DIRECT_MESSAGE)
 
 export const actions = {
   addDirectMessage,

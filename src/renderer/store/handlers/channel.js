@@ -20,6 +20,7 @@ import { errorNotification, LoaderState } from './utils'
 import { channelToUri } from '../../zbay/channels'
 import nodeSelectors from '../selectors/node'
 import { getVault } from '../../vault'
+import { messageType, actionTypes } from '../../../shared/static'
 
 export const ChannelState = Immutable.Record(
   {
@@ -37,14 +38,14 @@ export const ChannelState = Immutable.Record(
 
 export const initialState = ChannelState()
 
-const setSpentFilterValue = createAction('SET_SPENT_FILTER_VALUE', (_, value) => value)
-const setMessage = createAction('SET_CHANNEL_MESSAGE', R.path(['target', 'value']))
-const setChannelId = createAction('SET_CHANNEL_ID')
-const setLoading = createAction('SET_CHANNEL_LOADING')
-const setLoadingMessage = createAction('SET_CHANNEL_LOADING_MESSAGE')
-const setShareableUri = createAction('SET_CHANNEL_SHAREABLE_URI')
-const setAddress = createAction('SET_CHANNEL_ADDRESS')
-const resetChannel = createAction('SET_CHANNEL')
+const setSpentFilterValue = createAction(actionTypes.SET_SPENT_FILTER_VALUE, (_, value) => value)
+const setMessage = createAction(actionTypes.SET_CHANNEL_MESSAGE, R.path(['target', 'value']))
+const setChannelId = createAction(actionTypes.SET_CHANNEL_ID)
+const setLoading = createAction(actionTypes.SET_CHANNEL_LOADING)
+const setLoadingMessage = createAction(actionTypes.SET_CHANNEL_LOADING_MESSAGE)
+const setShareableUri = createAction(actionTypes.SET_CHANNEL_SHAREABLE_URI)
+const setAddress = createAction(actionTypes.SET_CHANNEL_ADDRESS)
+const resetChannel = createAction(actionTypes.SET_CHANNEL)
 
 export const actions = {
   setLoading,
@@ -129,7 +130,7 @@ const sendOnEnter = event => async (dispatch, getState) => {
     if (currentMessage !== undefined) {
       message = messages.createMessage({
         messageData: {
-          type: messages.messageType.BASIC,
+          type: messageType.BASIC,
           data: currentMessage.get('message').get('message') + '\n' + event.target.value
         },
         privKey: privKey
@@ -137,7 +138,7 @@ const sendOnEnter = event => async (dispatch, getState) => {
     } else {
       message = messages.createMessage({
         messageData: {
-          type: messages.messageType.BASIC,
+          type: messageType.BASIC,
           data: event.target.value
         },
         privKey: privKey
@@ -156,7 +157,7 @@ const sendChannelSettingsMessage = ({ address, minFee = '0', onlyRegistered = '0
   const privKey = identitySelectors.signerPrivKey(getState())
   const message = messages.createMessage({
     messageData: {
-      type: messages.messageType.CHANNEL_SETTINGS,
+      type: messageType.CHANNEL_SETTINGS,
       data: {
         owner,
         minFee,
