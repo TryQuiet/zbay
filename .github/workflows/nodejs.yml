@@ -16,8 +16,8 @@ jobs:
         node-version: [10.x]
     steps:
     - uses: actions/checkout@v1
-    with:
-      version: ${{ matrix.node_version }}
+      with:
+        version: ${{ matrix.node_version }}
     - name: Run a one-line script
       run: | 
         npm install
