@@ -8,6 +8,7 @@ import WindowWrapper from '../ui/WindowWrapper'
 import ZcashIcon from '../../static/images/zcash/logo-lockup--circle.svg'
 import Carousel from '../widgets/Carousel'
 import Icon from '../ui/Icon'
+import RegistrationGuide from '../../containers/windows/RegistrationGuide'
 
 const styles = theme => ({
   root: {
@@ -80,8 +81,8 @@ const styles = theme => ({
   }
 })
 
-export const SyncLoader = ({ classes, ETA, message, isFetching, progressValue, hasAddress, blockchainStatus, node, bootstrapping, bootstrappingMessage, nodeConnected, openModal, fetchingStatus, fetchingSizeLeft, fetchingPart, fetchingSpeed }) => {
-  return (
+export const SyncLoader = ({ classes, ETA, isGuideCompleted, message, isFetching, progressValue, hasAddress, blockchainStatus, node, bootstrapping, bootstrappingMessage, nodeConnected, openModal, fetchingStatus, fetchingSizeLeft, fetchingPart, fetchingSpeed }) => {
+  return isGuideCompleted ? (
     <WindowWrapper className={classes.root}>
       <Grid container className={classes.box} justify='center' alignItems='center' alignContent='center'>
         <Grid
@@ -126,7 +127,7 @@ export const SyncLoader = ({ classes, ETA, message, isFetching, progressValue, h
         )}
       </Grid>
     </WindowWrapper>
-  )
+  ) : <RegistrationGuide />
 }
 
 SyncLoader.propTypes = {
@@ -148,7 +149,8 @@ SyncLoader.propTypes = {
   fetchingSizeLeft: PropTypes.number,
   fetchingPart: PropTypes.string,
   fetchingSpeed: PropTypes.number,
-  isFetching: PropTypes.bool
+  isFetching: PropTypes.bool,
+  isGuideCompleted: PropTypes.bool.isRequired
 }
 
 export default withStyles(styles)(SyncLoader)
