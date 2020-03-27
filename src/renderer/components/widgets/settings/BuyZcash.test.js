@@ -1,5 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
+
 import { BuyZcash } from './BuyZcash'
 import { mockClasses } from '../../../../shared/testing/mocks'
 
