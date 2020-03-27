@@ -112,7 +112,6 @@ const downloadManagerForZippedBlockchain = ({ data, source }) => {
     }, 3000)
     if (!isWillQuitEventAdded) {
       app.on('will-quit', () => {
-        console.log('working')
         clearInterval(checkSizeInterval)
         reject(console.log('app exited'))
       })
