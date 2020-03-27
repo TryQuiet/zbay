@@ -112,6 +112,7 @@ const downloadManagerForZippedBlockchain = ({ data, source }) => {
     }, 3000)
     if (!isWillQuitEventAdded) {
       app.on('will-quit', () => {
+        console.log('working')
         clearInterval(checkSizeInterval)
         reject(console.log('app exited'))
       })
@@ -206,8 +207,8 @@ const installExtensions = async () => {
 }
 
 const windowSize = {
-  width: 1024,
-  height: 768
+  width: 800,
+  height: 500
 }
 
 var mainWindow
@@ -253,10 +254,14 @@ app.on('open-url', (event, url) => {
   }
 })
 
+let browserWidth
+let browserHeight
+
 const createWindow = () => {
+  const windowUserSize = electronStore.get('windowSize')
   mainWindow = new BrowserWindow({
-    width: windowSize.width,
-    height: windowSize.height,
+    width: windowUserSize ? windowUserSize.width : windowSize.width,
+    height: windowUserSize ? windowUserSize.height : windowSize.height,
     titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true
@@ -276,6 +281,11 @@ const createWindow = () => {
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
     mainWindow = null
+  })
+  mainWindow.on('resize', () => {
+    const [width, height] = mainWindow.getSize()
+    browserHeight = height
+    browserWidth = width
   })
 }
 
@@ -659,7 +669,9 @@ app.on('ready', async () => {
   })
 
   ipcMain.on('disable-sleep-prevention', (event, arg) => {
-    powerSaveBlocker.stop(powerSleepId)
+    if (powerSleepId) {
+      powerSaveBlocker.stop(powerSleepId)
+    }
   })
 
   ipcMain.on('create-node', async (event, arg) => {
@@ -684,6 +696,12 @@ app.setAsDefaultProtocolClient('zbay')
 process.on('exit', () => {
   if (nodeProc !== null) {
     nodeProc.kill()
+  }
+})
+
+app.on('before-quit', () => {
+  if (browserWidth && browserHeight) {
+    electronStore.set('windowSize', { width: browserWidth, height: browserHeight })
   }
 })
 
