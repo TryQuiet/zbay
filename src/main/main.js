@@ -207,7 +207,7 @@ const installExtensions = async () => {
 
 const windowSize = {
   width: 800,
-  height: 500
+  height: 540
 }
 
 var mainWindow
