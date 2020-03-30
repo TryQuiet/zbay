@@ -126,12 +126,10 @@ export const reducer = handleActions({
   [setGuideStatus]: (state, { payload: guideStatus }) => state.setIn(['fetchingStatus', 'guideStatus'], guideStatus),
   [setNextSlide]: (state) => {
     const currentSlide = state.getIn(['fetchingStatus', 'currentSlide'])
-    console.log(currentSlide)
     return state.setIn(['fetchingStatus', 'currentSlide'], currentSlide === 10 ? currentSlide : currentSlide + 1)
   },
   [setPrevSlide]: (state) => {
     const currentSlide = state.getIn(['fetchingStatus', 'currentSlide'])
-    console.log(currentSlide)
     return state.setIn(['fetchingStatus', 'currentSlide'], currentSlide === 0 ? currentSlide : currentSlide - 1)
   }
 }, initialState)
