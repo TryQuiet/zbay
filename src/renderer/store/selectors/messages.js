@@ -111,6 +111,7 @@ const getFilteredContexed = channelId => createSelector(
           break
       }
     }
+    visibleMessages = visibleMessages.filter(msg => !blockedUsers.includes(msg.publicKey))
     return Immutable.fromJS({
       channelModerators,
       messsagesToRemove,
