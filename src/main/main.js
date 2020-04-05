@@ -269,8 +269,6 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true
     },
-    frame: false,
-    transparent: true,
     autoHideMenuBar: true
   })
   mainWindow.setMinimumSize(600, 400)
@@ -504,7 +502,6 @@ const createZcashNode = async (win, torUrl) => {
 }
 
 app.on('ready', async () => {
-  setTimeout(() => mainWindow.setSize(1100, 800), 10000)
   const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
   checkPath(osPathsBlockchain[process.platform])
   const blockchainFolderSize = await getFolderSizePromise(
@@ -697,7 +694,6 @@ app.on('ready', async () => {
       loadLogsInterval = setInterval(async () => {
         loadLogs()
       }, 15000)
-      console.log('working load lgos', type)
     }
   })
 
@@ -709,7 +705,6 @@ app.on('ready', async () => {
   })
 
   ipcMain.on('save-to-log-file', (event, { type, payload }) => {
-    console.log('saiving file', type, payload)
     checkPath(osPathLogs[process.platform])
     checkLogsFiles()
     if (type === 'TRANSACTION') {

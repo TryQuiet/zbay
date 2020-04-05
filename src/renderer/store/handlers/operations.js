@@ -84,7 +84,6 @@ const observeOperation = ({ opId, type, meta, checkConfirmationNumber }) => asyn
 
   return subscribe((error, { status, txId }) => {
     dispatch(resolveOperation({ opId, status, txId, error }))
-    console.log('function', logsHandlers.epics.saveLogs({ type: 'TRANSACTION', payload: txId }))
     dispatch(logsHandlers.epics.saveLogs({ type: 'TRANSACTION', payload: txId }))
     if (checkConfirmationNumber && !error) {
       checkConfirmationNumber({ opId, status, txId, getState, dispatch })

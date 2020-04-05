@@ -32,7 +32,6 @@ const closeLogsWindow = () => async (dispatch, getState) => {
 }
 
 const saveLogs = (data) => async (dispatch, getState) => {
-  console.log('working saving')
   ipcRenderer.send('save-to-log-file', data)
 }
 

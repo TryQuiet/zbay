@@ -87,7 +87,6 @@ ipcRenderer.on('toggleCoordinator', () => {
 })
 
 ipcRenderer.on('load-logs-to-store', (event, { transactions, debug }) => {
-  console.log('working inside action', debug)
   store.dispatch(logsHandlers.actions.setNodeLogs(debug))
   store.dispatch(logsHandlers.actions.setTransactionLogs(transactions))
 })
