@@ -12,6 +12,7 @@ import importChannelHandlers from './store/handlers/importedChannel'
 import coordinatorHandlers from './store/handlers/coordinator'
 import nodeSelectors from './store/selectors/node'
 import coordinatorSelectors from './store/selectors/coordinator'
+import logsHandlers from './store/handlers/logs'
 import { errorNotification, successNotification } from './store/handlers/utils'
 
 import notificationsHandlers from './store/handlers/notifications'
@@ -83,6 +84,12 @@ ipcRenderer.on('toggleCoordinator', () => {
     store.dispatch(coordinatorHandlers.actions.startCoordinator())
     console.log('coordinator started')
   }
+})
+
+ipcRenderer.on('load-logs-to-store', (event, { transactions, debug }) => {
+  console.log('working inside action', debug)
+  store.dispatch(logsHandlers.actions.setNodeLogs(debug))
+  store.dispatch(logsHandlers.actions.setTransactionLogs(transactions))
 })
 
 ipcRenderer.on('newChannel', (event, { channelParams }) => {

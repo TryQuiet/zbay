@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LogsComponent renders component 1`] = `
+<WithStyles(ForwardRef(Grid))
+  alignContent="flex-start"
+  className="root-mock"
+  container={true}
+  item={true}
+>
+  <WithStyles(ForwardRef(Grid))
+    className="topBar-mock"
+    container={true}
+    item={true}
+    justify="space-between"
+  >
+    <WithStyles(ForwardRef(Grid))
+      item={true}
+    >
+      <WithStyles(ForwardRef(Typography))
+        className="title-mock"
+        variant="subtitle1"
+      >
+        Logs
+      </WithStyles(ForwardRef(Typography))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Grid))
+      item={true}
+    >
+      <Memo(WithStyles(IconButton))
+        className="iconButton-mock"
+        onClick={[MockFunction]}
+      >
+        <Memo(Icon)
+          src="test-file-stub"
+        />
+      </Memo(WithStyles(IconButton))>
+    </WithStyles(ForwardRef(Grid))>
+  </WithStyles(ForwardRef(Grid))>
+  <WithStyles(ForwardRef(Grid))
+    className="tabBar-mock"
+    container={true}
+    direction="row"
+    item={true}
+    justify="flex-start"
+    wrap="nowrap"
+  >
+    <WithStyles(ForwardRef(Grid))
+      className="tab-mock"
+      item={true}
+      onClick={[Function]}
+    >
+      <WithStyles(ForwardRef(Typography))
+        className="tabText-mock"
+        variant="caption"
+      >
+        Transactions
+      </WithStyles(ForwardRef(Typography))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Grid))
+      className="tab-mock activeTab-mock"
+      item={true}
+      onClick={[Function]}
+    >
+      <WithStyles(ForwardRef(Typography))
+        className="tabText-mock"
+        variant="caption"
+      >
+        Logs
+      </WithStyles(ForwardRef(Typography))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Grid))
+      className="tab-mock"
+      item={true}
+      onClick={[Function]}
+    >
+      <WithStyles(ForwardRef(Typography))
+        className="tabText-mock"
+        variant="caption"
+      >
+        RPC Requests
+      </WithStyles(ForwardRef(Typography))>
+    </WithStyles(ForwardRef(Grid))>
+  </WithStyles(ForwardRef(Grid))>
+  <WithStyles(ForwardRef(Grid))
+    className="mainLogsWindow-mock"
+    container={true}
+    item={true}
+  >
+    <AutoSizer
+      disableHeight={false}
+      disableWidth={false}
+      onResize={[Function]}
+      style={Object {}}
+    >
+      <Component />
+    </AutoSizer>
+  </WithStyles(ForwardRef(Grid))>
+</WithStyles(ForwardRef(Grid))>
+`;

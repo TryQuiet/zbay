@@ -12,6 +12,7 @@ import Channel from '../../containers/pages/Channel'
 import Offer from '../../containers/pages/Offer'
 import DirectMessages from '../../containers/pages/DirectMessages'
 import DepositMoneyModal from '../../containers/ui/DepositMoneyModal'
+import LogsContainer from '../../containers/widgets/logs/Logs'
 import electronStore from '../../../shared/electronStore'
 
 const styles = {
@@ -22,7 +23,7 @@ const styles = {
   }
 }
 
-export const Main = ({ match, classes, disablePowerSleepMode }) => {
+export const Main = ({ match, classes, disablePowerSleepMode, isLogWindowOpened }) => {
   useEffect(() => {
     electronStore.set('isNewUser', false)
     electronStore.set('AppStatus.blockchain.isRescanned', true)
@@ -41,9 +42,14 @@ export const Main = ({ match, classes, disablePowerSleepMode }) => {
             <Route path={`${match.url}/direct-messages/:id/:username`} component={DirectMessages} />
             <Route path={`${match.url}/offers/:id/:address`} component={Offer} />
           </Grid>
+          {isLogWindowOpened && (
+            <Grid item>
+              <LogsContainer />
+            </Grid>
+          )}
         </Grid>
       </WindowWrapper>
-    </>
+      </>
   )
 }
 

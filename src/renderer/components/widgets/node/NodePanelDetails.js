@@ -15,6 +15,8 @@ import NodePanelFreeUtxos from '../../../containers/widgets/node/NodePanelFreeUt
 import Icon from '../../ui/Icon'
 import helpIcon from '../../../static/images/help.svg'
 import helpGrayIcon from '../../../static/images/helpGray.svg'
+import expandLogsInactiveIcon from '../../../static/images/logs/inactiveLogPanel.svg'
+import expandLogsHoveredIcon from '../../../static/images/logs/hoveredLogPanel.svg'
 import Tooltip from '../../ui/Tooltip'
 
 const styles = theme => ({
@@ -34,8 +36,9 @@ const styles = theme => ({
   }
 })
 
-export const NodePanelDetails = ({ classes, expanded }) => {
+export const NodePanelDetails = ({ classes, expanded, showLogsPanel }) => {
   const [hover, setHover] = React.useState(false)
+  const [logsHover, setLogsHover] = React.useState(false)
 
   return (
     <Grid container direction='column'>
@@ -50,6 +53,32 @@ export const NodePanelDetails = ({ classes, expanded }) => {
           <>
             <Grid item container direction>
               <NodePanelNetworkField />
+              <Tooltip
+                title='Logs'
+                className={classes.tooltip}
+                placement='bottom'
+              >
+                <IconButton
+                  className={classes.iconButton}
+                  edge='end'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    showLogsPanel()
+                  }}
+                  onMouseOver={() => {
+                    setLogsHover(true)
+                  }}
+                  onMouseOut={() => {
+                    setLogsHover(false)
+                  }}
+                >
+                  <Icon
+                    className={classes.icon}
+                    fontSize='inherit'
+                    src={logsHover ? expandLogsHoveredIcon : expandLogsInactiveIcon}
+                  />
+                </IconButton>
+              </Tooltip>
               <Tooltip
                 title='Learn more about node status'
                 className={classes.tooltip}
