@@ -16,7 +16,6 @@ import { actions, epics } from './vault'
 import identityHandlers from './identity'
 import { typePending } from './utils'
 import create from '../create'
-import { client } from './rates'
 import vault, { mock } from '../../vault'
 import vaultSelectors from '../selectors/vault'
 import channelsSelectors from '../selectors/channels'
@@ -40,7 +39,6 @@ describe('vault reducer', () => {
         })
       })
     })
-    jest.spyOn(client, 'avgPrice').mockImplementation(() => {})
   })
 
   const assertStoreState = () => expect(store.getState().get('vault')).toMatchSnapshot()
