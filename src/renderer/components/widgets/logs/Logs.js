@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import * as R from 'ramda'
 import classnames from 'classnames'
-import { AutoSizer } from 'react-virtualized'
+// import { AutoSizer } from 'react-virtualized'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { shell } from 'electron'
 import PropTypes from 'prop-types'
@@ -59,9 +59,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.colors.logsActiveDark
   },
   mainLogsWindow: {
-    margin: '8px 0px',
+    margin: '0px 0px',
     width: '315px',
-    height: '100vh',
+    height: '100%',
     backgroundColor: theme.palette.colors.logsActiveDark
   },
   logsItem: {
@@ -87,6 +87,25 @@ const styles = theme => ({
     '&:hover': {
       color: theme.palette.colors.lushSky
     }
+  },
+  verticalScrollBar: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    height: '100%',
+    display: 'flex',
+    'justify-content': 'center',
+    backgroundColor: theme.palette.colors.logsScrollBar
+  },
+  renderThumbVertical: {
+    borderRadius: 25,
+    backgroundColor: theme.palette.colors.logsScrollBarThumb,
+    cursor: 'pointer'
+  },
+  innerContent: {
+    marginTop: 8,
+    paddingRight: 15,
+    paddingBottom: 5
   }
 })
 
@@ -96,13 +115,23 @@ const LogsTypes = {
   NODE_DEBUG: 'NODE_DEBUG'
 }
 
-export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, applicationLogs, transactionsLogs }) => {
+export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, applicationLogs, transactionsLogs, height }) => {
   const logs = {
     [LogsTypes.TRANSACTIONS]: transactionsLogs,
     [LogsTypes.NODE_DEBUG]: debugLogs,
     [LogsTypes.APPLICATION_LOGS]: applicationLogs
   }
+  const messagesEndRef = React.useRef(null)
   const [currentActiveTab, setActiveTab] = useState(LogsTypes.NODE_DEBUG)
+  const changeTab = (tab) => {
+    setActiveTab(tab)
+    messagesEndRef.current.scrollToBottom()
+  }
+  React.useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollToBottom()
+    }
+  })
   return (
     <Grid container className={classes.root} alignContent={'flex-start'} item>
       <Grid container className={classes.topBar} justify={'space-between'} item>
@@ -116,36 +145,38 @@ export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, application
         </Grid>
       </Grid>
       <Grid container direction={'row'} className={classes.tabBar} justify={'flex-start'} wrap={'nowrap'} item>
-        <Grid item onClick={() => setActiveTab(LogsTypes.TRANSACTIONS)} className={classnames(classes.tab, {
+        <Grid item onClick={() => changeTab(LogsTypes.TRANSACTIONS)} className={classnames(classes.tab, {
           [classes.activeTab]: currentActiveTab === LogsTypes.TRANSACTIONS
         })}>
           <Typography variant={'caption'} className={classes.tabText}>Transactions</Typography>
         </Grid>
-        <Grid item onClick={() => setActiveTab(LogsTypes.NODE_DEBUG)} className={classnames(classes.tab, {
+        <Grid item onClick={() => changeTab(LogsTypes.NODE_DEBUG)} className={classnames(classes.tab, {
           [classes.activeTab]: currentActiveTab === LogsTypes.NODE_DEBUG
         })}>
           <Typography variant={'caption'} className={classes.tabText}>Zcashd</Typography>
         </Grid>
-        <Grid item onClick={() => setActiveTab(LogsTypes.APPLICATION_LOGS)} className={classnames(classes.tab, {
+        <Grid item onClick={() => changeTab(LogsTypes.APPLICATION_LOGS)} className={classnames(classes.tab, {
           [classes.activeTab]: currentActiveTab === LogsTypes.APPLICATION_LOGS
         })}>
           <Typography variant={'caption'} className={classes.tabText}>Application</Typography>
         </Grid>
       </Grid>
       <Grid container className={classes.mainLogsWindow} item>
-        <AutoSizer>
-          {({ width, height }) => (
-            <Scrollbars
-              autoHideTimeout={500}
-              style={{ width: width, height: height }}
-            >
-              {logs[currentActiveTab].map((logLine, i) => currentActiveTab === LogsTypes.TRANSACTIONS
-                ? <Grid item key={i} className={classes.logsItem}><Typography onClick={() => shell.openExternal(`https://explorer.zcha.in/transactions/${logLine}`)} className={classes.transactionLine} variant={'caption'}>{logLine}</Typography></Grid>
-                : <Grid item key={i} className={classes.logsItem}><Typography className={classes.logsLine} variant={'caption'} key={i}>{logLine}</Typography></Grid>)
-              }
-            </Scrollbars>
+        <Scrollbars
+          ref={messagesEndRef}
+          autoHideTimeout={500}
+          style={{ width: 315, height: height - 90 }}
+          renderTrackVertical={props => <div {...props} style={{ width: '14px' }} className={classes.verticalScrollBar} />}
+          renderThumbVertical={props => <div {...props} style={{ width: '8px' }} className={classes.renderThumbVertical} />}
+        >
+          <div className={classes.innerContent}>
+            {logs[currentActiveTab].map((logLine, i) => currentActiveTab === LogsTypes.TRANSACTIONS
+              ? <Grid item key={i} className={classes.logsItem}><Typography onClick={() => shell.openExternal(`https://explorer.zcha.in/transactions/${logLine}`)} className={classes.transactionLine} variant={'caption'}>{logLine}</Typography></Grid>
+              : <Grid item key={i} className={classes.logsItem}><Typography className={classes.logsLine} variant={'caption'} key={i}>{logLine}</Typography></Grid>)
+            }
+          </div>
+        </Scrollbars>
           )}
-        </AutoSizer>
       </Grid>
     </Grid>
   )
@@ -156,7 +187,8 @@ LogsComponent.propTypes = {
   debugLogs: PropTypes.array.isRequired,
   applicationLogs: PropTypes.array.isRequired,
   transactionsLogs: PropTypes.array.isRequired,
-  closeLogsWindow: PropTypes.func.isRequired
+  closeLogsWindow: PropTypes.func.isRequired,
+  height: PropTypes.number
 }
 
 export default R.compose(

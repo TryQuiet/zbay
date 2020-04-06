@@ -22,7 +22,7 @@ export const mapDispatchToProps = (dispatch) =>
     dispatch
   )
 
-export const LogsContainer = ({ debugLogs, closeLogsWindow, applicationLogs, transactionsLogs }) => <Logs debugLogs={debugLogs} closeLogsWindow={closeLogsWindow} applicationLogs={applicationLogs} transactionsLogs={transactionsLogs} />
+export const LogsContainer = ({ debugLogs, closeLogsWindow, applicationLogs, transactionsLogs, height }) => <Logs debugLogs={debugLogs} height={height} closeLogsWindow={closeLogsWindow} applicationLogs={applicationLogs} transactionsLogs={transactionsLogs} />
 
 export default R.compose(
   connect(mapStateToProps, mapDispatchToProps)

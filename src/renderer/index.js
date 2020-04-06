@@ -13,6 +13,7 @@ import coordinatorHandlers from './store/handlers/coordinator'
 import nodeSelectors from './store/selectors/node'
 import coordinatorSelectors from './store/selectors/coordinator'
 import logsHandlers from './store/handlers/logs'
+import logsSelctors from './store/selectors/logs'
 import { errorNotification, successNotification } from './store/handlers/utils'
 
 import notificationsHandlers from './store/handlers/notifications'
@@ -83,6 +84,16 @@ ipcRenderer.on('toggleCoordinator', () => {
   } else {
     store.dispatch(coordinatorHandlers.actions.startCoordinator())
     console.log('coordinator started')
+  }
+})
+
+ipcRenderer.on('openLogs', () => {
+  if (logsSelctors.isLogWindowOpened(store.getState()) === false) {
+    store.dispatch(logsHandlers.actions.setLogWindowOpened(true))
+    ipcRenderer.send('load-logs')
+  } else {
+    store.dispatch(logsHandlers.actions.setLogWindowOpened(false))
+    ipcRenderer.send('disable-load-logs')
   }
 })
 

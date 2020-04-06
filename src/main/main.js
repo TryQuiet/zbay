@@ -539,6 +539,9 @@ app.on('ready', async () => {
   globalShortcut.register('F11', () => {
     mainWindow.webContents.send('toggleCoordinator', {})
   })
+  globalShortcut.register('CommandOrControl+L', () => {
+    mainWindow.webContents.send('openLogs')
+  })
 
   await installExtensions()
 

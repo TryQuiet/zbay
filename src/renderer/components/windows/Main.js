@@ -82,7 +82,7 @@ export const Main = ({ match, classes, disablePowerSleepMode, isLogWindowOpened 
             <Grid className={classnames({
               [classes.logsContainer]: dimensions.width <= 900
             })} item>
-              <LogsContainer />
+              <LogsContainer height={dimensions.height} />
             </Grid>
           )}
         </Grid>

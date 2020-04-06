@@ -102,7 +102,9 @@ export default createMuiTheme({
       logsActiveDark: '#1E1E1E',
       logsInactiveDark: '#2D2D2D',
       logsTitleGray: '#D4D4D4',
-      logsTabWhite: '#A9A9A9'
+      logsTabWhite: '#A9A9A9',
+      logsScrollBar: '#3D3D3D',
+      logsScrollBarThumb: ' #787878'
     }
   },
   overrides: {
