@@ -10,7 +10,7 @@ import Logs from '../../../components/widgets/logs/Logs'
 
 export const mapStateToProps = state => ({
   debugLogs: logsSelectors.nodeLogs(state),
-  rpcCallsLogs: logsSelectors.rpcCallsLogs(state),
+  applicationLogs: logsSelectors.applicationLogs(state),
   transactionsLogs: logsSelectors.transactionsLogs(state)
 })
 
@@ -22,7 +22,7 @@ export const mapDispatchToProps = (dispatch) =>
     dispatch
   )
 
-export const LogsContainer = ({ debugLogs, closeLogsWindow, rpcCallsLogs, transactionsLogs }) => <Logs debugLogs={debugLogs} closeLogsWindow={closeLogsWindow} rpcCallsLogs={rpcCallsLogs} transactionsLogs={transactionsLogs} />
+export const LogsContainer = ({ debugLogs, closeLogsWindow, applicationLogs, transactionsLogs }) => <Logs debugLogs={debugLogs} closeLogsWindow={closeLogsWindow} applicationLogs={applicationLogs} transactionsLogs={transactionsLogs} />
 
 export default R.compose(
   connect(mapStateToProps, mapDispatchToProps)

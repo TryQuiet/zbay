@@ -132,7 +132,7 @@ export const actionTypes = mirrorKey({
   SET_GUIDE_STATUS: undefined,
   SET_NEXT_SLIDE: undefined,
   SET_PREV_SLIDE: undefined,
-  SET_RPC_CALLS_LOGS: undefined,
+  SET_APPLICATIONS_LOGS: undefined,
   SET_NODE_LOGS: undefined,
   SET_TRANSACTIONS_LOGS: undefined,
   SET_LOG_WINDOW_OPENED: undefined

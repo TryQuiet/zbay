@@ -5,7 +5,6 @@ import { AutoSizer } from 'react-virtualized'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { shell } from 'electron'
 import PropTypes from 'prop-types'
-import Immutable from 'immutable'
 
 import { withStyles } from '@material-ui/core/styles'
 
@@ -67,8 +66,7 @@ const styles = theme => ({
   },
   logsItem: {
     width: '100%',
-    padding: '0px 8px',
-    cursor: 'pointer'
+    padding: '0px 8px'
   },
   logsLine: {
     fontFamily: 'Menlo Regular',
@@ -77,20 +75,32 @@ const styles = theme => ({
     fontWeight: 'normal',
     color: theme.palette.colors.logsTitleGray,
     wordWrap: 'break-word'
+  },
+  transactionLine: {
+    fontFamily: 'Menlo Regular',
+    lineHeight: '18px',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    color: theme.palette.colors.logsTitleGray,
+    wordWrap: 'break-word',
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.palette.colors.lushSky
+    }
   }
 })
 
 const LogsTypes = {
   TRANSACTIONS: 'TRANSACTIONS',
-  RPC_CALLS: 'RPC_CALLS',
+  APPLICATION_LOGS: 'APPLICATION_LOGS',
   NODE_DEBUG: 'NODE_DEBUG'
 }
 
-export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, rpcCallsLogs, transactionsLogs }) => {
+export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, applicationLogs, transactionsLogs }) => {
   const logs = {
     [LogsTypes.TRANSACTIONS]: transactionsLogs,
     [LogsTypes.NODE_DEBUG]: debugLogs,
-    [LogsTypes.RPC_CALLS]: rpcCallsLogs
+    [LogsTypes.APPLICATION_LOGS]: applicationLogs
   }
   const [currentActiveTab, setActiveTab] = useState(LogsTypes.NODE_DEBUG)
   return (
@@ -114,12 +124,12 @@ export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, rpcCallsLog
         <Grid item onClick={() => setActiveTab(LogsTypes.NODE_DEBUG)} className={classnames(classes.tab, {
           [classes.activeTab]: currentActiveTab === LogsTypes.NODE_DEBUG
         })}>
-          <Typography variant={'caption'} className={classes.tabText}>Logs</Typography>
+          <Typography variant={'caption'} className={classes.tabText}>Zcashd</Typography>
         </Grid>
-        <Grid item onClick={() => setActiveTab(LogsTypes.RPC_CALLS)} className={classnames(classes.tab, {
-          [classes.activeTab]: currentActiveTab === LogsTypes.RPC_CALLS
+        <Grid item onClick={() => setActiveTab(LogsTypes.APPLICATION_LOGS)} className={classnames(classes.tab, {
+          [classes.activeTab]: currentActiveTab === LogsTypes.APPLICATION_LOGS
         })}>
-          <Typography variant={'caption'} className={classes.tabText}>RPC Requests</Typography>
+          <Typography variant={'caption'} className={classes.tabText}>Application</Typography>
         </Grid>
       </Grid>
       <Grid container className={classes.mainLogsWindow} item>
@@ -129,7 +139,10 @@ export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, rpcCallsLog
               autoHideTimeout={500}
               style={{ width: width, height: height }}
             >
-              {logs[currentActiveTab].map((logLine, i) => <Grid item onClick={() => shell.openExternal(`https://explorer.zcha.in/transactions/${logLine}`)} className={classes.logsItem}><Typography className={classes.logsLine} variant={'caption'} key={i}>{logLine}</Typography></Grid>)}
+              {logs[currentActiveTab].map((logLine, i) => currentActiveTab === LogsTypes.TRANSACTIONS
+                ? <Grid item key={i} className={classes.logsItem}><Typography onClick={() => shell.openExternal(`https://explorer.zcha.in/transactions/${logLine}`)} className={classes.transactionLine} variant={'caption'}>{logLine}</Typography></Grid>
+                : <Grid item key={i} className={classes.logsItem}><Typography className={classes.logsLine} variant={'caption'} key={i}>{logLine}</Typography></Grid>)
+              }
             </Scrollbars>
           )}
         </AutoSizer>
@@ -140,9 +153,9 @@ export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, rpcCallsLog
 
 LogsComponent.propTypes = {
   classes: PropTypes.object.isRequired,
-  debugLogs: PropTypes.instanceOf(Immutable.List).isRequired,
-  rpcCallsLogs: PropTypes.instanceOf(Immutable.List).isRequired,
-  transactionsLogs: PropTypes.instanceOf(Immutable.List).isRequired,
+  debugLogs: PropTypes.array.isRequired,
+  applicationLogs: PropTypes.array.isRequired,
+  transactionsLogs: PropTypes.array.isRequired,
   closeLogsWindow: PropTypes.func.isRequired
 }
 

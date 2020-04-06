@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import * as R from 'ramda'
+import classnames from 'classnames'
 
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
@@ -19,11 +20,46 @@ const styles = {
   gridRoot: {
     'min-height': '100vh',
     'min-width': '100vw',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    position: 'relative'
+  },
+  logsContainer: {
+    'z-index': 2000,
+    position: 'absolute',
+    top: 0,
+    right: 0
   }
 }
 
 export const Main = ({ match, classes, disablePowerSleepMode, isLogWindowOpened }) => {
+  const debounce = (fn, ms) => {
+    let timer
+    return _ => {
+      clearTimeout(timer)
+      timer = setTimeout(_ => {
+        timer = null
+        fn.apply(this) // // eslint-disable-line
+      }, ms)
+    }
+  }
+  const [dimensions, setDimensions] = React.useState({
+    height: window.innerHeight,
+    width: window.innerWidth
+  })
+  useEffect(() => {
+    const debouncedHandleResize = debounce(function handleResize () {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth
+      })
+    }, 1000)
+
+    window.addEventListener('resize', debouncedHandleResize)
+
+    return _ => {
+      window.removeEventListener('resize', debouncedHandleResize)
+    }
+  })
   useEffect(() => {
     electronStore.set('isNewUser', false)
     electronStore.set('AppStatus.blockchain.isRescanned', true)
@@ -43,13 +79,15 @@ export const Main = ({ match, classes, disablePowerSleepMode, isLogWindowOpened 
             <Route path={`${match.url}/offers/:id/:address`} component={Offer} />
           </Grid>
           {isLogWindowOpened && (
-            <Grid item>
+            <Grid className={classnames({
+              [classes.logsContainer]: dimensions.width <= 900
+            })} item>
               <LogsContainer />
             </Grid>
           )}
         </Grid>
       </WindowWrapper>
-      </>
+    </>
   )
 }
 

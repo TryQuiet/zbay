@@ -679,12 +679,12 @@ app.on('ready', async () => {
     checkPath(osPathLogs[process.platform])
     checkLogsFiles()
     const transactions = JSON.parse(fs.readFileSync(targetPath.transactions))
-    const rpcCalls = JSON.parse(fs.readFileSync(targetPath.rpcCalls))
+    const applicationLogs = JSON.parse(fs.readFileSync(targetPath.rpcCalls))
     const debugFileLines = await readLastLines.read(targetPath.debug, 100)
     mainWindow.webContents.send('load-logs-to-store', {
       debug: debugFileLines.split('\n'),
       transactions,
-      rpcCalls
+      applicationLogs
     })
   }
 
@@ -711,9 +711,11 @@ app.on('ready', async () => {
       const transactions = JSON.parse(fs.readFileSync(targetPath.transactions))
       transactions.push(payload)
       fs.writeFileSync(targetPath.transactions, JSON.stringify(transactions))
+    } else {
+      const applicationLogs = JSON.parse(fs.readFileSync(targetPath.rpcCalls))
+      applicationLogs.push(payload)
+      fs.writeFileSync(targetPath.rpcCalls, JSON.stringify(applicationLogs))
     }
-    // const transactions = JSON.parse(fs.readFileSync(targetPath.transactions))
-    // const rpcCalls = JSON.parse(fs.readFileSync(targetPath.rpcCalls))
   })
 
   ipcMain.on('disable-sleep-prevention', (event, arg) => {

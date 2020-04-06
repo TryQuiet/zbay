@@ -24,9 +24,19 @@ const styles = theme => ({
     padding: 16,
     paddingTop: 0
   },
+  iconButtonLogs: {
+    marginTop: -3,
+    padding: 0,
+    marginRight: 8,
+    paddingBottom: 6,
+    '&:hover': {
+      backgroundColor: 'transparent'
+    }
+  },
   iconButton: {
-    marginTop: -11,
-    marginRight: -16,
+    marginTop: -3,
+    padding: 0,
+    paddingBottom: 6,
     '&:hover': {
       backgroundColor: 'transparent'
     }
@@ -59,8 +69,7 @@ export const NodePanelDetails = ({ classes, expanded, showLogsPanel }) => {
                 placement='bottom'
               >
                 <IconButton
-                  className={classes.iconButton}
-                  edge='end'
+                  classes={{ root: classes.iconButtonLogs }}
                   onClick={(e) => {
                     e.stopPropagation()
                     showLogsPanel()
@@ -86,7 +95,6 @@ export const NodePanelDetails = ({ classes, expanded, showLogsPanel }) => {
               >
                 <IconButton
                   className={classes.iconButton}
-                  edge='end'
                   onClick={e => {
                     e.stopPropagation()
                     shell.openExternal('https://www.zbay.app/#node-info')

@@ -22,8 +22,11 @@ exports[`NodePanelDetails renders component 1`] = `
         title="Logs"
       >
         <WithStyles(ForwardRef(IconButton))
-          className="iconButton-mock"
-          edge="end"
+          classes={
+            Object {
+              "root": "iconButtonLogs-mock",
+            }
+          }
           onClick={[Function]}
           onMouseOut={[Function]}
           onMouseOver={[Function]}
@@ -42,7 +45,6 @@ exports[`NodePanelDetails renders component 1`] = `
       >
         <WithStyles(ForwardRef(IconButton))
           className="iconButton-mock"
-          edge="end"
           onClick={[Function]}
           onMouseOut={[Function]}
           onMouseOver={[Function]}

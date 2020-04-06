@@ -17,8 +17,8 @@ describe('logs selector', () => {
     })
   })
 
-  it('rpcCallsLogs selector', async () => {
-    expect(selectors.rpcCallsLogs(store.getState())).toMatchSnapshot()
+  it('applicationLogs selector', async () => {
+    expect(selectors.applicationLogs(store.getState())).toMatchSnapshot()
   })
 
   it('transactionsLogs selector', async () => {

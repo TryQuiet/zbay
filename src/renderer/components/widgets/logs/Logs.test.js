@@ -1,7 +1,6 @@
 /* eslint import/first: 0 */
 import React from 'react'
 import { shallow } from 'enzyme'
-import Immutable from 'immutable'
 
 import { LogsComponent } from './Logs'
 import { mockClasses } from '../../../../shared/testing/mocks'
@@ -12,10 +11,10 @@ describe('LogsComponent', () => {
       <LogsComponent
         open
         classes={mockClasses}
-        debugLogs={Immutable.fromJS([])}
+        debugLogs={[]}
         closeLogsWindow={jest.fn()}
-        rpcCallsLogs={Immutable.fromJS([])}
-        transactionsLogs={Immutable.fromJS([])}
+        applicationLogs={[]}
+        transactionsLogs={[]}
       />
     )
     expect(result).toMatchSnapshot()

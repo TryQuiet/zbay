@@ -86,9 +86,10 @@ ipcRenderer.on('toggleCoordinator', () => {
   }
 })
 
-ipcRenderer.on('load-logs-to-store', (event, { transactions, debug }) => {
+ipcRenderer.on('load-logs-to-store', (event, { transactions, debug, applicationLogs }) => {
   store.dispatch(logsHandlers.actions.setNodeLogs(debug))
   store.dispatch(logsHandlers.actions.setTransactionLogs(transactions))
+  store.dispatch(logsHandlers.actions.setApplicationLogs(applicationLogs))
 })
 
 ipcRenderer.on('newChannel', (event, { channelParams }) => {

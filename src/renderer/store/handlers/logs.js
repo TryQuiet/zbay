@@ -6,7 +6,7 @@ import { actionTypes } from '../../../shared/static'
 export const Logs = Immutable.Record(
   {
     transactionLogs: [],
-    rpcCallsLogs: [],
+    applicationLogs: [],
     nodeLogs: [],
     islogsFileLoaded: false,
     isLogWindowOpened: false
@@ -17,7 +17,7 @@ export const Logs = Immutable.Record(
 export const initialState = Logs()
 
 const setTransactionLogs = createAction(actionTypes.SET_TRANSACTIONS_LOGS)
-const setRpcCallsLogs = createAction(actionTypes.SET_RPC_CALLS_LOGS)
+const setApplicationLogs = createAction(actionTypes.SET_APPLICATIONS_LOGS)
 const setNodeLogs = createAction(actionTypes.SET_NODE_LOGS)
 const setLogWindowOpened = createAction(actionTypes.SET_LOG_WINDOW_OPENED)
 
@@ -37,7 +37,7 @@ const saveLogs = (data) => async (dispatch, getState) => {
 
 export const actions = {
   setTransactionLogs,
-  setRpcCallsLogs,
+  setApplicationLogs,
   setNodeLogs,
   setLogWindowOpened
 }
@@ -51,7 +51,7 @@ export const epics = {
 export const reducer = handleActions(
   {
     [setTransactionLogs]: (state, { payload: transactionLogs }) => state.setIn(['transactionLogs'], transactionLogs),
-    [setRpcCallsLogs]: (state, { payload: rpcCallsLogs }) => state.setIn(['rpcCallsLogs'], rpcCallsLogs),
+    [setApplicationLogs]: (state, { payload: ApplicationLogs }) => state.setIn(['applicationLogs'], ApplicationLogs),
     [setNodeLogs]: (state, { payload: setNodeLogs }) => state.setIn(['nodeLogs'], setNodeLogs),
     [setLogWindowOpened]: (state, { payload: logPanelStatus }) => state.setIn(['isLogWindowOpened'], logPanelStatus)
   },

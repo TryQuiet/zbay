@@ -65,7 +65,7 @@ exports[`LogsComponent renders component 1`] = `
         className="tabText-mock"
         variant="caption"
       >
-        Logs
+        Zcashd
       </WithStyles(ForwardRef(Typography))>
     </WithStyles(ForwardRef(Grid))>
     <WithStyles(ForwardRef(Grid))
@@ -77,7 +77,7 @@ exports[`LogsComponent renders component 1`] = `
         className="tabText-mock"
         variant="caption"
       >
-        RPC Requests
+        Application
       </WithStyles(ForwardRef(Typography))>
     </WithStyles(ForwardRef(Grid))>
   </WithStyles(ForwardRef(Grid))>

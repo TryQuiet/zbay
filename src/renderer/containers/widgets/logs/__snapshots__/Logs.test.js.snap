@@ -8,8 +8,8 @@ Object {
 
 exports[`Logs  will receive right props 1`] = `
 Object {
+  "applicationLogs": Array [],
   "debugLogs": Array [],
-  "rpcCallsLogs": Array [],
   "transactionsLogs": Array [],
 }
 `;
