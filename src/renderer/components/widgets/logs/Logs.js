@@ -178,8 +178,6 @@ export const LogsComponent = ({ classes, debugLogs, closeLogsWindow, application
           onScroll={setUserStartScrolling}
           onScrollStop={setUserStopScrolling}
           style={{ width: 315, height: height - 90 }}
-          renderTrackVertical={props => <div {...props} style={{ width: '14px' }} className={classes.verticalScrollBar} />}
-          renderThumbVertical={props => <div {...props} style={{ width: '8px' }} className={classes.renderThumbVertical} />}
         >
           <div className={classes.innerContent}>
             {logs[currentActiveTab].map((logLine, i) => currentActiveTab === LogsTypes.TRANSACTIONS
