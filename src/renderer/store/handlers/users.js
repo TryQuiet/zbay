@@ -107,7 +107,6 @@ export const registerAnonUsername = () => async (dispatch, getState) => {
 }
 export const createOrUpdateUser = payload => async (dispatch, getState) => {
   const { nickname, firstName = '', lastName = '' } = payload
-  console.log(nickname)
   const address = identitySelector.address(getState())
   const privKey = identitySelector.signerPrivKey(getState())
   const fee = feesSelector.userFee(getState())
