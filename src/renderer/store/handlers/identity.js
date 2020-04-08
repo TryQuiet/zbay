@@ -20,6 +20,7 @@ import publicChannelsHandlers from './publicChannels'
 import offersHandlers from './offers'
 import whitelistHandlers from './whitelist'
 import txnTimestampsHandlers from './txnTimestamps'
+import logsHandlers from '../../store/handlers/logs'
 import operationHandlers, {
   operationTypes,
   ShieldBalanceOp
@@ -241,6 +242,7 @@ export const fetchBalance = () => async (dispatch, getState) => {
     }
     dispatch(setLockedBalance(lockedBalance))
     dispatch(setBalance(balance))
+    dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: `Fetching balance: locked balance: ${lockedBalance}, balance: ${balance}` }))
   } catch (err) {
     dispatch(setErrors(err.message))
   } finally {
@@ -255,6 +257,7 @@ export const fetchFreeUtxos = () => async (dispatch, getState) => {
       utxo => utxo.spendable === true && utxo.amount > networkFee
     )
     dispatch(setFreeUtxos(freeUtxos.length))
+    dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: `Setting free UTXOs: ${freeUtxos.length}` }))
   } catch (err) {
     console.warn(err)
   }
@@ -302,9 +305,12 @@ export const createIdentity = ({ name }) => async (dispatch, getState) => {
     const generalChannel = channels.general[network]
     const usersChannel = channels.registeredUsers[network]
     const channelOfChannels = channels.channelOfChannels[network]
+    const priceOracle = channels.priceOracle[network]
+    await getVault().channels.importChannel(identity.id, priceOracle)
     await getVault().channels.importChannel(identity.id, generalChannel)
     await getVault().channels.importChannel(identity.id, usersChannel)
     await getVault().channels.importChannel(identity.id, channelOfChannels)
+    dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: `Creating identity / importing default channels` }))
     try {
       await getClient().keys.importIVK({
         ivk: generalChannel.keys.ivk
@@ -321,6 +327,7 @@ export const loadIdentity = () => async (dispatch, getState) => {
   const [identity] = await vault.identity.listIdentities()
   if (identity) {
     await dispatch(setIdentity(identity))
+    dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: `Loading identity` }))
   }
 }
 
@@ -330,12 +337,14 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
 ) => {
   let identity = await migrateTo_0_2_0.ensureIdentityHasKeys(identityToSet)
   dispatch(setLoading(true))
+  dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: `Start loading identity` }))
   const isRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
   try {
     dispatch(setLoadingMessage('Ensuring identity integrity'))
     // Make sure identity is handled by the node
     await dispatch(setLoadingMessage('Ensuring node contains identity keys'))
-
+    const network = nodeSelectors.network(getState())
+    await migrateTo_0_7_0.ensureDefaultChannels(identity, network)
     await dispatch(channelsHandlers.actions.loadChannelsToNode(identity.id))
     await getClient().keys.importTPK({ tpk: identity.keys.tpk, rescan: false })
     await getClient().keys.importSK({ sk: identity.keys.sk, rescan: isRescanned ? 'no' : 'yes', startHeight: 700000 })
@@ -357,8 +366,7 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
     await dispatch(setIdentity(identity))
     await dispatch(txnTimestampsHandlers.epics.getTnxTimestamps())
     dispatch(removedChannelsHandlers.epics.getRemovedChannelsTimestamp())
-    const network = nodeSelectors.network(getState())
-    await migrateTo_0_7_0.ensureDefaultChannels(identity, network)
+
     dispatch(setLoadingMessage('Fetching balance and loading channels'))
     dispatch(ratesHandlers.epics.fetchPrices())
     await dispatch(fetchBalance())
@@ -386,6 +394,7 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
   }
   dispatch(fetchAffiliateMoney())
   dispatch(setLoading(false))
+  dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: ` Loading identity finished` }))
   // Don't show deposit modal if we use faucet 12.02.2020
   // const balance = identitySelectors.balance('zec')(getState())
   // const lockedBalance = identitySelectors.lockedBalance('zec')(getState())
@@ -409,6 +418,7 @@ export const updateShippingData = (values, formActions) => async (
       successNotification({ message: 'Shipping Address Updated' })
     )
   )
+  dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: `Updating shipping data` }))
   formActions.setSubmitting(false)
 }
 
@@ -421,6 +431,7 @@ export const updateDonation = allow => async (dispatch, getState) => {
       successNotification({ message: 'Donation information updated' })
     )
   )
+  dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: `Updating donation status` }))
 }
 
 export const updateDonationAddress = address => async (dispatch, getState) => {
