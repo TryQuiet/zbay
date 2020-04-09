@@ -60,6 +60,10 @@ const styles = theme => ({
 })
 
 const formSchema = Yup.object().shape({
+  password: Yup.string()
+})
+
+const formSchemaOldUsers = Yup.object().shape({
   password: Yup.string().required('Required')
 })
 
@@ -78,6 +82,7 @@ export const VaultUnlockerForm = ({
   isLogIn
 }) => {
   const isDev = process.env.NODE_ENV === 'development'
+  const vaultPassword = electronStore.get('vaultPassword')
   const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
   const isRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
   const lastBlock = node.latestBlock.isEqualTo(0) ? 999999 : node.latestBlock
@@ -88,7 +93,7 @@ export const VaultUnlockerForm = ({
       onSubmit={(values, actions) => {
         onSubmit(values, actions, setDone)
       }}
-      validationSchema={formSchema}
+      validationSchema={vaultPassword ? formSchema : formSchemaOldUsers}
       initialValues={initialValues}
     >
       {({ isSubmitting }) => (
@@ -114,17 +119,19 @@ export const VaultUnlockerForm = ({
             </Grid>
             <Grid container item xs={12} wrap='wrap' justify='center'>
               <Typography className={classes.title} variant='body1' gutterBottom>
-                Log in
+                {vaultPassword ? 'Welcome Back' : 'Log In'}
               </Typography>
             </Grid>
-            <Grid container item justify='center'>
-              <PasswordField
-                name='password'
-                className={classes.passwordField}
-                label='Enter Password'
-                fullWidth
-              />
-            </Grid>
+            {!vaultPassword && (
+              <Grid container item justify='center'>
+                <PasswordField
+                  name='password'
+                  className={classes.passwordField}
+                  label='Enter Password'
+                  fullWidth
+                />
+              </Grid>
+            )}
             <Grid container item justify='center'>
               <LoadingButton
                 type='submit'
@@ -132,7 +139,7 @@ export const VaultUnlockerForm = ({
                 size='large'
                 color='primary'
                 margin='normal'
-                text='Login'
+                text={vaultPassword ? 'Sign in' : 'Login'}
                 fullWidth
                 disabled={
                   isSubmitting ||

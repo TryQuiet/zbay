@@ -13,6 +13,7 @@ import logsHandlers from '../handlers/logs'
 import { REQUEST_MONEY_ENDPOINT, actionTypes } from '../../../shared/static'
 import vault from '../../vault'
 import electronStore from '../../../shared/electronStore'
+import passwordMigration from '../../../shared/migrations/1_40_0'
 
 export const VaultState = Immutable.Record({
   exists: null,
@@ -53,18 +54,19 @@ const loadVaultStatus = () => async (dispatch, getState) => {
   await dispatch(setVaultStatus(vault.exists(network)))
 }
 
-const createVaultEpic = ({ password }) => async (dispatch, getState) => {
+const createVaultEpic = () => async (dispatch, getState) => {
   const network = nodeSelectors.network(getState())
   const randomBytes = crypto.randomBytes(32).toString('hex')
   try {
     electronStore.set('isNewUser', true)
     dispatch(logsHandlers.epics.saveLogs({ type: 'APPLICATION_LOGS', payload: `Setting user status: 'new'` }))
-    await dispatch(createVault({ masterPassword: password, network }))
+    await dispatch(createVault({ masterPassword: randomBytes, network }))
     await dispatch(actions.unlockVault({
-      masterPassword: password,
+      masterPassword: randomBytes,
       createSource: true,
       network
     }))
+    electronStore.set('vaultPassword', randomBytes)
     const identity = await dispatch(identityHandlers.epics.createIdentity({ name: randomBytes }))
     const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
     if (isDev) {
@@ -93,12 +95,16 @@ export const setVaultIdentity = () => async (dispatch, getState) => {
   }
 }
 const unlockVaultEpic = ({ password: masterPassword }, formActions, setDone) => async (dispatch, getState) => {
+  const vaultPassword = electronStore.get('vaultPassword')
   const state = getState()
   const network = nodeSelectors.network(state)
   setDone(false)
   try {
-    await dispatch(vaultHandlers.actions.unlockVault({ masterPassword, network, ignoreError: true }))
+    await dispatch(vaultHandlers.actions.unlockVault({ masterPassword: vaultPassword || masterPassword, network, ignoreError: true }))
     await dispatch(setLoginSuccessfull(true))
+    if (!vaultPassword) {
+      passwordMigration.storePassword(masterPassword)
+    }
   } catch (error) {
     if (error.message.includes('Authentication failed')) {
       dispatch(notificationsHandlers.actions.enqueueSnackbar(

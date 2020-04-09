@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { bindActionCreators } from 'redux'
+import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 
 import vaultSelectors from '../../store/selectors/vault'
 import nodeSelectors from '../../store/selectors/node'
 import vaultHandlers from '../../store/handlers/vault'
-import CreateVault from './CreateVault'
 import UnlockVault from './UnlockVault'
 import SpinnerLoader from '../../components/ui/SpinnerLoader'
 import torHandlers from '../../store/handlers/tor'
@@ -24,7 +24,7 @@ export const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export const Vault = ({ loadVaultStatus, createZcashNode, exists, nodeConnected }) => {
+export const Vault = ({ loadVaultStatus, createZcashNode, exists, nodeConnected, createVault }) => {
   useEffect(() => {
     loadVaultStatus()
   })
@@ -34,7 +34,8 @@ export const Vault = ({ loadVaultStatus, createZcashNode, exists, nodeConnected 
     }
   }, [exists])
   if (exists === false) {
-    return <CreateVault />
+    console.log('working redirecting')
+    return <Redirect to='/loading' />
   } else {
     if (exists === true) {
       return <UnlockVault />
