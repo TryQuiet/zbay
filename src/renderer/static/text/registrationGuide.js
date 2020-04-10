@@ -44,14 +44,14 @@ module.exports = [
     title: 'Registering a username',
     sentences: ['As soon as Zbay finishes downloading data, you can register a username.',
       'This username gets engraved in the Zcash blockchain. It is forever yours and nobody can take it away.',
-      'Cryptography ensures that no one can impersonate you or read your private messages. Hosting avatar photos is tricky, so instead we give every user their own mathematically-generated avatar. '
+      'Cryptography ensures that no one can impersonate you or read your private messages. Saving avatar photos to the Zcash network is impractical, so instead we give every user their own mathematically-generated avatar. '
     ],
     fileName: './hello.svg'
   },
   {
     slideId: 6,
     title: 'Everything is money.',
-    sentences: ['Zbay uses the Zcash cryptocurrency to do everything.', 'Reading messages is free, but sending a message costs about 1/50th of a cent.',
+    sentences: ['Zbay uses the Zcash cryptocurrency to do everything.', 'Reading messages is free, but sending a message costs about 1/50th of a cent. These tiny fees let us use the Zcash network instead of a central server, protecting your privacy and freedom.',
       'To get you started, we’re sending you a few cents right now. Eventually you might want to buy Zcash on an exchange like Coinbase, especially if you’re interested in buying things on Zbay. (Don’t worry, it’s easy and we’ll help.)'
     ],
     fileName: './money-bag.svg'
@@ -60,8 +60,8 @@ module.exports = [
     slideId: 7,
     title: 'Sending & receiving messages',
     sentences: ['Every direct message you send is encrypted so that only the recipient can read it.',
-      'Unfortunately, messages can\'t be deleted, but deletion is tricky. Some apps with "disappearing" messages don\'t really delete them from servers, and it can be difficult for non-experts to *really* delete something.',
-      'According to Edward Snowden, encryption under your control offers more reliable privacy protection than trusting deletion.'
+      'Unfortunately, messages can\'t be deleted, but deletion is not always what it seems. Some apps with "disappearing" messages don\'t really delete them from servers, and computers often leave traces of deleted files that can be restored later.',
+      'Encryption under your control offers more reliable privacy protection than trusting deletion.'
     ],
     fileName: './messages.svg'
   },
