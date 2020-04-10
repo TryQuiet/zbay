@@ -16,7 +16,7 @@ module.exports = [
   {
     slideId: 2,
     title: 'Zbay can\'t be evil.',
-    sentences: [' Zbay is free and open source software, so independent researchers will be able to verify that Zbay does what it claims.',
+    sentences: ['Zbay is free and open source software, so independent researchers will be able to verify that Zbay does what it claims.',
       'Only you control the cryptographic keys to read your private messages.', 'If Zbay changes in an annoying or unethical way, any developer in the world can change Zbay’s code and publish a better version—and you could easily move your username, data, and messages to that new version.'
     ],
     fileName: './open-source.svg'
