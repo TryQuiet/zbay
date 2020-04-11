@@ -133,36 +133,36 @@ export const BuyZcash = ({ classes }) => {
             If your computer is broken, lost, or stolen and you don't have a
             full backup, you will
             lose your Zbay account, your direct messages, and your funds.
-          </li> 
-          <li className={classes.spacing24}>  
+          </li>
+          <li className={classes.spacing24}>
             The
             best way to keep your funds and account safe is to make frequent secure
             backups of your entire computer, either offline using a tool like{' '}
-          <a
-            className={classes.link}
-            onClick={e => {
-              e.preventDefault()
-              shell.openExternal(
-                'https://support.apple.com/en-us/HT201250'
-              )
-            }}
-            href='https://support.apple.com/en-us/HT201250'
-          >
-            Time Machine 
-          </a> (Mac) 
+            <a
+              className={classes.link}
+              onClick={e => {
+                e.preventDefault()
+                shell.openExternal(
+                  'https://support.apple.com/en-us/HT201250'
+                )
+              }}
+              href='https://support.apple.com/en-us/HT201250'
+            >
+            Time Machine
+            </a> (Mac)
             or online with a key you control, using a service like{' '}
-          <a
-            className={classes.link}
-            onClick={e => {
-              e.preventDefault()
-              shell.openExternal(
-                'https://www.backblaze.com/'
-              )
-            }}
-            href='https://www.backblaze.com/'
-          >
+            <a
+              className={classes.link}
+              onClick={e => {
+                e.preventDefault()
+                shell.openExternal(
+                  'https://www.backblaze.com/'
+                )
+              }}
+              href='https://www.backblaze.com/'
+            >
             Backblaze
-          </a>.
+            </a>.
           </li>
         </ul>
       </Grid>
