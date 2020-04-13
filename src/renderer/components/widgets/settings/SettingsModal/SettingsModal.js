@@ -97,7 +97,6 @@ export const SettingsModal = ({
       adjustOffset()
     }
   }, [contentRef])
-  console.log(blockedUsers)
   return (
     <Modal
       open={open}
