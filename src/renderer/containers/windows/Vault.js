@@ -9,6 +9,7 @@ import vaultHandlers from '../../store/handlers/vault'
 import UnlockVault from './UnlockVault'
 import SpinnerLoader from '../../components/ui/SpinnerLoader'
 import torHandlers from '../../store/handlers/tor'
+import electronStore from '../../../shared/electronStore'
 
 export const mapStateToProps = state => ({
   exists: vaultSelectors.exists(state),
@@ -25,6 +26,11 @@ export const mapDispatchToProps = dispatch =>
   )
 
 export const Vault = ({ loadVaultStatus, createZcashNode, exists, nodeConnected, createVault }) => {
+  const isDev = process.env.NODE_ENV === 'development'
+  const userStatus = electronStore.get('isNewUser')
+  if (userStatus === undefined) {
+    electronStore.set('isNewUser', true)
+  }
   useEffect(() => {
     loadVaultStatus()
   })
@@ -33,11 +39,10 @@ export const Vault = ({ loadVaultStatus, createZcashNode, exists, nodeConnected,
       createZcashNode()
     }
   }, [exists])
-  if (exists === false) {
-    console.log('working redirecting')
+  if (exists === false && !isDev) {
     return <Redirect to='/loading' />
   } else {
-    if (exists === true) {
+    if (exists === true || isDev) {
       return <UnlockVault />
     }
   }

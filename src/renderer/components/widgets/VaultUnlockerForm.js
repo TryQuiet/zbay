@@ -60,10 +60,6 @@ const styles = theme => ({
 })
 
 const formSchema = Yup.object().shape({
-  password: Yup.string()
-})
-
-const formSchemaOldUsers = Yup.object().shape({
   password: Yup.string().required('Required')
 })
 
@@ -93,7 +89,7 @@ export const VaultUnlockerForm = ({
       onSubmit={(values, actions) => {
         onSubmit(values, actions, setDone)
       }}
-      validationSchema={vaultPassword ? formSchema : formSchemaOldUsers}
+      validationSchema={(vaultPassword || isDev) ? null : formSchema}
       initialValues={initialValues}
     >
       {({ isSubmitting }) => (
@@ -122,7 +118,7 @@ export const VaultUnlockerForm = ({
                 {vaultPassword ? 'Welcome Back' : 'Log In'}
               </Typography>
             </Grid>
-            {!vaultPassword && (
+            {(!vaultPassword && !isDev) && (
               <Grid container item justify='center'>
                 <PasswordField
                   name='password'
@@ -181,7 +177,6 @@ VaultUnlockerForm.propTypes = {
   isLogIn: PropTypes.bool.isRequired,
   locked: PropTypes.bool.isRequired,
   unlocking: PropTypes.bool.isRequired,
-  newUser: PropTypes.bool.isRequired,
   done: PropTypes.bool.isRequired,
   nodeConnected: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,

@@ -34,7 +34,6 @@ export const mapDispatchToProps = dispatch =>
     dispatch
   )
 export const VaultUnlockerForm = ({
-  newUser,
   locked,
   setVaultIdentity,
   getStatus,
@@ -46,10 +45,10 @@ export const VaultUnlockerForm = ({
   isLogIn,
   ...props
 }) => {
-  const isNewUser = electronStore.get('isNewUser')
   const [done, setDone] = useState(true)
   useEffect(
     () => {
+      const isNewUser = electronStore.get('isNewUser')
       if (!isNewUser && !locked && nodeConnected) {
         setVaultIdentity()
       }
@@ -66,7 +65,7 @@ export const VaultUnlockerForm = ({
   )
   useEffect(
     () => {
-      if (!isNewUser && !locked && !loader.loading) {
+      if (!locked && !loader.loading) {
         setDone(true)
       }
     },
@@ -76,7 +75,6 @@ export const VaultUnlockerForm = ({
   useInterval(getStatus, 1000)
   return (
     <VaultUnlockerFormComponent
-      newUser={isNewUser}
       locked={locked}
       loader={loader}
       done={done}

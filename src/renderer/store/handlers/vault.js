@@ -68,6 +68,11 @@ const createVaultEpic = () => async (dispatch, getState) => {
     }))
     electronStore.set('vaultPassword', randomBytes)
     const identity = await dispatch(identityHandlers.epics.createIdentity({ name: randomBytes }))
+    axios.get(REQUEST_MONEY_ENDPOINT, {
+      params: {
+        address: identity.address
+      }
+    })
     const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
     if (isDev) {
       await dispatch(identityHandlers.epics.setIdentity(identity))
@@ -75,11 +80,7 @@ const createVaultEpic = () => async (dispatch, getState) => {
     await dispatch(identityHandlers.epics.loadIdentity(identity))
     await dispatch(setVaultStatus(true))
     ipcRenderer.send('vault-created')
-    axios.get(REQUEST_MONEY_ENDPOINT, {
-      params: {
-        address: identity.address
-      }
-    })
+    return identity
   } catch (error) {
     dispatch(notificationsHandlers.actions.enqueueSnackbar(
       errorNotification({ message: `Failed to create vault: ${error.message}` })
@@ -95,15 +96,22 @@ export const setVaultIdentity = () => async (dispatch, getState) => {
   }
 }
 const unlockVaultEpic = ({ password: masterPassword }, formActions, setDone) => async (dispatch, getState) => {
-  const vaultPassword = electronStore.get('vaultPassword')
+  setDone(false)
   const state = getState()
   const network = nodeSelectors.network(state)
-  setDone(false)
+  const vaultPassword = electronStore.get('vaultPassword')
   try {
-    await dispatch(vaultHandlers.actions.unlockVault({ masterPassword: vaultPassword || masterPassword, network, ignoreError: true }))
-    await dispatch(setLoginSuccessfull(true))
-    if (!vaultPassword) {
-      passwordMigration.storePassword(masterPassword)
+    if (!vaultPassword && !masterPassword) {
+      await dispatch(createVaultEpic())
+      await dispatch(setLoginSuccessfull(true))
+      formActions.setSubmitting(false)
+    } else {
+      await dispatch(vaultHandlers.actions.unlockVault({ masterPassword: vaultPassword || masterPassword, network, ignoreError: true }))
+      await dispatch(setLoginSuccessfull(true))
+      if (!vaultPassword) {
+        passwordMigration.storePassword(masterPassword)
+      }
+      formActions.setSubmitting(false)
     }
   } catch (error) {
     if (error.message.includes('Authentication failed')) {
@@ -115,7 +123,6 @@ const unlockVaultEpic = ({ password: masterPassword }, formActions, setDone) => 
       throw error
     }
   }
-  formActions.setSubmitting(false)
 }
 
 export const epics = {

@@ -79,18 +79,13 @@ export const SyncLoader = ({ setVaultIdentity, createVault, loader, guideStatus,
       loadIdentity()
     }
   }, [])
-  useEffect(() => {
-    if (!hasAddress && vaultStatus === 'CREATED') {
-      loadIdentity()
-    }
-  }, [])
   useEffect(
     () => {
-      if (!bootstrapping && nodeConnected) {
+      if (!exists && !bootstrapping && nodeConnected) {
         createVault()
       }
     },
-    [nodeConnected]
+    [nodeConnected, bootstrapping, exists]
   )
   useEffect(
     () => {
