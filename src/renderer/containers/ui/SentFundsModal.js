@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import * as R from 'ramda'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-
 import Binance from 'binance-api-node'
 
 import { withModal } from '../../store/handlers/modals'
-import { bindActionCreators } from 'redux'
 import { rate } from '../../store/selectors/rates'
 import rateHandlers from '../../store/handlers/rates'
 import modalSelectors from '../../store/selectors/modals'
@@ -35,7 +34,6 @@ export const SentFundsModal = ({
 }) => {
   const [historicPrice, setHistoricPrice] = useState(rateUsd.toNumber())
   useEffect(() => {
-    console.log('fetch')
     if (payload.txid) {
       try {
         const pullPrice = async () => {
