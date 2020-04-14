@@ -72,6 +72,7 @@ export const VaultUnlockerForm = ({
   loader,
   nodeConnected,
   done,
+  exists,
   setDone,
   tor,
   node,
@@ -118,7 +119,7 @@ export const VaultUnlockerForm = ({
                 {vaultPassword ? 'Welcome Back' : 'Log In'}
               </Typography>
             </Grid>
-            {(!vaultPassword && !isDev) && (
+            {(!vaultPassword || (isDev && !exists)) && (
               <Grid container item justify='center'>
                 <PasswordField
                   name='password'
@@ -177,6 +178,7 @@ VaultUnlockerForm.propTypes = {
   isLogIn: PropTypes.bool.isRequired,
   locked: PropTypes.bool.isRequired,
   unlocking: PropTypes.bool.isRequired,
+  exists: PropTypes.bool.isRequired,
   done: PropTypes.bool.isRequired,
   nodeConnected: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,

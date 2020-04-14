@@ -19,6 +19,7 @@ export const mapStateToProps = state => ({
   locked: vaultSelectors.locked(state),
   loader: identitySelectors.loader(state),
   nodeConnected: nodeSelectors.isConnected(state),
+  exists: vaultSelectors.exists(state),
   tor: torSelectors.tor(state),
   node: nodeSelectors.node(state)
 })
@@ -43,6 +44,7 @@ export const VaultUnlockerForm = ({
   createZcashNode,
   node,
   isLogIn,
+  exists,
   ...props
 }) => {
   const [done, setDone] = useState(true)
@@ -79,6 +81,7 @@ export const VaultUnlockerForm = ({
       loader={loader}
       done={done}
       tor={tor}
+      exists={exists}
       setDone={setDone}
       nodeConnected={nodeConnected}
       node={node}
