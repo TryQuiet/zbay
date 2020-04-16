@@ -421,7 +421,6 @@ const fetchBlockchain = async (win, torUrl) => {
 let powerSleepId
 
 const createZcashNode = async (win, torUrl) => {
-  console.log('working 123')
   const updateStatus = electronStore.get('updateStatus')
   if (updateStatus !== config.UPDATE_STATUSES.NO_UPDATE) {
     setTimeout(() => {
@@ -725,7 +724,6 @@ app.on('ready', async () => {
   })
 
   ipcMain.on('create-node', async (event, arg) => {
-    console.log('starting')
     let torUrl
     if (arg) {
       torUrl = arg.toString()
