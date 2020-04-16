@@ -501,10 +501,8 @@ const createZcashNode = async (win, torUrl) => {
 
 app.on('ready', async () => {
   const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
-  checkPath(osPathsBlockchain[process.platform])
-  const blockchainFolderSize = fs.existsSync(`${osPathsBlockchain[process.platform]}`)
-  console.log(blockchainFolderSize)
-  isFetchedFromExternalSource = blockchainFolderSize && !blockchainStatus
+  const isBlockchainExists = fs.existsSync(`${osPathsBlockchain[process.platform]}`)
+  isFetchedFromExternalSource = isBlockchainExists && !blockchainStatus
   electronStore.set('isBlockchainFromExternalSource', isFetchedFromExternalSource)
   const template = [
     {

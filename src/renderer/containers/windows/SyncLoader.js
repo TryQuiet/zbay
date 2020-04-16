@@ -91,9 +91,7 @@ export const SyncLoader = ({ setVaultIdentity, createVault, loader, guideStatus,
   useEffect(
     () => {
       if ((!locked && nodeConnected && fetchingPart === 'blockchain' && fetchingStatus === 'SUCCESS') || blockchainStatus === 'SUCCESS' || isFetchedFromExternalSource) {
-        console.log('running')
         if (nodeConnected && isSynced && !isRescanningInitialized && hasAddress) {
-          console.log('setting id')
           setVaultIdentity()
           resetNodeStatus()
           setRescanningInitialized()
