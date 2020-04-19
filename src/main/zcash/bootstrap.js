@@ -55,6 +55,14 @@ export const ensureZcashParams = async (platform, callback) => {
     exec(binaryPath, callback)
   }
 }
+
+const osPathsBlockchain = {
+  darwin: `${process.env.HOME ||
+    process.env.USERPROFILE}/Library/Application Support/ZbayBlockchain/`,
+  linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayBlockchain/`,
+  win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayBlockchain\\`
+}
+
 export const spawnZcashNode = (platform, isTestnet, torUrl = false) => {
   let zcashdPath = getZcashResource('zcashd', platform)
   const configName = isTestnet ? 'testnet.conf' : 'mainnet.conf'
@@ -74,7 +82,8 @@ export const spawnZcashNode = (platform, isTestnet, torUrl = false) => {
       '-txexpirydelta=18000',
       '-checklevel=0',
       '-checkblocks=10',
-      '-dbcache=500'
+      '-dbcache=500',
+      `-datadir=${osPathsBlockchain[process.platform]}`
     ]
   }
 

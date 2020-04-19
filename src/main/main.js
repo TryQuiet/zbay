@@ -29,9 +29,9 @@ import electronStore from '../shared/electronStore'
 
 const osPathsBlockchain = {
   darwin: `${process.env.HOME ||
-    process.env.USERPROFILE}/Library/Application Support/Zcash/`,
-  linux: `${process.env.HOME || process.env.USERPROFILE}/.zcash/`,
-  win32: `${os.userInfo().homedir}\\AppData\\Roaming\\Zcash\\`
+    process.env.USERPROFILE}/Library/Application Support/ZbayBlockchain/`,
+  linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayBlockchain/`,
+  win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayBlockchain\\`
 }
 
 const osPathsParams = {
@@ -544,9 +544,9 @@ app.on('ready', async () => {
     mainWindow.webContents.send('ping')
     const osPaths = {
       darwin: `${process.env.HOME ||
-        process.env.USERPROFILE}/Library/Application Support/Zcash`,
-      linux: `${process.env.HOME || process.env.USERPROFILE}/.zcash`,
-      win32: `${os.userInfo().homedir}\\AppData\\Roaming\\Zcash`
+        process.env.USERPROFILE}/Library/Application Support/ZbayBlockchain`,
+      linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayBlockchain`,
+      win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayBlockchain`
     }
 
     const BLOCKCHAIN_SIZE = 27843545600
