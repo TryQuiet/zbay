@@ -35,7 +35,6 @@ export const askForBlockchainLocation = () => async (dispatch, getState) => {
 }
 
 export const proceedWithSyncing = (payload) => async (dispatch, getState) => {
-  console.log(payload)
   ipcRenderer.send('proceed-with-syncing', payload)
   dispatch(actionCreators.closeModal('blockchainLocation')())
 }

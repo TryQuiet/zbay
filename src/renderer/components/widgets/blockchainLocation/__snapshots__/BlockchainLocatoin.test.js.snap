@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BlockchainLocationModal renders component 1`] = `
+<Memo(WithStyles(Modal))
+  isCloseDisabled={true}
+  open={true}
+>
+  <WithStyles(ForwardRef(Grid))
+    alignItems="center"
+    className="root-mock"
+    container={true}
+    direction="column"
+    justify="flex-start"
+  >
+    <WithStyles(ForwardRef(Grid))
+      container={true}
+      item={true}
+      justify="center"
+    >
+      <WithStyles(ForwardRef(Grid))
+        className="title-mock"
+        item={true}
+      >
+        <WithStyles(ForwardRef(Typography))
+          variant="h3"
+        >
+          Zcash blockchain has been detected
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Grid))
+      container={true}
+      item={true}
+      justify="center"
+    >
+      <WithStyles(ForwardRef(Grid))
+        className="subTitle-mock"
+        item={true}
+      >
+        <WithStyles(ForwardRef(Typography))
+          variant="body2"
+        >
+          If you are using full Zcash node with standard configuration you can use it to run Zbay, otherwise Zbay can sync with blockchain network very fast using our built-in mechanism. 
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Grid))
+      container={true}
+      justify="center"
+      spacing={8}
+    >
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={4}
+      >
+        <WithStyles(ForwardRef(Button))
+          className="button-mock"
+          color="primary"
+          fullWidth={true}
+          onClick={[Function]}
+          size="large"
+          type="submit"
+          variant="contained"
+        >
+          Use existing one
+        </WithStyles(ForwardRef(Button))>
+      </WithStyles(ForwardRef(Grid))>
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={4}
+      >
+        <WithStyles(ForwardRef(Button))
+          className="button-mock"
+          color="primary"
+          fullWidth={true}
+          onClick={[Function]}
+          size="large"
+          type="submit"
+          variant="contained"
+        >
+          Download full Zcash node
+        </WithStyles(ForwardRef(Button))>
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Grid))>
+  </WithStyles(ForwardRef(Grid))>
+</Memo(WithStyles(Modal))>
+`;

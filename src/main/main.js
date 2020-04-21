@@ -567,7 +567,6 @@ app.on('ready', async () => {
 
     if (!blockchainConfiguration && isFetchedFromExternalSource) {
       if (mainWindow) {
-        console.log('working sending open modal')
         mainWindow.webContents.send('askForUsingDefaultBlockchainLocation')
       }
     }
@@ -674,7 +673,6 @@ app.on('ready', async () => {
   })
 
   ipcMain.on('proceed-with-syncing', (event, userChoice) => {
-    console.log('userFetch', userChoice)
     if (userChoice === 'EXISTING') {
       electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.DEFAULT_LOCATION_SELECTED)
     } else {

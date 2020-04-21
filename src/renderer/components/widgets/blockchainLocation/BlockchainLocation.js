@@ -35,7 +35,7 @@ const styles = theme => ({
   }
 })
 
-export const UpdateModal = ({ classes, open, handleSelection }) => {
+export const BlockchainLocationModal = ({ classes, open, handleSelection }) => {
   return (
     <Modal open={open} isCloseDisabled>
       <Grid container direction='column' className={classes.root} alignItems='center' justify='flex-start'>
@@ -82,9 +82,9 @@ export const UpdateModal = ({ classes, open, handleSelection }) => {
   )
 }
 
-UpdateModal.propTypes = {
+BlockchainLocationModal.propTypes = {
   open: PropTypes.bool.isRequired,
   handleSelection: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(UpdateModal)
+export default withStyles(styles)(BlockchainLocationModal)
