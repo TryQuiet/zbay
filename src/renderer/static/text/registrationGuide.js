@@ -9,7 +9,7 @@ module.exports = [
   {
     slideId: 1,
     title: 'Why Zbay is magical',
-    sentences: ['On Zbay, your privacy and freedom do not depend on the promises of any company or organization.', 'Unlike Facebook, Twitter, Slack or even Signal, Zbay does not trust or depend on code run by someone else.', 'Zbay is “peer-to-peer” software, so there’s no big business lurking in the background, hoarding your data, and no central server for spy agencies to subpoena or hack.'
+    sentences: ['On Zbay, your privacy and freedom do not depend on the promises of any company or organization.', 'Unlike Facebook, Twitter, Slack or even Signal, Zbay does not trust or depend on code run by someone else.', 'Zbay is “peer-to-peer” software, so there’s no big business lurking in the background, hoarding your data, and no central server for spy agencies to subpoena, seize, or hack.'
     ],
     fileName: './crystal-ball.svg'
   },
