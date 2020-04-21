@@ -4,7 +4,7 @@ exports[`vault reducer epics - createVault bootstraps general channel to new acc
 Immutable.List [
   Immutable.Map {
     "private": true,
-    "name": "general",
+    "name": "zbay",
     "onlyRegistered": false,
     "unread": 0,
     "lastSeen": "2019-03-07T13:03:48.000Z",
@@ -57,7 +57,7 @@ exports[`vault reducer epics - createVault creates the vault 1`] = `
 Array [
   Array [
     Object {
-      "masterPassword": "testPassword",
+      "masterPassword": "74657374",
       "network": "testnet",
     },
   ],
@@ -69,7 +69,7 @@ Array [
   Array [
     Object {
       "createSource": true,
-      "masterPassword": "testPassword",
+      "masterPassword": "74657374",
       "network": "testnet",
     },
   ],

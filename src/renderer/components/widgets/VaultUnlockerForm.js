@@ -23,7 +23,7 @@ const styles = theme => ({
     width: '100vw',
     height: '100vh',
     padding: 20,
-    WebkitAppRegion: 'drag'
+    WebkitAppRegion: process.platform === 'win32' ? 'no-drag' : 'drag'
   },
   icon: {
     width: 285,
@@ -72,12 +72,14 @@ export const VaultUnlockerForm = ({
   loader,
   nodeConnected,
   done,
+  exists,
   setDone,
   tor,
   node,
   isLogIn
 }) => {
   const isDev = process.env.NODE_ENV === 'development'
+  const vaultPassword = electronStore.get('vaultPassword')
   const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
   const isRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
   const lastBlock = node.latestBlock.isEqualTo(0) ? 999999 : node.latestBlock
@@ -88,7 +90,7 @@ export const VaultUnlockerForm = ({
       onSubmit={(values, actions) => {
         onSubmit(values, actions, setDone)
       }}
-      validationSchema={formSchema}
+      validationSchema={(vaultPassword || isDev) ? null : formSchema}
       initialValues={initialValues}
     >
       {({ isSubmitting }) => (
@@ -114,17 +116,19 @@ export const VaultUnlockerForm = ({
             </Grid>
             <Grid container item xs={12} wrap='wrap' justify='center'>
               <Typography className={classes.title} variant='body1' gutterBottom>
-                Log in
+                {vaultPassword ? 'Welcome Back' : 'Log In'}
               </Typography>
             </Grid>
-            <Grid container item justify='center'>
-              <PasswordField
-                name='password'
-                className={classes.passwordField}
-                label='Enter Password'
-                fullWidth
-              />
-            </Grid>
+            {(!vaultPassword || (isDev && !exists)) && (
+              <Grid container item justify='center'>
+                <PasswordField
+                  name='password'
+                  className={classes.passwordField}
+                  label='Enter Password'
+                  fullWidth
+                />
+              </Grid>
+            )}
             <Grid container item justify='center'>
               <LoadingButton
                 type='submit'
@@ -132,7 +136,7 @@ export const VaultUnlockerForm = ({
                 size='large'
                 color='primary'
                 margin='normal'
-                text='Login'
+                text={vaultPassword ? 'Sign in' : 'Login'}
                 fullWidth
                 disabled={
                   isSubmitting ||
@@ -158,7 +162,7 @@ export const VaultUnlockerForm = ({
               </Typography>
             </Grid>
           )}
-          {!isDev && !isBlockchainFromExternalSouce && !locked && !loader.loading && (blockchainStatus !== 'SUCCESS' || !isRescanned) && (
+          {!isDev && !locked && !loader.loading && ((blockchainStatus !== 'SUCCESS' && !isBlockchainFromExternalSouce) || !isRescanned) && (
             <Redirect to='/zcashNode' />
           )}
           {!locked && !loader.loading && nodeConnected && done && isSynced && (
@@ -174,7 +178,7 @@ VaultUnlockerForm.propTypes = {
   isLogIn: PropTypes.bool.isRequired,
   locked: PropTypes.bool.isRequired,
   unlocking: PropTypes.bool.isRequired,
-  newUser: PropTypes.bool.isRequired,
+  exists: PropTypes.bool.isRequired,
   done: PropTypes.bool.isRequired,
   nodeConnected: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,

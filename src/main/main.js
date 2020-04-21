@@ -17,7 +17,6 @@ import axios from 'axios'
 import request from 'request'
 import zlib from 'zlib'
 import progress from 'request-progress'
-import util from 'util'
 import convert from 'convert-seconds'
 import R from 'ramda'
 import findInFiles from 'find-in-files'
@@ -49,10 +48,9 @@ const osPathLogs = {
   win32: `${os.userInfo().homedir}\\AppData\\Roaming\\Zbay\\Logs\\`
 }
 
-const getFolderSizePromise = util.promisify(getSize)
 let isFetchedFromExternalSource = false
 
-const BLOCKCHAIN_SIZE = 26852539059
+const BLOCKCHAIN_SIZE = 27552539059
 const isFetchingArr = []
 let prevFetchedSize = 0
 
@@ -259,7 +257,6 @@ app.on('open-url', (event, url) => {
 
 let browserWidth
 let browserHeight
-
 const createWindow = () => {
   const windowUserSize = electronStore.get('windowSize')
   mainWindow = new BrowserWindow({
@@ -503,11 +500,8 @@ const createZcashNode = async (win, torUrl) => {
 
 app.on('ready', async () => {
   const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
-  checkPath(osPathsBlockchain[process.platform])
-  const blockchainFolderSize = await getFolderSizePromise(
-    `${osPathsBlockchain[process.platform]}`
-  )
-  isFetchedFromExternalSource = blockchainFolderSize >= 26046042950 && !blockchainStatus
+  const isBlockchainExists = fs.existsSync(`${osPathsBlockchain[process.platform]}`)
+  isFetchedFromExternalSource = isBlockchainExists && !blockchainStatus
   electronStore.set('isBlockchainFromExternalSource', isFetchedFromExternalSource)
   const template = [
     {

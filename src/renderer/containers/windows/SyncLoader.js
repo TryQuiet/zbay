@@ -49,25 +49,27 @@ export const mapDispatchToProps = dispatch =>
       disablePowerSaveMode: nodeHandlers.epics.disablePowerSaveMode,
       setRescanningInitialized: nodeHandlers.epics.setRescanningInitialized,
       setVaultIdentity: vaultHandlers.epics.setVaultIdentity,
-      loadIdentity: identityHandlers.epics.loadIdentity
+      loadIdentity: identityHandlers.epics.loadIdentity,
+      createVault: vaultHandlers.epics.createVault
     },
     dispatch
   )
 
-export const SyncLoader = ({ setVaultIdentity, loader, guideStatus, resetNodeStatus, setRescanningInitialized, loadIdentity, isRescanningInitialized, isFetching, disablePowerSaveMode, isRescanningMonitorStarted, rescanningProgress, startRescanningMonitor, hasAddress, node, getStatus, bootstrapping, bootstrappingMessage, nodeConnected, openModal, creating, locked, exists, fetchingPart, fetchingSizeLeft, fetchingStatus, fetchingEndTime, fetchingSpeed }) => {
+export const SyncLoader = ({ setVaultIdentity, createVault, loader, guideStatus, resetNodeStatus, setRescanningInitialized, loadIdentity, isRescanningInitialized, isFetching, disablePowerSaveMode, isRescanningMonitorStarted, rescanningProgress, startRescanningMonitor, hasAddress, node, getStatus, bootstrapping, bootstrappingMessage, nodeConnected, openModal, creating, locked, exists, fetchingPart, fetchingSizeLeft, fetchingStatus, fetchingEndTime, fetchingSpeed }) => {
   const isGuideCompleted = electronStore.get('storyStatus') || guideStatus
   const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
+  const isFetchedFromExternalSource = electronStore.get('isBlockchainFromExternalSource')
   const vaultStatus = electronStore.get('vaultStatus')
   const lastBlock = node.latestBlock.isEqualTo(0) ? 999999 : node.latestBlock
-  const isSynced = (!node.latestBlock.isEqualTo(0) && node.latestBlock.minus(node.currentBlock).lt(10)) && new BigNumber(lastBlock).gt(755000)
-  const fetching = ((((26852539059 - (fetchingSizeLeft)) * 100) / 26852539059)).toFixed()
+  const isSynced = (!node.latestBlock.isEqualTo(0) && node.latestBlock.minus(node.currentBlock).lt(10)) && new BigNumber(lastBlock).gt(790000)
+  const fetching = ((((27552539059 - (fetchingSizeLeft)) * 100) / 27552539059)).toFixed()
   const syncProgress = parseFloat((node.currentBlock.div(lastBlock).times(100)).toString()).toFixed(2)
   let ETA = null
   if (fetchingEndTime) {
     const { hours, minutes } = fetchingEndTime
     ETA = `${hours ? `${hours}h` : ''} ${minutes ? `${minutes}m left` : ''}`
   }
-  const isFetchingComplete = ((fetchingPart === 'blockchain' && fetchingStatus === 'SUCCESS') || blockchainStatus === 'SUCCESS')
+  const isFetchingComplete = ((fetchingPart === 'blockchain' && fetchingStatus === 'SUCCESS') || blockchainStatus === 'SUCCESS' || isFetchedFromExternalSource)
   let progressValue
   let message
   useInterval(() => {
@@ -80,8 +82,16 @@ export const SyncLoader = ({ setVaultIdentity, loader, guideStatus, resetNodeSta
   }, [])
   useEffect(
     () => {
-      if ((!locked && nodeConnected && fetchingPart === 'blockchain' && fetchingStatus === 'SUCCESS') || blockchainStatus === 'SUCCESS') {
-        if (nodeConnected && isSynced && !isRescanningInitialized) {
+      if (!exists && !bootstrapping && nodeConnected) {
+        createVault()
+      }
+    },
+    [nodeConnected, bootstrapping, exists]
+  )
+  useEffect(
+    () => {
+      if ((!locked && nodeConnected && fetchingPart === 'blockchain' && fetchingStatus === 'SUCCESS') || blockchainStatus === 'SUCCESS' || isFetchedFromExternalSource) {
+        if (nodeConnected && isSynced && !isRescanningInitialized && hasAddress) {
           setVaultIdentity()
           resetNodeStatus()
           setRescanningInitialized()
@@ -90,7 +100,7 @@ export const SyncLoader = ({ setVaultIdentity, loader, guideStatus, resetNodeSta
         }
       }
     },
-    [nodeConnected, fetchingStatus, fetchingPart, locked, isSynced, isRescanningInitialized]
+    [nodeConnected, fetchingStatus, fetchingPart, locked, isSynced, isRescanningInitialized, hasAddress]
   )
   if (!isFetchingComplete) {
     const fetchingProgress = new BigNumber(fetching).isEqualTo(100) ? 0 : new BigNumber(fetching).gt(90) ? 90 : fetching
@@ -121,6 +131,7 @@ export const SyncLoader = ({ setVaultIdentity, loader, guideStatus, resetNodeSta
       fetchingSizeLeft={fetchingSizeLeft}
       fetchingStatus={fetchingStatus}
       ETA={ETA}
+      isFetchedFromExternalSource={isFetchedFromExternalSource}
       progressValue={progressValue}
       isFetching={isFetching}
       isGuideCompleted={isGuideCompleted}
