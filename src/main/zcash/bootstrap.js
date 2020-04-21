@@ -2,10 +2,10 @@ import path from 'path'
 import { exec, spawn } from 'child_process'
 import fs from 'fs-extra'
 import os from 'os'
-// import electronStore from '../../shared/electronStore'
+import electronStore from '../../shared/electronStore'
 
 import { credentials } from '../../renderer/zcash'
-// import config from '../config'
+import config from '../config'
 
 const ZCASH_RESOURCES = 'zcash'
 const ZCASH_PARAMS = 'ZcashParams'
@@ -64,6 +64,7 @@ const osPathsBlockchain = {
 }
 
 export const spawnZcashNode = (platform, isTestnet, torUrl = false) => {
+  const blockchainConfiguration = electronStore.get('blockchainConfiguration')
   let zcashdPath = getZcashResource('zcashd', platform)
   const configName = isTestnet ? 'testnet.conf' : 'mainnet.conf'
   let options
@@ -82,9 +83,12 @@ export const spawnZcashNode = (platform, isTestnet, torUrl = false) => {
       '-txexpirydelta=18000',
       '-checklevel=0',
       '-checkblocks=10',
-      '-dbcache=500',
-      `-datadir=${osPathsBlockchain[process.platform]}`
+      '-dbcache=500'
     ]
+  }
+
+  if (blockchainConfiguration !== config.BLOCKCHAIN_STATUSES.DEFAULT_LOCATION_SELECTED) {
+    options.push(`-datadir=${osPathsBlockchain[process.platform]}`)
   }
 
   if (torUrl) {

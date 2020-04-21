@@ -27,11 +27,18 @@ import config from './config'
 import { spawnZcashNode } from './zcash/bootstrap'
 import electronStore from '../shared/electronStore'
 
-const osPathsBlockchain = {
+const osPathsBlockchainCustom = {
   darwin: `${process.env.HOME ||
     process.env.USERPROFILE}/Library/Application Support/ZbayBlockchain/`,
   linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayBlockchain/`,
   win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayBlockchain\\`
+}
+
+const osPathsBlockchainDefault = {
+  darwin: `${process.env.HOME ||
+    process.env.USERPROFILE}/Library/Application Support/Zcash/`,
+  linux: `${process.env.HOME || process.env.USERPROFILE}/.zcash/`,
+  win32: `${os.userInfo().homedir}\\AppData\\Roaming\\Zcash\\`
 }
 
 const osPathsParams = {
@@ -103,7 +110,7 @@ const downloadManagerForZippedBlockchain = ({ data, source }) => {
   return new Promise(function (resolve, reject) {
     let downloadedSize = 0
     const checkFetchedSize = () => {
-      getSize(source === 'params' ? osPathsParams[process.platform] : osPathsBlockchain[process.platform],
+      getSize(source === 'params' ? osPathsParams[process.platform] : osPathsBlockchainCustom[process.platform],
         (err, size) => {
           if (err) {
             throw err
@@ -129,7 +136,7 @@ const downloadManagerForZippedBlockchain = ({ data, source }) => {
       const { fileName, targetUrl } = data[0]
       item = data.shift()
       const preparedFilePath = process.platform === 'win32' ? fileName.split('/').join('\\\\') : fileName
-      const path = source === 'params' ? `${osPathsParams[process.platform]}${preparedFilePath}` : `${osPathsBlockchain[process.platform]}${preparedFilePath}`
+      const path = source === 'params' ? `${osPathsParams[process.platform]}${preparedFilePath}` : `${osPathsBlockchainCustom[process.platform]}${preparedFilePath}`
       const handleErrors = (err) => {
         console.log(err)
         data.push(item)
@@ -362,14 +369,14 @@ const fetchParams = async (win, torUrl) => {
 
 const fetchBlockchain = async (win, torUrl) => {
   const pathList = [
-    `${osPathsBlockchain[process.platform]}`,
-    `${osPathsBlockchain[process.platform]}${
+    `${osPathsBlockchainCustom[process.platform]}`,
+    `${osPathsBlockchainCustom[process.platform]}${
       process.platform === 'win32' ? 'blocks\\' : 'blocks/'
     }`,
-    `${osPathsBlockchain[process.platform]}${
+    `${osPathsBlockchainCustom[process.platform]}${
       process.platform === 'win32' ? 'blocks\\index\\' : 'blocks/index/'
     }`,
-    `${osPathsBlockchain[process.platform]}${
+    `${osPathsBlockchainCustom[process.platform]}${
       process.platform === 'win32' ? 'chainstate\\' : 'chainstate/'
     }`
   ]
@@ -389,7 +396,7 @@ const fetchBlockchain = async (win, torUrl) => {
     downloadArray = filesToFetch
   }
   if (status === config.BLOCKCHAIN_STATUSES.TO_FETCH) {
-    fs.emptyDirSync(osPathsBlockchain[process.platform])
+    fs.emptyDirSync(osPathsBlockchainCustom[process.platform])
   }
 
   pathList.forEach(path => checkPath(path))
@@ -422,16 +429,17 @@ let powerSleepId
 
 const createZcashNode = async (win, torUrl) => {
   const updateStatus = electronStore.get('updateStatus')
-  if (updateStatus !== config.UPDATE_STATUSES.NO_UPDATE) {
+  const blockchainConfiguration = electronStore.get('blockchainConfiguration')
+  if (updateStatus !== config.UPDATE_STATUSES.NO_UPDATE || (blockchainConfiguration === config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION && isFetchedFromExternalSource)) {
     setTimeout(() => {
       createZcashNode(win, torUrl)
     }, 5000)
     return
   }
-  checkPath(osPathsBlockchain[process.platform])
   let AppStatus = electronStore.get('AppStatus')
   const vaultStatus = electronStore.get('vaultStatus')
-  if (!isDev && !isFetchedFromExternalSource) {
+  if (!isDev && (!isFetchedFromExternalSource || blockchainConfiguration === config.BLOCKCHAIN_STATUSES.TO_FETCH)) {
+    checkPath(osPathsBlockchainCustom[process.platform])
     powerSleepId = powerSaveBlocker.start('prevent-app-suspension')
     if (!AppStatus) {
       electronStore.set('AppStatus', {
@@ -500,9 +508,13 @@ const createZcashNode = async (win, torUrl) => {
 
 app.on('ready', async () => {
   const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
-  const isBlockchainExists = fs.existsSync(`${osPathsBlockchain[process.platform]}`)
+  const isBlockchainExists = fs.existsSync(`${osPathsBlockchainDefault[process.platform]}`)
   isFetchedFromExternalSource = isBlockchainExists && !blockchainStatus
   electronStore.set('isBlockchainFromExternalSource', isFetchedFromExternalSource)
+  const blockchainConfiguration = electronStore.get('blockchainConfiguration')
+  if (!blockchainConfiguration && isFetchedFromExternalSource) {
+    electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION)
+  }
   const template = [
     {
       label: 'Zbay',
@@ -553,6 +565,13 @@ app.on('ready', async () => {
     const REQUIRED_FREE_SPACE = 1073741824
     const ZCASH_PARAMS = 1825361100
 
+    if (!blockchainConfiguration && isFetchedFromExternalSource) {
+      if (mainWindow) {
+        console.log('working sending open modal')
+        mainWindow.webContents.send('askForUsingDefaultBlockchainLocation')
+      }
+    }
+
     if (!fs.existsSync(osPaths[process.platform])) {
       fs.mkdirSync(osPaths[process.platform])
     }
@@ -602,10 +621,10 @@ app.on('ready', async () => {
   ipcMain.on('toggle-rescanning-progress-monitor', (event, arg) => {
     if (!rescanningInterval) {
       rescanningInterval = setInterval(() => {
-        findInFiles.find('rescanning', `${osPathsBlockchain[process.platform]}`, 'debug.log$')
+        findInFiles.find('rescanning', `${osPathsBlockchainCustom[process.platform]}`, 'debug.log$')
           .then(function (results) {
             if (tick > 1) {
-              const rescannedBlock = results[`${osPathsBlockchain[process.platform]}debug.log`].line.slice(-1)[0].substr(-25, 7).trim().replace('.', '')
+              const rescannedBlock = results[`${osPathsBlockchainCustom[process.platform]}debug.log`].line.slice(-1)[0].substr(-25, 7).trim().replace('.', '')
               if (mainWindow) {
                 mainWindow.webContents.send('fetchingStatus', {
                   rescannedBlock
@@ -654,13 +673,24 @@ app.on('ready', async () => {
     }
   })
 
+  ipcMain.on('proceed-with-syncing', (event, userChoice) => {
+    console.log('userFetch', userChoice)
+    if (userChoice === 'EXISTING') {
+      electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.DEFAULT_LOCATION_SELECTED)
+    } else {
+      electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.TO_FETCH)
+    }
+  })
+
   let loadLogsInterval
-  const targetPath = {
-    transactions: `${osPathLogs[process.platform]}transactions.json`,
-    debug: `${osPathsBlockchain[process.platform]}debug.log`,
-    rpcCalls: `${osPathLogs[process.platform]}rpcCalls.json`
-  }
   const checkLogsFiles = () => {
+    const blockchainConfiguration = electronStore.get('blockchainConfiguration')
+    const targetPath = {
+      transactions: `${osPathLogs[process.platform]}transactions.json`,
+      debug: blockchainConfiguration === config.BLOCKCHAIN_STATUSES.TO_FETCH ? `${osPathsBlockchainCustom[process.platform]}debug.log`
+        : `${osPathsBlockchainDefault[process.platform]}debug.log`,
+      rpcCalls: `${osPathLogs[process.platform]}rpcCalls.json`
+    }
     const isTransactionFileExists = fs.existsSync(targetPath.transactions)
     const isRpcCallsFileExists = fs.existsSync(targetPath.rpcCalls)
     const createJsonFormatFile = (path) => fs.writeFileSync(path, JSON.stringify([]))
@@ -673,6 +703,13 @@ app.on('ready', async () => {
   }
 
   const loadLogs = async () => {
+    const blockchainConfiguration = electronStore.get('blockchainConfiguration')
+    const targetPath = {
+      transactions: `${osPathLogs[process.platform]}transactions.json`,
+      debug: blockchainConfiguration === config.BLOCKCHAIN_STATUSES.TO_FETCH ? `${osPathsBlockchainCustom[process.platform]}debug.log`
+        : `${osPathsBlockchainDefault[process.platform]}debug.log`,
+      rpcCalls: `${osPathLogs[process.platform]}rpcCalls.json`
+    }
     checkPath(osPathLogs[process.platform])
     checkLogsFiles()
     const transactions = JSON.parse(fs.readFileSync(targetPath.transactions))
@@ -706,6 +743,13 @@ app.on('ready', async () => {
   ipcMain.on('save-to-log-file', (event, { type, payload }) => {
     checkPath(osPathLogs[process.platform])
     checkLogsFiles()
+    const blockchainConfiguration = electronStore.get('blockchainConfiguration')
+    const targetPath = {
+      transactions: `${osPathLogs[process.platform]}transactions.json`,
+      debug: blockchainConfiguration === config.BLOCKCHAIN_STATUSES.TO_FETCH ? `${osPathsBlockchainCustom[process.platform]}debug.log`
+        : `${osPathsBlockchainDefault[process.platform]}debug.log`,
+      rpcCalls: `${osPathLogs[process.platform]}rpcCalls.json`
+    }
     if (type === 'TRANSACTION') {
       const transactions = JSON.parse(fs.readFileSync(targetPath.transactions))
       transactions.push(payload)
