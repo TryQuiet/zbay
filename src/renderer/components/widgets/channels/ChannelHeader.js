@@ -124,6 +124,10 @@ export const ChannelHeader = ({
 }) => {
   const ActionsMenu = channelTypeToActions[channelType]
   const [silenceHover, setSilenceHover] = React.useState(false)
+  React.useEffect(() => {
+    setTab(0)
+    console.log('reset')
+  }, [channel.get('name')])
   return (
     <div className={classes.wrapper}>
       <Grid
