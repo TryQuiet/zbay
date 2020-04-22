@@ -138,7 +138,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Free software guarantees you four essential freedoms...
+      Free software was first articulated by Richard M. Stallman in 1980.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -150,7 +150,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      1. The freedom to run a program as you wish, for any purpose.
+      Stallman's intent was to warn humanity about a potential dystopian future. 
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -162,7 +162,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      2. The freedom to understand how a program works, and change it how you wish.
+      That is, one where sofware companies' control over their users undermined values essential to a free society.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -174,7 +174,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      3. The freedom to redistribute copies of a program, to help others.
+      For Stallman, the only way to escape this dystopia was free software.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -186,7 +186,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      4. The freedom to redistribute your changes, so the wider community can benefit from your work.
+      Stallman's articulation of free software is clear and concrete. 
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -198,7 +198,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      These freedoms are granted in a legal contract called the GNU General Public License (GNU GPL).
+      Free software guarantees the public (both users and developers) four freedoms: 
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -210,7 +210,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      The GNU GPL is politically ingenious and breathtakingly awesome for the world.
+      1. The freedom to run a program as we wish, for any purpose.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -222,7 +222,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      The GNU GPL gives software engineers a legal, contractual way to grant users the four freedoms.
+      2. The freedom to understand how a program works, and change it how we wish.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -234,7 +234,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Anyone in the world can build on GNU GPL-licensed code.
+      3. The freedom to redistribute copies of a program, to help others.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -246,7 +246,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      But developers can only use GNU GPL-licensed code if they also grant others the same four freedoms.
+      4. The freedom to redistribute our changes, so the wider community can benefit from our work.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -258,7 +258,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Because Zbay is free software, experts can verify its privacy and security claims.
+      These freedoms can be granted in legal contracts, such as the GNU General Public License (GNU GPL).
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -270,7 +270,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Most of all, free software like Zbay contains a powerful institutional guarantee:
+      The GNU GPL, another Stallman invention, is politically ingenious and breathtakingly awesome for the world.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -282,7 +282,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      If software makers start being evil, users can revolt, take the code, and build in a new direction.
+      The GNU GPL gives software engineers a legal, contractual way to grant users the four freedoms.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -294,7 +294,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Because Zbay is a peer-to-peer app and free software, there is a powerful check on our power as software makers. 
+      Anyone in the world can build on GNU GPL-licensed code.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -306,7 +306,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Zbay builds on other free software, like Zcash, which in turn builds on Bitcoin.
+      But developers can only use GNU GPL-licensed code if they also grant everyone the same four freedoms.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -318,7 +318,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Bitcoin was so incredible because it added trust, and money, to peer-to-peer networks.
+      Because Zbay is free software, experts can verify its privacy and security claims.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -330,7 +330,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Bitcoin was revolutionary, but it was missing one important thing: privacy.
+      The GNU GPL also means that if others build on Zbay, they must grant the same four freedoms.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -342,7 +342,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Unlike Zcash, Bitcoin transactions are visible to the entire world. This is often a problem!
+      Free software like Zbay contains a powerful institutional guarantee:
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -354,7 +354,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Zcash was born to address Bitcoin's lack of privacy, and Zbay builds on Zcash.
+      If software makers start being evil, users can revolt, take the code, and build in a new direction.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -366,7 +366,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Instead of connecting to a central server, Zbay connects to Zcash.
+      If this happens (it's called a fork) the new developers will be subject to the same guarantee.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -378,7 +378,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Zcash itself is a network of people running the Zcash app on their own computers.
+      Because Zbay is peer-to-peer and free software, there is a powerful check on our power as software makers. 
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -390,7 +390,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Every computer on the Zcash network needs a record of every Zcash transaction ever made.
+      Zbay builds on other free software, like Zcash, which in turn builds on Bitcoin.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -402,7 +402,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      If you're reading this, Zbay is still downloading that giant record of Zcash transactions.
+      Bitcoin was so incredible because it added trust, and money, to peer-to-peer networks.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -414,7 +414,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Zbay built on Zcash because it's one of the few networks that lets us send messages privately.
+      Bitcoin was revolutionary, but it was missing one important thing: privacy.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -426,7 +426,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Zbay also chose Zcash because, in the future, Zcash aims to offer strong anonymity. 
+      Unlike Zcash, Bitcoin transactions are visible to the entire world. This is often a problem!
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -438,7 +438,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Zcash is a leading cryptocurrency, so you can buy it on popular services like Coinbase.
+      Zcash was born to address Bitcoin's lack of privacy, and Zbay builds on Zcash.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -450,13 +450,109 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      The Zcash team are pioneers in building technology for online privacy.
+      Instead of connecting to a central server, like most apps would, Zbay connects to Zcash.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
   <div
     className="tipContainer-mock"
     key="36"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="typography-mock"
+      variant="body1"
+    >
+      Zcash itself is a network of people running the Zcash app on their own computers.
+
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+  <div
+    className="tipContainer-mock"
+    key="37"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="typography-mock"
+      variant="body1"
+    >
+      Every Zcash app (well, every full node) needs a record of every Zcash transaction ever made.
+
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+  <div
+    className="tipContainer-mock"
+    key="38"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="typography-mock"
+      variant="body1"
+    >
+      If you're reading this, Zbay is still downloading that giant record of Zcash transactions.
+
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+  <div
+    className="tipContainer-mock"
+    key="39"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="typography-mock"
+      variant="body1"
+    >
+      After Zbay has downloaded the Zcash blockchain for the first time, connecting will be much faster.
+
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+  <div
+    className="tipContainer-mock"
+    key="40"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="typography-mock"
+      variant="body1"
+    >
+      Zbay chose Zcash because it's one of the few blockchain networks that let us send messages privately.
+
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+  <div
+    className="tipContainer-mock"
+    key="41"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="typography-mock"
+      variant="body1"
+    >
+      Zbay also built on Zcash because, in the future, Zcash aims to offer strong anonymity. 
+
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+  <div
+    className="tipContainer-mock"
+    key="42"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="typography-mock"
+      variant="body1"
+    >
+      Zcash is a leading cryptocurrency too, so you can buy it on popular services like Coinbase.
+
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+  <div
+    className="tipContainer-mock"
+    key="43"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="typography-mock"
+      variant="body1"
+    >
+      The Zcash founders are pioneers in building technology for online privacy.
+
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+  <div
+    className="tipContainer-mock"
+    key="44"
   >
     <WithStyles(ForwardRef(Typography))
       className="typography-mock"

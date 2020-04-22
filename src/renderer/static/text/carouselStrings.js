@@ -13,33 +13,47 @@ module.exports = [
 `,
   `Zbay is also free and open source software.
 `,
-  `Free software guarantees you four essential freedoms...
+  `Free software was first articulated by Richard M. Stallman in 1980.
 `,
-  `1. The freedom to run a program as you wish, for any purpose.
+  `Stallman's intent was to warn humanity about a potential dystopian future. 
 `,
-  `2. The freedom to understand how a program works, and change it how you wish.
+  `That is, one where sofware companies' control over their users undermined values essential to a free society.
+`,
+  `For Stallman, the only way to escape this dystopia was free software.
+`,
+  `Stallman's articulation of free software is clear and concrete. 
+`,
+  `Free software guarantees the public (both users and developers) four freedoms: 
+`,
+  `1. The freedom to run a program as we wish, for any purpose.
+`,
+  `2. The freedom to understand how a program works, and change it how we wish.
 `,
   `3. The freedom to redistribute copies of a program, to help others.
 `,
-  `4. The freedom to redistribute your changes, so the wider community can benefit from your work.
+  `4. The freedom to redistribute our changes, so the wider community can benefit from our work.
 `,
-  `These freedoms are granted in a legal contract called the GNU General Public License (GNU GPL).
+  `These freedoms can be granted in legal contracts, such as the GNU General Public License (GNU GPL).
 `,
-  `The GNU GPL is politically ingenious and breathtakingly awesome for the world.
+  `The GNU GPL, another Stallman invention, is politically ingenious and breathtakingly awesome for the world.
 `,
   `The GNU GPL gives software engineers a legal, contractual way to grant users the four freedoms.
 `,
   `Anyone in the world can build on GNU GPL-licensed code.
 `,
-  `But developers can only use GNU GPL-licensed code if they also grant others the same four freedoms.
+  `But developers can only use GNU GPL-licensed code if they also grant everyone the same four freedoms.
 `,
   `Because Zbay is free software, experts can verify its privacy and security claims.
 `,
-  `Most of all, free software like Zbay contains a powerful institutional guarantee:
+  `The GNU GPL also means that if others build on Zbay, they must grant the same four freedoms.
+`,
+  `Free software like Zbay contains a powerful institutional guarantee:
 `,
   `If software makers start being evil, users can revolt, take the code, and build in a new direction.
 `,
-  `Because Zbay is a peer-to-peer app and free software, there is a powerful check on our power as software makers. 
+  `If this happens (it's called a fork) the new developers will be subject to the same guarantee.
+`,
+  `Because Zbay is peer-to-peer and free software, there is a powerful check on our power as software makers. 
 `,
   `Zbay builds on other free software, like Zcash, which in turn builds on Bitcoin.
 `,
@@ -51,21 +65,23 @@ module.exports = [
 `,
   `Zcash was born to address Bitcoin's lack of privacy, and Zbay builds on Zcash.
 `,
-  `Instead of connecting to a central server, Zbay connects to Zcash.
+  `Instead of connecting to a central server, like most apps would, Zbay connects to Zcash.
 `,
   `Zcash itself is a network of people running the Zcash app on their own computers.
 `,
-  `Every computer on the Zcash network needs a record of every Zcash transaction ever made.
+  `Every Zcash app (well, every full node) needs a record of every Zcash transaction ever made.
 `,
   `If you're reading this, Zbay is still downloading that giant record of Zcash transactions.
 `,
-  `Zbay built on Zcash because it's one of the few networks that lets us send messages privately.
+  `After Zbay has downloaded the Zcash blockchain for the first time, connecting will be much faster.
 `,
-  `Zbay also chose Zcash because, in the future, Zcash aims to offer strong anonymity. 
+  `Zbay chose Zcash because it's one of the few blockchain networks that let us send messages privately.
 `,
-  `Zcash is a leading cryptocurrency, so you can buy it on popular services like Coinbase.
+  `Zbay also built on Zcash because, in the future, Zcash aims to offer strong anonymity. 
 `,
-  `The Zcash team are pioneers in building technology for online privacy.
+  `Zcash is a leading cryptocurrency too, so you can buy it on popular services like Coinbase.
+`,
+  `The Zcash founders are pioneers in building technology for online privacy.
 `,
   `For these reasons and more, Zcash provides a strong base for Zbay to build on. 
 `
