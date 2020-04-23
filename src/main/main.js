@@ -368,7 +368,6 @@ const fetchParams = async (win, torUrl) => {
 }
 
 const fetchBlockchain = async (win, torUrl) => {
-  console.log('fetching blockchain')
   const pathList = [
     `${osPathsBlockchainCustom[process.platform]}`,
     `${osPathsBlockchainCustom[process.platform]}${
@@ -609,10 +608,17 @@ app.on('ready', async () => {
     }
 
     if (!isDev) {
-      checkForUpdate(mainWindow)
-      setInterval(() => {
+      // Prevent user who's started download from s3 to change defualt location
+      const blockchainFetchingStatus = electronStore.get('AppStatus.blockchain.status')
+      const blockchainConfigurationStatus = electronStore.get('blockchainConfiguration')
+      if (blockchainFetchingStatus === config.BLOCKCHAIN_STATUSES.FETCHING && !blockchainConfigurationStatus) {
+        electronStore.set('updateStatus', config.UPDATE_STATUSES.NO_UPDATE)
+      } else {
         checkForUpdate(mainWindow)
-      }, 15 * 60000)
+        setInterval(() => {
+          checkForUpdate(mainWindow)
+        }, 15 * 60000)
+      }
     }
   })
 
