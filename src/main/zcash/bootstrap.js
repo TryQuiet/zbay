@@ -58,9 +58,9 @@ export const ensureZcashParams = async (platform, callback) => {
 
 const osPathsBlockchain = {
   darwin: `${process.env.HOME ||
-    process.env.USERPROFILE}/Library/Application Support/ZbayBlockchain/`,
-  linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayBlockchain/`,
-  win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayBlockchain\\`
+    process.env.USERPROFILE}/Library/Application Support/ZbayData/`,
+  linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayData/`,
+  win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayData\\`
 }
 
 export const spawnZcashNode = (platform, isTestnet, torUrl = false) => {

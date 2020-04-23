@@ -6,11 +6,11 @@ exports[`BlockchainLocationModal renders component 1`] = `
   open={true}
 >
   <WithStyles(ForwardRef(Grid))
-    alignItems="center"
+    alignContent="center"
     className="root-mock"
     container={true}
     direction="column"
-    justify="flex-start"
+    justify="center"
   >
     <WithStyles(ForwardRef(Grid))
       container={true}
@@ -24,7 +24,7 @@ exports[`BlockchainLocationModal renders component 1`] = `
         <WithStyles(ForwardRef(Typography))
           variant="h3"
         >
-          Zcash blockchain has been detected
+          Use existing Zcash install?
         </WithStyles(ForwardRef(Typography))>
       </WithStyles(ForwardRef(Grid))>
     </WithStyles(ForwardRef(Grid))>
@@ -34,24 +34,32 @@ exports[`BlockchainLocationModal renders component 1`] = `
       justify="center"
     >
       <WithStyles(ForwardRef(Grid))
-        className="subTitle-mock"
         item={true}
       >
         <WithStyles(ForwardRef(Typography))
+          className="text-mock"
           variant="body2"
         >
-          If you are using full Zcash node with standard configuration you can use it to run Zbay, otherwise Zbay can sync with blockchain network very fast using our built-in mechanism. 
+          Oh awesome! It looks like you may have already installed Zcash. Zbay includes Zcash but we can use your existing Zcash instead -
+          <span
+            className="bold-mock"
+          >
+             IF it's a full node (not a light wallet) with default settings. 
+          </span>
+          Not sure? Use ours! It should sync quickly.
         </WithStyles(ForwardRef(Typography))>
       </WithStyles(ForwardRef(Grid))>
     </WithStyles(ForwardRef(Grid))>
     <WithStyles(ForwardRef(Grid))
+      alignItems="flex-start"
       container={true}
       justify="center"
-      spacing={8}
     >
       <WithStyles(ForwardRef(Grid))
+        container={true}
         item={true}
-        xs={4}
+        justify="center"
+        xs={12}
       >
         <WithStyles(ForwardRef(Button))
           className="button-mock"
@@ -62,24 +70,22 @@ exports[`BlockchainLocationModal renders component 1`] = `
           type="submit"
           variant="contained"
         >
-          Use existing one
+          Install Zcash again (recommended)
         </WithStyles(ForwardRef(Button))>
       </WithStyles(ForwardRef(Grid))>
       <WithStyles(ForwardRef(Grid))
+        container={true}
         item={true}
-        xs={4}
+        justify="center"
+        xs={12}
       >
-        <WithStyles(ForwardRef(Button))
-          className="button-mock"
-          color="primary"
-          fullWidth={true}
+        <WithStyles(ForwardRef(Typography))
+          className="link-mock"
           onClick={[Function]}
-          size="large"
-          type="submit"
-          variant="contained"
+          variant="caption"
         >
-          Download full Zcash node
-        </WithStyles(ForwardRef(Button))>
+          Use my existing Zcash install (advanced)
+        </WithStyles(ForwardRef(Typography))>
       </WithStyles(ForwardRef(Grid))>
     </WithStyles(ForwardRef(Grid))>
   </WithStyles(ForwardRef(Grid))>

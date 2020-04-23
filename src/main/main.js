@@ -29,9 +29,9 @@ import electronStore from '../shared/electronStore'
 
 const osPathsBlockchainCustom = {
   darwin: `${process.env.HOME ||
-    process.env.USERPROFILE}/Library/Application Support/ZbayBlockchain/`,
-  linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayBlockchain/`,
-  win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayBlockchain\\`
+    process.env.USERPROFILE}/Library/Application Support/ZbayData/`,
+  linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayData/`,
+  win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayData\\`
 }
 
 const osPathsBlockchainDefault = {
@@ -368,6 +368,7 @@ const fetchParams = async (win, torUrl) => {
 }
 
 const fetchBlockchain = async (win, torUrl) => {
+  console.log('fetching blockchain')
   const pathList = [
     `${osPathsBlockchainCustom[process.platform]}`,
     `${osPathsBlockchainCustom[process.platform]}${
@@ -512,6 +513,11 @@ app.on('ready', async () => {
   isFetchedFromExternalSource = isBlockchainExists && !blockchainStatus
   electronStore.set('isBlockchainFromExternalSource', isFetchedFromExternalSource)
   const blockchainConfiguration = electronStore.get('blockchainConfiguration')
+  const paramsStatus = electronStore.get('AppStatus.blockchain.status')
+  const isOldUser = paramsStatus === config.PARAMS_STATUSES.SUCCESS && blockchainStatus === config.BLOCKCHAIN_STATUSES.SUCCESS
+  if (isOldUser && !blockchainConfiguration) {
+    electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.DEFAULT_LOCATION_SELECTED)
+  }
   if (!blockchainConfiguration && isFetchedFromExternalSource) {
     electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION)
   }
@@ -556,50 +562,51 @@ app.on('ready', async () => {
     mainWindow.webContents.send('ping')
     const osPaths = {
       darwin: `${process.env.HOME ||
-        process.env.USERPROFILE}/Library/Application Support/ZbayBlockchain`,
-      linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayBlockchain`,
-      win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayBlockchain`
+        process.env.USERPROFILE}/Library/Application Support/ZbayData`,
+      linux: `${process.env.HOME || process.env.USERPROFILE}/ZbayData`,
+      win32: `${os.userInfo().homedir}\\AppData\\Roaming\\ZbayData`
     }
 
     const BLOCKCHAIN_SIZE = 27843545600
     const REQUIRED_FREE_SPACE = 1073741824
     const ZCASH_PARAMS = 1825361100
 
-    if (!blockchainConfiguration && isFetchedFromExternalSource) {
+    if ((!blockchainConfiguration || blockchainConfiguration === config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION) && isFetchedFromExternalSource) {
       if (mainWindow) {
         mainWindow.webContents.send('askForUsingDefaultBlockchainLocation')
       }
     }
 
-    if (!fs.existsSync(osPaths[process.platform])) {
-      fs.mkdirSync(osPaths[process.platform])
-    }
-
-    getSize(osPaths[process.platform], (err, downloadedSize) => {
-      if (err) {
-        throw err
+    if (!isFetchedFromExternalSource) {
+      if (!fs.existsSync(osPaths[process.platform])) {
+        fs.mkdirSync(osPaths[process.platform])
       }
-      checkDiskSpace('/').then(diskspace => {
-        const blockchainSizeLeftToFetch = BLOCKCHAIN_SIZE - downloadedSize
-        const freeSpaceLeft =
-          diskspace.free -
-          (blockchainSizeLeftToFetch + ZCASH_PARAMS + REQUIRED_FREE_SPACE)
-        if (freeSpaceLeft <= 0) {
-          if (mainWindow) {
-            mainWindow.webContents.send(
-              'checkDiskSpace',
-              `Sorry, but Zbay needs ${(
-                blockchainSizeLeftToFetch /
-                1024 ** 3
-              ).toFixed(2)} GB to connect to its network and you only have ${(
-                diskspace.free /
-                1024 ** 3
-              ).toFixed(2)} free.`
-            )
-          }
+      getSize(osPaths[process.platform], (err, downloadedSize) => {
+        if (err) {
+          throw err
         }
+        checkDiskSpace('/').then(diskspace => {
+          const blockchainSizeLeftToFetch = BLOCKCHAIN_SIZE - downloadedSize
+          const freeSpaceLeft =
+            diskspace.free -
+            (blockchainSizeLeftToFetch + ZCASH_PARAMS + REQUIRED_FREE_SPACE)
+          if (freeSpaceLeft <= 0) {
+            if (mainWindow) {
+              mainWindow.webContents.send(
+                'checkDiskSpace',
+                `Sorry, but Zbay needs ${(
+                  blockchainSizeLeftToFetch /
+                  1024 ** 3
+                ).toFixed(2)} GB to connect to its network and you only have ${(
+                  diskspace.free /
+                  1024 ** 3
+                ).toFixed(2)} free.`
+              )
+            }
+          }
+        })
       })
-    })
+    }
 
     if (!isDev) {
       checkForUpdate(mainWindow)
@@ -659,7 +666,8 @@ app.on('ready', async () => {
 
   ipcMain.on('vault-created', (event, arg) => {
     electronStore.set('vaultStatus', config.VAULT_STATUSES.CREATED)
-    if (!isDev && !isFetchedFromExternalSource) {
+    const blockchainConfiguration = electronStore.get('blockchainConfiguration')
+    if (!isDev && (!isFetchedFromExternalSource || blockchainConfiguration === config.BLOCKCHAIN_STATUSES.TO_FETCH)) {
       const { status } = electronStore.get('AppStatus.blockchain')
       if (status !== config.BLOCKCHAIN_STATUSES.SUCCESS) {
         nodeProc.on('close', code => {
