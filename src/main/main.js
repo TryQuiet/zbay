@@ -608,17 +608,10 @@ app.on('ready', async () => {
     }
 
     if (!isDev) {
-      // Prevent user who's started download from s3 to change defualt location
-      const blockchainFetchingStatus = electronStore.get('AppStatus.blockchain.status')
-      const blockchainConfigurationStatus = electronStore.get('blockchainConfiguration')
-      if (blockchainFetchingStatus === config.BLOCKCHAIN_STATUSES.FETCHING && !blockchainConfigurationStatus && !isFetchedFromExternalSource) {
-        electronStore.set('updateStatus', config.UPDATE_STATUSES.NO_UPDATE)
-      } else {
+      checkForUpdate(mainWindow)
+      setInterval(() => {
         checkForUpdate(mainWindow)
-        setInterval(() => {
-          checkForUpdate(mainWindow)
-        }, 15 * 60000)
-      }
+      }, 15 * 60000)
     }
   })
 
