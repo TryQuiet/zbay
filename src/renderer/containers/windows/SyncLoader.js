@@ -67,7 +67,6 @@ export const SyncLoader = ({ setVaultIdentity, createVault, loader, guideStatus,
   const fetching = ((((27552539059 - (fetchingSizeLeft)) * 100) / 27552539059)).toFixed()
   const syncProgress = parseFloat((node.currentBlock.div(lastBlock).times(100)).toString()).toFixed(2)
   const useCustomLocation = blockchainConfiguration === config.BLOCKCHAIN_STATUSES.TO_FETCH
-  console.log(useCustomLocation)
   let ETA = null
   if (fetchingEndTime) {
     const { hours, minutes } = fetchingEndTime

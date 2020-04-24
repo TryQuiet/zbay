@@ -296,32 +296,38 @@ const createWindow = () => {
   })
 }
 
-const checkForUpdate = win => {
-  autoUpdater.checkForUpdates()
-  autoUpdater.on('checking-for-update', () => {
-    console.log('checking for updates...')
-  })
-  autoUpdater.on('error', error => {
-    console.log(error)
-  })
-  autoUpdater.on('update-not-available', () => {
-    console.log('event no update')
-    electronStore.set('updateStatus', config.UPDATE_STATUSES.NO_UPDATE)
-  })
-  autoUpdater.on('update-available', info => {
-    console.log(info)
-    electronStore.set('updateStatus', config.UPDATE_STATUSES.PROCESSING_UPDATE)
-  })
+let isUpdatedStatusCheckingStarted = false
 
-  autoUpdater.on('update-downloaded', info => {
-    const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
-    const paramsStatus = electronStore.get('AppStatus.params.status')
-    if (blockchainStatus !== config.BLOCKCHAIN_STATUSES.SUCCESS || paramsStatus !== config.PARAMS_STATUSES.SUCCESS) {
-      autoUpdater.quitAndInstall()
-    } else {
-      win.webContents.send('newUpdateAvailable')
-    }
-  })
+const checkForUpdate = win => {
+  if (!isUpdatedStatusCheckingStarted) {
+    autoUpdater.checkForUpdates()
+    autoUpdater.on('checking-for-update', () => {
+      console.log('checking for updates...')
+    })
+    autoUpdater.on('error', error => {
+      console.log(error)
+    })
+    autoUpdater.on('update-not-available', () => {
+      console.log('event no update')
+      electronStore.set('updateStatus', config.UPDATE_STATUSES.NO_UPDATE)
+    })
+    autoUpdater.on('update-available', info => {
+      console.log(info)
+      electronStore.set('updateStatus', config.UPDATE_STATUSES.PROCESSING_UPDATE)
+    })
+
+    autoUpdater.on('update-downloaded', info => {
+      const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
+      const paramsStatus = electronStore.get('AppStatus.params.status')
+      if (blockchainStatus !== config.BLOCKCHAIN_STATUSES.SUCCESS || paramsStatus !== config.PARAMS_STATUSES.SUCCESS) {
+        autoUpdater.quitAndInstall()
+      } else {
+        win.webContents.send('newUpdateAvailable')
+      }
+    })
+    isUpdatedStatusCheckingStarted = true
+  }
+  autoUpdater.checkForUpdates()
 }
 
 const checkPath = pathToCreate => {
@@ -509,16 +515,27 @@ const createZcashNode = async (win, torUrl) => {
 app.on('ready', async () => {
   const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
   const isBlockchainExists = fs.existsSync(`${osPathsBlockchainDefault[process.platform]}`)
+  const isCustomPathExists = fs.existsSync(`${osPathsBlockchainCustom[process.platform]}`)
   isFetchedFromExternalSource = isBlockchainExists && !blockchainStatus
   electronStore.set('isBlockchainFromExternalSource', isFetchedFromExternalSource)
   const blockchainConfiguration = electronStore.get('blockchainConfiguration')
   const paramsStatus = electronStore.get('AppStatus.blockchain.status')
   const isOldUser = paramsStatus === config.PARAMS_STATUSES.SUCCESS && blockchainStatus === config.BLOCKCHAIN_STATUSES.SUCCESS
-  if (isOldUser && !blockchainConfiguration) {
-    electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.DEFAULT_LOCATION_SELECTED)
-  }
-  if (!blockchainConfiguration && isFetchedFromExternalSource) {
-    electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION)
+  if (!blockchainConfiguration) {
+    if (isOldUser) {
+      electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.DEFAULT_LOCATION_SELECTED)
+    } else if (isFetchedFromExternalSource) {
+      electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION)
+    } else if (!isCustomPathExists && blockchainStatus === config.BLOCKCHAIN_STATUSES.FETCHING) {
+      console.log('working')
+      electronStore.set('AppStatus.blockchain', {
+        status: config.BLOCKCHAIN_STATUSES.TO_FETCH,
+        isRescanned: false
+      })
+      electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.TO_FETCH)
+    } else {
+      electronStore.set('blockchainConfiguration', config.BLOCKCHAIN_STATUSES.TO_FETCH)
+    }
   }
   const template = [
     {
