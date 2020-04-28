@@ -100,6 +100,11 @@ export const fetchMessages = channel => async (dispatch, getState) => {
       return
     } else {
       dispatch(
+        appHandlers.actions.reduceNewTransfersCount(
+          transfers.length - appSelectors.transfers(getState()).get(channelId)
+        )
+      )
+      dispatch(
         appHandlers.actions.setTransfers({
           id: channelId,
           value: transfers.length
