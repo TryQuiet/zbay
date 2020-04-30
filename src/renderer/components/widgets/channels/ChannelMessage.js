@@ -130,7 +130,6 @@ const checkLinking = (
     if (!tags.get(match)) {
       return `#${match}`
     }
-    console.log(tags.get(match))
     return (
       <a
         style={{
