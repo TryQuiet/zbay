@@ -161,6 +161,7 @@ export const ChannelMessages = ({
                             </span>
                           </Fragment>
                         }
+                        timestamp={msg.createdAt}
                       />
                     )
                   } else {
@@ -172,6 +173,7 @@ export const ChannelMessages = ({
                             <span> just registered a username on zbay!</span>
                           </Fragment>
                         }
+                        timestamp={msg.createdAt}
                       />
                     )
                   }
