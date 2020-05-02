@@ -13,15 +13,15 @@ module.exports = [
 `,
   `Zbay is also free and open source software.
 `,
-  `Free software was first articulated by Richard M. Stallman in 1980.
+  `Free software was first articulated in 1980 by an engineer at MIT.
 `,
-  `Stallman's intent was to warn humanity about a potential dystopian future. 
+  `Its articulation was a warning for humanity about a potential dystopian future. 
 `,
   `That is, one where sofware companies' control over their users undermined values essential to a free society.
 `,
-  `For Stallman, the only way to escape this dystopia was free software.
+  `In the view of free software's first proponents, the only way to prevent this dystopia was free software.
 `,
-  `Stallman's articulation of free software is clear and concrete. 
+  `The original articulation of free software is clear, concrete and still relevant. 
 `,
   `Free software guarantees the public (both users and developers) four freedoms: 
 `,
@@ -35,7 +35,7 @@ module.exports = [
 `,
   `These freedoms can be granted in legal contracts, such as the GNU General Public License (GNU GPL).
 `,
-  `The GNU GPL, another Stallman invention, is politically ingenious and breathtakingly awesome for the world.
+  `The GNU GPL is politically ingenious and breathtakingly awesome for the world.
 `,
   `The GNU GPL gives software engineers a legal, contractual way to grant users the four freedoms.
 `,

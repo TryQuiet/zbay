@@ -138,7 +138,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Free software was first articulated by Richard M. Stallman in 1980.
+      Free software was first articulated in 1980 by an engineer at MIT.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -150,7 +150,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Stallman's intent was to warn humanity about a potential dystopian future. 
+      Its articulation was a warning for humanity about a potential dystopian future. 
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -174,7 +174,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      For Stallman, the only way to escape this dystopia was free software.
+      In the view of free software's first proponents, the only way to prevent this dystopia was free software.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -186,7 +186,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      Stallman's articulation of free software is clear and concrete. 
+      The original articulation of free software is clear, concrete and still relevant. 
 
     </WithStyles(ForwardRef(Typography))>
   </div>
@@ -270,7 +270,7 @@ exports[`Carousel renders component 1`] = `
       className="typography-mock"
       variant="body1"
     >
-      The GNU GPL, another Stallman invention, is politically ingenious and breathtakingly awesome for the world.
+      The GNU GPL is politically ingenious and breathtakingly awesome for the world.
 
     </WithStyles(ForwardRef(Typography))>
   </div>
