@@ -31,6 +31,16 @@ const actions = {
 }
 
 const coordinator = () => async (dispatch, getState) => {
+  const channels = channelsSelectors.data(getState())
+  let actions = channelsSelectors
+    .data(getState())
+    .map(channel => () => messagesHandlers.epics.fetchMessages(channel))
+    .push(() => contactsHandlers.epics.fetchMessages())
+    .push(() => publicChannelsHandlers.epics.fetchPublicChannels())
+    .push(() => usersHandlers.epics.fetchUsers())
+    .push(() => nodeHandlers.epics.getStatus())
+    .push(() => identityHandlers.epics.fetchBalance())
+    .push(() => identityHandlers.epics.fetchFreeUtxos())
   const fetchData = async () => {
     const res = await getClient().operations.getTransactionsCount()
     if (
@@ -49,18 +59,24 @@ const coordinator = () => async (dispatch, getState) => {
       setTimeout(fetchData, 5000)
       return
     }
-    const actions = channelsSelectors
-      .data(getState())
-      .map(channel => () => messagesHandlers.epics.fetchMessages(channel))
-      .push(() => contactsHandlers.epics.fetchMessages())
-      .push(() => nodeHandlers.epics.getStatus())
-      .push(() => identityHandlers.epics.fetchBalance())
-      .push(() => identityHandlers.epics.fetchFreeUtxos())
-      .push(() => usersHandlers.epics.fetchUsers())
-      .push(() => publicChannelsHandlers.epics.fetchPublicChannels())
+    if (!Immutable.is(channels, channelsSelectors.data(getState()))) {
+      actions = channelsSelectors
+        .data(getState())
+        .map(channel => () => messagesHandlers.epics.fetchMessages(channel))
+        .push(() => contactsHandlers.epics.fetchMessages())
+        .push(() => publicChannelsHandlers.epics.fetchPublicChannels())
+        .push(() => usersHandlers.epics.fetchUsers())
+        .push(() => nodeHandlers.epics.getStatus())
+        .push(() => identityHandlers.epics.fetchBalance())
+        .push(() => identityHandlers.epics.fetchFreeUtxos())
+    }
     for (let index = 0; index < actions.size; index++) {
       if (appSelectors.newTransfersCounter(getState()) !== 0) {
-        await dispatch(actions.get(index % actions.size)())
+        const recivedNew = await dispatch(actions.get(index % actions.size)())
+        if (recivedNew === 1) {
+          actions.unshift(actions[index]).slice(index + 1)
+          index += 1
+        }
       } else {
         console.log('skip coorninator')
         break

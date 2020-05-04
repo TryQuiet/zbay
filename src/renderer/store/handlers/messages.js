@@ -220,6 +220,7 @@ export const fetchMessages = channel => async (dispatch, getState) => {
           .map(nm => displayMessageNotification({ message: nm, channel }))
       }
     }
+    return 1
   } catch (err) {
     console.warn(err)
   }

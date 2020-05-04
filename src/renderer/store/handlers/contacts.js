@@ -395,6 +395,7 @@ export const fetchMessages = () => async (dispatch, getState) => {
         }
       )
     )
+    return 1
   } catch (err) {
     console.warn(err)
   }
