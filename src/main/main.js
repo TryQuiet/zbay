@@ -300,6 +300,9 @@ const createWindow = () => {
   electronLocalshortcut.register(mainWindow, 'CommandOrControl+L', () => {
     mainWindow.webContents.send('openLogs')
   })
+  electronLocalshortcut.register(mainWindow, 'F12', () => {
+    mainWindow.toggleDevTools()
+  })
 }
 
 let isUpdatedStatusCheckingStarted = false
