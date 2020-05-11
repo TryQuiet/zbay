@@ -43,6 +43,7 @@ const coordinator = () => async (dispatch, getState) => {
     .push(() => identityHandlers.epics.fetchFreeUtxos())
   const fetchData = async () => {
     const res = await getClient().operations.getTransactionsCount()
+    dispatch(contactsHandlers.epics.checkConfirmationOfTransfers)
     if (
       appSelectors.allTransfersCount(getState()) !==
       res.sprout + res.sapling
