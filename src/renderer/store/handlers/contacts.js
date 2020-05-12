@@ -284,8 +284,6 @@ export const fetchMessages = () => async (dispatch, getState) => {
       }
       if (!offer) {
         const ad = messagesSelectors.messageById(msg.message.itemId)(getState())
-        console.log(ad)
-        console.log(msg)
         const payload = {
           tag: ad.message.tag,
           offerOwner: msg.sender.username,
