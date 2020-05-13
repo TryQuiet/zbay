@@ -74,7 +74,6 @@ export const fetchPrices = () => async (dispatch, getState) => {
           r: parseInt(memo.substring(128, 129))
         })
         if (pkey.toString('hex') !== PRICE_ORACLE_PUB_KEY) {
-          console.log(pkey.toString('hex'))
           continue
         }
         dispatch(setPriceUsd({ priceUsd: price }))
