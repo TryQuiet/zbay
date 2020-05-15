@@ -220,7 +220,6 @@ export const fetchAffiliateMoney = () => async (dispatch, getState) => {
 }
 export const fetchBalance = () => async (dispatch, getState) => {
   const fee = networkFee
-  console.log('#########################################')
   dispatch(setFetchingBalance(true))
   const address = identitySelectors.address(getState())
   console.log(address)
@@ -417,14 +416,8 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
     dispatch(removedChannelsHandlers.epics.getRemovedChannelsTimestamp())
 
     dispatch(setLoadingMessage('Fetching balance and loading channels'))
-    console.log('#########################################')
-
-    await dispatch(initAddreses())
-    console.log('#########################################')
-
     await dispatch(fetchBalance())
-    console.log('#########################################')
-
+    await dispatch(initAddreses())
     dispatch(ratesHandlers.epics.fetchPrices())
     await dispatch(fetchFreeUtxos())
     dispatch(setLoadingMessage('Loading users and messages'))
