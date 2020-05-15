@@ -30,6 +30,7 @@ import SendFundsModal from './containers/ui/adverts/SendFundsModal'
 import AddModerator from './containers/widgets/channelSettings/AddModerator'
 import BlockchainLocationModal from './containers/widgets/blockchainLocation/BlockchainLocation'
 import theme from './theme'
+import SendMoneySeparate from './containers/ui/sendMoneySeparate/sendMoneySeparate'
 
 export default () => {
   return (
@@ -56,6 +57,7 @@ export default () => {
             <AddModerator />
             <OpenExternalLinkModal />
             <BlockchainLocationModal />
+            <SendMoneySeparate />
             <Route path='/vault' exact component={Vault} />
             <Route path='/main' component={Main} />
             <Route path='/zcashNode' component={Index} />
