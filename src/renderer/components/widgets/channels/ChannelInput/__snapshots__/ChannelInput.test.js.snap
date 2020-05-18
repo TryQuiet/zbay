@@ -60,7 +60,7 @@ exports[`ChannelInput renders component input Disable  1`] = `
             onChange={[Function]}
             onClick={[Function]}
             onKeyDown={[Function]}
-            placeholder="Message test"
+            placeholder="Message undefined"
           />
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
@@ -150,7 +150,7 @@ exports[`ChannelInput renders component input Locked  1`] = `
             onChange={[Function]}
             onClick={[Function]}
             onKeyDown={[Function]}
-            placeholder="Message test"
+            placeholder="Message undefined"
           />
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
@@ -219,7 +219,7 @@ exports[`ChannelInput renders component input available  1`] = `
             onChange={[Function]}
             onClick={[Function]}
             onKeyDown={[Function]}
-            placeholder="Message test"
+            placeholder="Message undefined"
           />
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
