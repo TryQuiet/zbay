@@ -222,7 +222,6 @@ export const fetchBalance = () => async (dispatch, getState) => {
   const fee = networkFee
   dispatch(setFetchingBalance(true))
   const address = identitySelectors.address(getState())
-  console.log(address)
   const tAddress = identitySelectors.transparentAddress(getState())
   const addresses = identitySelectors.addresses(getState()).toJS()
   const shieldedAddresses = identitySelectors
