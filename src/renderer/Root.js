@@ -19,6 +19,7 @@ import SendMoneyModal from './containers/ui/sendMoney/SendMoneyModal'
 import UpdateModal from './containers/widgets/update/UpdateModal'
 import CreateChannelModal from './containers/widgets/channels/CreateChannelModal'
 import NewMessageModal from './containers/widgets/channels/NewMessageModal'
+import NewMessageSeparateModal from './containers/ui/sendMessageSeparate/SendMessageSeparate'
 import JoinChannelModal from './containers/widgets/channels/JoinChannelModal'
 import ChannelSettingsModal from './containers/widgets/channelSettings/ChannelSettingsModal'
 import AdvertModal from './containers/ui/adverts/AdvertModal'
@@ -47,6 +48,7 @@ export default () => {
             <CssBaseline />
             <CreateChannelModal />
             <NewMessageModal />
+            <NewMessageSeparateModal />
             <JoinChannelModal />
             <AdvertModal />
             <AdvertActionsModal />

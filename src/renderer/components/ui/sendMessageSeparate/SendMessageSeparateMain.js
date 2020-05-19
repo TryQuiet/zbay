@@ -8,11 +8,12 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import * as Yup from 'yup'
 import BigNumber from 'bignumber.js'
 
-import Modal from '../Modal'
-import SendMoneyInitial from './SendMoneyInitial'
-import { networkFee } from '../../../../shared/static'
 import { MESSAGE_SIZE } from '../../../zbay/transit'
-import { createTransfer } from '../../../zbay/messages'
+// import { createTransfer } from '../../../zbay/messages'
+import { networkFee } from '../../../../shared/static'
+import SendMessageInitial from './SendMessageSeparateInitial'
+
+import Modal from '../Modal'
 
 const styles = theme => ({})
 
@@ -35,23 +36,18 @@ export const formSchema = users => {
           }
         )
         .required('Required'),
-      amountZec: Yup.number()
-        .min(0.0, 'Please insert amount to send')
-        .required('Required'),
-      amountUsd: Yup.number().required('Required'),
-      memo: Yup.string().max(MESSAGE_SIZE, 'Your message is too long')
+      memo: Yup.string().max(MESSAGE_SIZE, 'Your message is too long').required('Memo is required field')
     },
-    ['recipient', 'amountZec', 'amoundUsd', 'memo']
+    ['recipient', 'memo']
   )
 }
 
 export const validateForm = ({ balanceZec, shippingData }) => values => {
   let errors = {}
-  if (balanceZec.isLessThan(values.amountZec)) {
-    errors['amountZec'] = `You can't send more than ${balanceZec} ZEC`
+  if (balanceZec.isLessThan(networkFee)) {
+    errors['amountZec'] = `Your ZEC balance is to low for sending a message`
   }
   if (
-    values.shippingInfo === true &&
     values.memo.length > MESSAGE_SIZE
   ) {
     errors['memo'] = `Your message and shipping information are too long`
@@ -59,56 +55,24 @@ export const validateForm = ({ balanceZec, shippingData }) => values => {
   return errors
 }
 
-export const SendMoneyMain = ({
+export const SendMessageSeparateMain = ({
   initialValues,
   open,
   users,
   nickname,
   balanceZec,
-  rateZec,
-  rateUsd,
   userData,
   sendMessageHandler,
   sendPlainTransfer,
   handleClose,
   feeZec = networkFee,
-  feeUsd = rateUsd.times(feeZec).toNumber(),
   openSentFundsModal
 }) => {
   return (
     <Formik
       enableReinitialize
       onSubmit={(values, { resetForm }) => {
-        const { shouldIncludeMeta } = values
-        const { recipient, ...rest } = values
-        const includesNickname =
-          users
-            .toList()
-            .filter(obj => obj.get('nickname') === recipient)
-            .first() ||
-          users
-            .toList()
-            .filter(obj => obj.get('address') === recipient)
-            .first()
-        if (includesNickname && shouldIncludeMeta === 'yes') {
-          const messageToTransfer = createTransfer({
-            recipient: includesNickname.get('address'),
-            recipientUsername: includesNickname.get('nickname'),
-            ...rest,
-            sender: {
-              address: userData.address,
-              name: userData.name
-            }
-          })
-          sendMessageHandler(messageToTransfer.toJS())
-        } else {
-          const transferData = {
-            amount: values.amountZec,
-            destination: includesNickname ? includesNickname.get('address') : values.recipient
-          }
-          sendPlainTransfer(transferData)
-        }
-        resetForm()
+        console.log('sending')
       }}
       validationSchema={formSchema(users)}
       initialValues={{
@@ -136,7 +100,7 @@ export const SendMoneyMain = ({
                   autoHideTimeout={500}
                   style={{ width: width, height: height }}
                 >
-                  <SendMoneyInitial
+                  <SendMessageInitial
                     setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
@@ -145,12 +109,9 @@ export const SendMoneyMain = ({
                     users={users}
                     nickname={nickname}
                     balanceZec={balanceZec}
-                    rateUsd={rateUsd}
-                    rateZec={rateZec}
                     isValid={isValid}
                     submitForm={submitForm}
                     resetForm={resetForm}
-                    feeUsd={feeUsd}
                     feeZec={feeZec}
                     handleClose={handleClose}
                     amountZec={values.amountZec}
@@ -168,12 +129,11 @@ export const SendMoneyMain = ({
   )
 }
 
-SendMoneyMain.propTypes = {
+SendMessageSeparateMain.propTypes = {
   classes: PropTypes.object.isRequired,
   initialValues: PropTypes.shape({
     recipient: PropTypes.string.isRequired,
-    amountZec: PropTypes.string.isRequired,
-    amountUsd: PropTypes.string.isRequired,
+    sendAnonymously: PropTypes.bool.isRequired,
     memo: PropTypes.string.isRequired
   }).isRequired,
   balanceZec: PropTypes.instanceOf(BigNumber).isRequired,
@@ -183,18 +143,16 @@ SendMoneyMain.propTypes = {
   feeZec: PropTypes.number,
   feeUsd: PropTypes.number,
   handleClose: PropTypes.func.isRequired,
-  sendMessageHandler: PropTypes.func.isRequired,
   sendPlainTransfer: PropTypes.func.isRequired,
   openSentFundsModal: PropTypes.func.isRequired
 }
 
-SendMoneyMain.defaultProps = {
+SendMessageSeparateMain.defaultProps = {
   initialValues: {
     recipient: '',
-    amountZec: '',
-    amountUsd: '',
+    sendAnonymously: false,
     memo: ''
   }
 }
 
-export default R.compose(React.memo, withStyles(styles))(SendMoneyMain)
+export default R.compose(React.memo, withStyles(styles))(SendMessageSeparateMain)

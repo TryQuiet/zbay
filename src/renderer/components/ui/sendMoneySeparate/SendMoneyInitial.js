@@ -1,24 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as R from 'ramda'
+import { DateTime } from 'luxon'
 import { Typography } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import FormikTextField from '../../../components/ui/form/TextField'
 import { Field } from 'formik'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import ZecIcon from '../../../static/images/circle-zec.svg'
-import radioChecked from '../../../static/images/radioChecked.svg'
-import radioUnselected from '../../../static/images/radioUnselected.svg'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
+import BigNumber from 'bignumber.js'
 
 import Icon from '../Icon'
 import { LinkedTextField } from '../form/LinkedTextField'
+import FormikTextField from '../../../components/ui/form/TextField'
 import exchange from '../../../static/images/zcash/exchange.svg'
-
+import ZecIcon from '../../../static/images/circle-zec.svg'
+import radioChecked from '../../../static/images/radioChecked.svg'
+import radioUnselected from '../../../static/images/radioUnselected.svg'
 import { AutocompleteField } from '../../ui/form/Autocomplete'
 
 const styles = theme => ({
@@ -177,11 +178,8 @@ const styles = theme => ({
 })
 export const SendMoneyInitial = ({
   classes,
-  open,
   handleClose,
-  sendMessage,
   users,
-  showNotification,
   setFieldValue,
   values,
   nickname,
@@ -191,14 +189,18 @@ export const SendMoneyInitial = ({
   isValid,
   touched,
   errors,
-  resetForm
+  submitForm,
+  amountZec,
+  amountUsd,
+  feeUsd,
+  feeZec,
+  memo,
+  openSentFundsModal
 }) => {
-  console.log('error', errors)
   const usersArray = users.toList().toJS()
   const { recipient } = values
   const userNamesArray = usersArray.map(user => user.nickname)
   const isUserSelected = userNamesArray.includes(recipient)
-  console.log('values', values, isUserSelected, nickname)
   const ErrorText = ({ name }) => {
     return errors[name] ? (
       <Typography className={classes.error} variant='caption'>
@@ -224,6 +226,11 @@ export const SendMoneyInitial = ({
         name={'recipient'}
         inputValue={values.recipient || ''}
         options={usersArray.map(option => option.nickname)}
+        filterOptions={(options, state) =>
+          options.filter(o =>
+            o.toLowerCase().includes(values.recipient || ''.toLowerCase())
+          )
+        }
         value={values.recipient}
         onChange={(e, v) => setFieldValue('recipient', v)}
         onInputChange={(e, v) => {
@@ -408,6 +415,19 @@ export const SendMoneyInitial = ({
       }
       <Button
         className={classes.button}
+        onClick={() => {
+          submitForm()
+          handleClose()
+          openSentFundsModal({
+            amountZec,
+            amountUsd,
+            feeUsd,
+            feeZec,
+            recipient,
+            memo,
+            timestamp: DateTime.utc().toSeconds()
+          })
+        }}
         variant='contained'
         color='primary'
         size='large'
@@ -421,7 +441,22 @@ export const SendMoneyInitial = ({
 }
 
 SendMoneyInitial.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  balanceZec: PropTypes.instanceOf(BigNumber).isRequired,
+  rateZec: PropTypes.number.isRequired,
+  rateUsd: PropTypes.number.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  values: PropTypes.object.isRequired,
+  touched: PropTypes.bool.isRequired,
+  errors: PropTypes.object.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  nickname: PropTypes.string.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  feeZec: PropTypes.number,
+  feeUsd: PropTypes.number,
+  memo: PropTypes.string.isRequired,
+  openSentFundsModal: PropTypes.func.isRequired
 }
 export default R.compose(
   React.memo,

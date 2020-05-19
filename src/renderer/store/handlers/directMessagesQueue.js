@@ -190,6 +190,7 @@ export const checkConfirmationNumber = async ({
 }
 
 const sendPlainTransfer = payload => async (dispatch, getState) => {
+  console.log(payload)
   const identityAddress = identitySelectors.address(getState())
   const { destination, amount } = payload
   const transfer = createEmptyTransfer({
