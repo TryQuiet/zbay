@@ -32,7 +32,8 @@ const styles = theme => ({
   description: {
     fontWeight: 'normal',
     fontStyle: 'normal',
-    color: theme.palette.colors.trueBlack
+    color: theme.palette.colors.trueBlack,
+    lineHeight: '20px'
   },
   section: {
     width: '100%',
@@ -59,7 +60,8 @@ const styles = theme => ({
   },
   shareWarrning: {
     marginTop: 8,
-    wordBreak: 'break-word'
+    wordBreak: 'break-word',
+    lineHeight: '20px'
   }
 })
 
@@ -75,7 +77,13 @@ export const ChannelInfoModal = ({
     ? channel.get('targetRecipientAddress')
     : shareUri
   return (
-    <Modal open={open} handleClose={handleClose} title='Channel Information' fullPage isBold>
+    <Modal
+      open={open}
+      handleClose={handleClose}
+      title='Channel Information'
+      fullPage
+      isBold
+    >
       <AutoSizer>
         {({ width, height }) => (
           <Scrollbars
