@@ -250,6 +250,18 @@ export const fetchMessages = () => async (dispatch, getState) => {
         })
         .filter(msg => msg !== null)
     )
+    const messagesFromUnknown = messagesAll
+      .filter(msg => msg !== null)
+      .filter(msg => msg.sender.username === 'unknown')
+      .filter(msg => msg.specialType === 1)
+    const contacts = selectors.contacts(getState()).get('unknown')
+    console.log(contacts.toJS(), 'contacts')
+    for (const msg of messagesFromUnknown) {
+      console.log(msg.get('id'))
+      const tx = await getClient().confirmations.getResult(msg.get('id'))
+      console.log('tx', tx)
+    }
+    console.log(messagesFromUnknown)
     const messages = messagesAll
       .filter(msg => msg !== null)
       .filter(msg => msg.sender.replyTo !== '')
@@ -325,6 +337,18 @@ export const fetchMessages = () => async (dispatch, getState) => {
         }
       }
     })
+    if (messagesFromUnknown.length > 0) {
+      console.log('woking 123213131321')
+      await dispatch(setUsernames({ sender: 'unknown' }))
+      await dispatch(loadVaultMessages({ contact: { replyTo: 'unknown', username: 'unknown' } }))
+      dispatch(
+        appendNewMessages({
+          contactAddress: 'unknown',
+          messagesIds: messagesFromUnknown.map(R.prop('id'))
+        })
+      )
+      dispatch(setMessages({ messages: messagesFromUnknown, contactAddress: 'unknown' }))
+    }
     const senderToMessages = R.compose(
       R.groupBy(msg => msg.sender.replyTo),
       R.filter(R.identity)

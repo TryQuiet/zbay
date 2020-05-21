@@ -167,6 +167,16 @@ export const transferToMessage = async (props, users) => {
   let publicKey = null
   try {
     message = await unpackMemo(memo)
+    const { type } = message
+    if (type === 'UNKNOWN') {
+      console.log(message)
+      return {
+        type: 'UNKNOWN',
+        payload: message,
+        id: txid,
+        spent: amount
+      }
+    }
     publicKey = getPublicKeysFromSignature(message).toString('hex')
     if (users !== undefined) {
       const fromUser = users.get(publicKey)
