@@ -43,7 +43,6 @@ export const formSchema = users => {
 }
 
 export const validateForm = ({ balanceZec }) => values => {
-  console.log('values', values)
   let errors = {}
   if (balanceZec.isLessThan(networkFee)) {
     errors['amountZec'] = `Your ZEC balance is to low for sending a message`
@@ -54,7 +53,6 @@ export const validateForm = ({ balanceZec }) => values => {
     errors['memo'] = `Your message and shipping information are too long`
   }
   if (values.sendAnonymously && values.memo.length === 0) {
-    console.log('wrong')
     errors['memo'] = `You need to include message`
   }
   return errors

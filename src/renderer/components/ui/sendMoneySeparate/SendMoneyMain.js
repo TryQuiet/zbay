@@ -75,7 +75,6 @@ export const SendMoneyMain = ({
   feeUsd = rateUsd.times(feeZec).toNumber(),
   openSentFundsModal
 }) => {
-  console.log('rateZec', rateZec, rateUsd)
   return (
     <Formik
       enableReinitialize
@@ -127,7 +126,6 @@ export const SendMoneyMain = ({
         touched,
         setFieldValue
       }) => {
-        console.log('touched', touched)
         return (
           <Modal
             open={open}

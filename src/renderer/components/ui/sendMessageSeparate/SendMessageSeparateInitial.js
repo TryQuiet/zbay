@@ -54,7 +54,8 @@ const styles = theme => ({
     padding: '12px 16px',
     borderRadius: 4,
     marginTop: 18,
-    marginBottom: 24
+    marginBottom: 24,
+    marginLeft: 28
   },
   typo: {
     letterSpacing: '0.4 px',
@@ -143,7 +144,6 @@ export const SendMessageSeparateInitial = ({
   const checkField = (v) => {
     return v.length >= 78 && !userNamesArray.includes(v)
   }
-  console.log(shouldSendAnonymously)
   const ErrorText = ({ name }) => {
     return errors[name] ? (
       <Typography className={classes.error} variant='caption'>
@@ -179,7 +179,6 @@ export const SendMessageSeparateInitial = ({
           setFieldValue('recipient', v)
           const shouldSetCheckbox = checkField(v)
           if (shouldSetCheckbox) {
-            console.log('working12356')
             setFieldValue('sendAnonymously', true)
           }
         }}
@@ -187,7 +186,6 @@ export const SendMessageSeparateInitial = ({
           setFieldValue('recipient', v)
           const shouldSetCheckbox = checkField(v)
           if (shouldSetCheckbox) {
-            console.log('working123')
             setFieldValue('sendAnonymously', true)
           }
         }}
