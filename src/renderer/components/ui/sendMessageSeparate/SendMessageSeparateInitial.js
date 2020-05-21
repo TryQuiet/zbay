@@ -133,9 +133,17 @@ export const SendMessageSeparateInitial = ({
   memo,
   openSentFundsModal
 }) => {
+  const title = 'Message sent'
   const usersArray = users.toList().toJS()
   const { recipient } = values
-  const shouldSendAnonymously = values.sendAnonymously === true
+  const userNamesArray = usersArray.map(user => user.nickname)
+  const isUserSelected = userNamesArray.includes(recipient)
+  const isShielded = values.recipient ? values.recipient.length >= 78 : false
+  const shouldSendAnonymously = isShielded && !isUserSelected && !errors.recipient
+  const checkField = (v) => {
+    return v.length >= 78 && !userNamesArray.includes(v)
+  }
+  console.log(shouldSendAnonymously)
   const ErrorText = ({ name }) => {
     return errors[name] ? (
       <Typography className={classes.error} variant='caption'>
@@ -167,9 +175,21 @@ export const SendMessageSeparateInitial = ({
           )
         }
         value={values.recipient}
-        onChange={(e, v) => setFieldValue('recipient', v)}
+        onChange={(e, v) => {
+          setFieldValue('recipient', v)
+          const shouldSetCheckbox = checkField(v)
+          if (shouldSetCheckbox) {
+            console.log('working12356')
+            setFieldValue('sendAnonymously', true)
+          }
+        }}
         onInputChange={(e, v) => {
           setFieldValue('recipient', v)
+          const shouldSetCheckbox = checkField(v)
+          if (shouldSetCheckbox) {
+            console.log('working123')
+            setFieldValue('sendAnonymously', true)
+          }
         }}
         renderInput={params => (
           <TextField
@@ -177,7 +197,6 @@ export const SendMessageSeparateInitial = ({
             className={classes.gutter}
             variant='outlined'
             multiline
-            maxRows={7}
             placeholder={`Enter Zbay username or z-address`}
             margin='normal'
             fullWidth
@@ -192,7 +211,8 @@ export const SendMessageSeparateInitial = ({
             classes={{ root: classes.checkboxForm }}
             control={
               <Checkbox
-                checked={values.sendAnonymously}
+                checked={shouldSendAnonymously || values.sendAnonymously}
+                disabled={shouldSendAnonymously}
                 onChange={(e, v) => setFieldValue('sendAnonymously', !values.sendAnonymously)}
                 color='default'
                 icon={<Icon src={CheckboxUnchecked} />}
@@ -208,7 +228,7 @@ export const SendMessageSeparateInitial = ({
           />)}
         />
       </Grid>
-      {shouldSendAnonymously && (
+      {(shouldSendAnonymously || (isUserSelected && values.sendAnonymously)) && (
         <Grid container item>
           <Grid className={classes.infoBox} item>
             <Typography className={classes.typo} variant='body2'><span className={classes.bold}>Warning:</span>{` anonymity in Zcash has limits. Lorem ipsum where we explain this
@@ -225,12 +245,13 @@ export const SendMessageSeparateInitial = ({
             <FormikTextField
               name='memo'
               placeholder={
-                values.recipient.length === 35
+                values.recipient ? values.recipient.length === 35
                   ? `You can't include message to transparent address`
+                  : 'Enter a message'
                   : 'Enter a message'
               }
               InputProps={{ className: classes.field }}
-              disabled={values.recipient.length === 35}
+              disabled={values.recipient ? values.recipient.length === 35 : false}
             />
           </Grid>
         </Grid>
@@ -245,6 +266,7 @@ export const SendMessageSeparateInitial = ({
             feeZec,
             recipient,
             memo,
+            title,
             timestamp: DateTime.utc().toSeconds()
           })
         }}
@@ -262,8 +284,8 @@ export const SendMessageSeparateInitial = ({
 
 SendMessageSeparateInitial.propTypes = {
   classes: PropTypes.object.isRequired,
-  rateUsd: PropTypes.instanceOf(BigNumber).isRequired,
-  rateZec: PropTypes.number.isRequired,
+  rateUsd: PropTypes.instanceOf(BigNumber),
+  rateZec: PropTypes.number,
   feeZec: PropTypes.number,
   feeUsd: PropTypes.number,
   handleClose: PropTypes.func.isRequired,

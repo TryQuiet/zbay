@@ -2,6 +2,7 @@ import React from 'react'
 import * as R from 'ramda'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
 import { withModal, actionCreators } from '../../../store/handlers/modals'
 import SendMessageModalComponent from '../../../components/ui/sendMessageSeparate/SendMessageSeparateMain'
@@ -28,12 +29,14 @@ export const SendMessageSeparateModal = props => {
 }
 export const mapDispatchToProps = dispatch => bindActionCreators({
   sendMessageHandler: directMessages.epics.sendDirectMessage,
-  openSentFundsModal: (payload) => actionCreators.openModal('sentFunds', payload)(),
-  sendPlainTransfer: (payload) => transfers.epics.sendPlainTransfer(payload)
+  createNewContact: (contact) => directMessages.epics.createVaultContact(contact),
+  sendPlainTransfer: (payload) => transfers.epics.sendPlainTransfer(payload),
+  openSentFundsModal: (payload) => actionCreators.openModal('sentFunds', payload)()
 }, dispatch)
 
 export default R.compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
   withModal('newMessageSeparate'),
   React.memo
 )(SendMessageSeparateModal)

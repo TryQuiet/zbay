@@ -13,7 +13,7 @@ describe('SendMessageSeparateMain', () => {
         classes={mockClasses}
         balanceZec={new BigNumber(0.7)}
         values={{ recipient: 'address123' }}
-        touched={false}
+        touched={{}}
         isValid
         initialValues={{
           recipient: '',
@@ -34,6 +34,7 @@ describe('SendMessageSeparateMain', () => {
           }
         ])}
         openSentFundsModal={jest.fn()}
+        sendPlainTransfer={jest.fn()}
       />
     )
     expect(result).toMatchSnapshot()

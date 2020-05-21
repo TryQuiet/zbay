@@ -75,6 +75,7 @@ export const SendMoneyMain = ({
   feeUsd = rateUsd.times(feeZec).toNumber(),
   openSentFundsModal
 }) => {
+  console.log('rateZec', rateZec, rateUsd)
   return (
     <Formik
       enableReinitialize
@@ -104,7 +105,8 @@ export const SendMoneyMain = ({
         } else {
           const transferData = {
             amount: values.amountZec,
-            destination: includesNickname ? includesNickname.get('address') : values.recipient
+            destination: includesNickname ? includesNickname.get('address') : values.recipient,
+            memo: values.memo
           }
           sendPlainTransfer(transferData)
         }
@@ -125,6 +127,7 @@ export const SendMoneyMain = ({
         touched,
         setFieldValue
       }) => {
+        console.log('touched', touched)
         return (
           <Modal
             open={open}
@@ -173,8 +176,7 @@ SendMoneyMain.propTypes = {
   initialValues: PropTypes.shape({
     recipient: PropTypes.string.isRequired,
     amountZec: PropTypes.string.isRequired,
-    amountUsd: PropTypes.string.isRequired,
-    memo: PropTypes.string.isRequired
+    amountUsd: PropTypes.string.isRequired
   }).isRequired,
   balanceZec: PropTypes.instanceOf(BigNumber).isRequired,
   nickname: PropTypes.string.isRequired,
@@ -192,8 +194,7 @@ SendMoneyMain.defaultProps = {
   initialValues: {
     recipient: '',
     amountZec: '',
-    amountUsd: '',
-    memo: ''
+    amountUsd: ''
   }
 }
 

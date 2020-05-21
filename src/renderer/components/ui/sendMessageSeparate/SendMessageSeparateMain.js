@@ -25,7 +25,7 @@ export const formSchema = users => {
           'match',
           'Wrong address format or username does not exist',
           function (string) {
-            const isAddressValid = /^t1[a-zA-Z0-9]{33}$|^ztestsapling1[a-z0-9]{75}$|^zs1[a-z0-9]{75}$|[A-Za-z0-9]{35}/.test(
+            const isAddressValid = /^zs1[a-z0-9]{75}$/.test(
               string
             )
             const includesNickname = users
@@ -36,13 +36,14 @@ export const formSchema = users => {
           }
         )
         .required('Required'),
-      memo: Yup.string().max(MESSAGE_SIZE, 'Your message is too long').required('Memo is required field')
+      memo: Yup.string().max(MESSAGE_SIZE, 'Your message is too long')
     },
-    ['recipient', 'memo']
+    ['recipient']
   )
 }
 
-export const validateForm = ({ balanceZec, shippingData }) => values => {
+export const validateForm = ({ balanceZec }) => values => {
+  console.log('values', values)
   let errors = {}
   if (balanceZec.isLessThan(networkFee)) {
     errors['amountZec'] = `Your ZEC balance is to low for sending a message`
@@ -51,6 +52,10 @@ export const validateForm = ({ balanceZec, shippingData }) => values => {
     values.memo.length > MESSAGE_SIZE
   ) {
     errors['memo'] = `Your message and shipping information are too long`
+  }
+  if (values.sendAnonymously && values.memo.length === 0) {
+    console.log('wrong')
+    errors['memo'] = `You need to include message`
   }
   return errors
 }
@@ -64,15 +69,45 @@ export const SendMessageSeparateMain = ({
   userData,
   sendMessageHandler,
   sendPlainTransfer,
+  history,
   handleClose,
   feeZec = networkFee,
-  openSentFundsModal
+  openSentFundsModal,
+  createNewContact
 }) => {
   return (
     <Formik
       enableReinitialize
       onSubmit={(values, { resetForm }) => {
-        console.log('sending')
+        const { recipient, sendAnonymously } = values
+        const includesNickname =
+          users
+            .toList()
+            .filter(obj => obj.get('nickname') === recipient)
+            .first() ||
+          users
+            .toList()
+            .filter(obj => obj.get('address') === recipient)
+            .first()
+        if (includesNickname && !sendAnonymously) {
+          const address = includesNickname.get('address')
+          const nickname = includesNickname.get('nickname')
+          createNewContact({
+            contact: {
+              replyTo: address,
+              username: nickname
+            },
+            history
+          })
+        } else {
+          const transferData = {
+            amount: values.amountZec,
+            destination: includesNickname ? includesNickname.get('address') : values.recipient,
+            memo: values.memo
+          }
+          sendPlainTransfer(transferData)
+        }
+        resetForm()
       }}
       validationSchema={formSchema(users)}
       initialValues={{
@@ -138,8 +173,8 @@ SendMessageSeparateMain.propTypes = {
   }).isRequired,
   balanceZec: PropTypes.instanceOf(BigNumber).isRequired,
   nickname: PropTypes.string.isRequired,
-  rateUsd: PropTypes.instanceOf(BigNumber).isRequired,
-  rateZec: PropTypes.number.isRequired,
+  rateUsd: PropTypes.instanceOf(BigNumber),
+  rateZec: PropTypes.number,
   feeZec: PropTypes.number,
   feeUsd: PropTypes.number,
   handleClose: PropTypes.func.isRequired,

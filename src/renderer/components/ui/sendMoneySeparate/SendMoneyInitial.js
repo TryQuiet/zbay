@@ -197,6 +197,7 @@ export const SendMoneyInitial = ({
   memo,
   openSentFundsModal
 }) => {
+  const title = 'Funds sent'
   const usersArray = users.toList().toJS()
   const { recipient } = values
   const userNamesArray = usersArray.map(user => user.nickname)
@@ -242,7 +243,6 @@ export const SendMoneyInitial = ({
             className={classes.gutter}
             variant='outlined'
             multiline
-            maxRows={7}
             placeholder={`Enter Zbay username or z-address`}
             margin='normal'
             fullWidth
@@ -393,26 +393,24 @@ export const SendMoneyInitial = ({
             </Grid>
             <ErrorText name={'amountZec'} />
           </Grid>
+          <Grid item xs={12}>
+            <Typography className={classes.fieldName} variant='body1'>
+                Memo
+            </Typography>
+            <FormikTextField
+              name='memo'
+              placeholder={
+                values.recipient ? values.recipient.length === 35
+                  ? `You can't include message to transparent address`
+                  : 'Enter a message'
+                  : 'Enter a message'
+              }
+              InputProps={{ className: classes.field }}
+              disabled={values.recipient ? values.recipient.length === 35 : false}
+            />
+          </Grid>
         </Grid>
       )}
-      {values.shouldIncludeMeta && isUserSelected && (
-        <Grid item xs={12}>
-          <Typography className={classes.fieldName} variant='body1'>
-                Memo
-          </Typography>
-          <FormikTextField
-            name='memo'
-            placeholder={
-              values.recipient.length === 35
-                ? `You can't include message to transparent address`
-                : 'Enter a message'
-            }
-            InputProps={{ className: classes.field }}
-            disabled={values.recipient.length === 35}
-          />
-        </Grid>
-      )
-      }
       <Button
         className={classes.button}
         onClick={() => {
@@ -425,6 +423,7 @@ export const SendMoneyInitial = ({
             feeZec,
             recipient,
             memo,
+            title,
             timestamp: DateTime.utc().toSeconds()
           })
         }}
@@ -443,11 +442,11 @@ export const SendMoneyInitial = ({
 SendMoneyInitial.propTypes = {
   classes: PropTypes.object.isRequired,
   balanceZec: PropTypes.instanceOf(BigNumber).isRequired,
-  rateZec: PropTypes.number.isRequired,
-  rateUsd: PropTypes.number.isRequired,
+  rateZec: PropTypes.number,
+  rateUsd: PropTypes.instanceOf(BigNumber),
   isValid: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
-  touched: PropTypes.bool.isRequired,
+  touched: PropTypes.object,
   errors: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
@@ -455,7 +454,7 @@ SendMoneyInitial.propTypes = {
   submitForm: PropTypes.func.isRequired,
   feeZec: PropTypes.number,
   feeUsd: PropTypes.number,
-  memo: PropTypes.string.isRequired,
+  memo: PropTypes.string,
   openSentFundsModal: PropTypes.func.isRequired
 }
 export default R.compose(

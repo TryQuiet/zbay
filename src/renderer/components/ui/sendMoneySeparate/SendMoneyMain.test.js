@@ -14,10 +14,10 @@ describe('SendMoneyForm', () => {
         initialValues={{
           recipient: 'test-recipient',
           amountUsd: '0.0001',
-          amoundZec: '0.001',
+          amountZec: '0.001',
           memo: 'test-memo'
         }}
-        rateUsd={1}
+        rateUsd={new BigNumber(0.002)}
         rateZec={1}
         balanceZec={new BigNumber(0.7)}
         values={{ recipient: 'address123' }}

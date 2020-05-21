@@ -25,7 +25,7 @@ exports[`SendMessageSeparateMain renders component 1`] = `
       "_defaultDefault": [Function],
       "_deps": Array [],
       "_excludedEdges": Array [
-        "recipient-memo",
+        "recipient-undefined",
       ],
       "_exclusive": Object {},
       "_mutate": undefined,
@@ -53,7 +53,6 @@ exports[`SendMessageSeparateMain renders component 1`] = `
           "_deps": Array [],
           "_exclusive": Object {
             "max": true,
-            "required": true,
           },
           "_mutate": undefined,
           "_options": Object {
@@ -67,7 +66,6 @@ exports[`SendMessageSeparateMain renders component 1`] = `
             "refs": Map {},
           },
           "tests": Array [
-            [Function],
             [Function],
           ],
           "transforms": Array [

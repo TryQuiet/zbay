@@ -11,11 +11,11 @@ describe('SendMoneyForm', () => {
     const result = shallow(
       <SendMoneyInitial
         classes={mockClasses}
-        rateUsd={1}
-        rateZec={1}
+        rateUsd={new BigNumber(0.7)}
+        rateZec={0.00012}
         balanceZec={new BigNumber(0.7)}
         values={{ recipient: 'address123' }}
-        touched={false}
+        touched={{}}
         isValid
         errors={{}}
         feeZec={0.00001}

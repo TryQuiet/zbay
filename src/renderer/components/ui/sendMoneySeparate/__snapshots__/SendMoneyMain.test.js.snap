@@ -5,8 +5,8 @@ exports[`SendMoneyForm renders component 1`] = `
   enableReinitialize={true}
   initialValues={
     Object {
-      "amoundZec": "0.001",
       "amountUsd": "0.0001",
+      "amountZec": "0.001",
       "memo": "test-memo",
       "recipient": "test-recipient",
     }

@@ -9,6 +9,7 @@ import identitySelectors from '../selectors/identity'
 import contactsSelectors from '../selectors/contacts'
 import usersSelectors from '../selectors/users'
 import offersSelectors from '../selectors/offers'
+import { createStandardMemo } from '../../zbay/transit'
 import { messageToTransfer, createEmptyTransfer } from '../../zbay/messages'
 import { messageType, actionTypes } from '../../../shared/static'
 import operationsHandlers, {
@@ -190,23 +191,25 @@ export const checkConfirmationNumber = async ({
 }
 
 const sendPlainTransfer = payload => async (dispatch, getState) => {
-  console.log(payload)
   const identityAddress = identitySelectors.address(getState())
-  const { destination, amount } = payload
-  const transfer = createEmptyTransfer({
-    address: destination,
-    amount: amount,
-    identityAddress
-  })
-  const opId = await getClient().payment.send(transfer)
-  console.log(opId)
-  // await dispatch(
-  //   operationsHandlers.epics.observeOperation({
-  //     opId,
-  //     type: operationTypes.pendingPlainTransfer,
-  //     checkConfirmationNumber
-  //   })
-  // )
+  const { destination, amount, memo } = payload
+  if (memo) {
+    const hexMemo = await createStandardMemo(memo)
+    const transfer = createEmptyTransfer({
+      address: destination,
+      amount: amount,
+      identityAddress,
+      memo: hexMemo
+    })
+    await getClient().payment.send(transfer)
+  } else {
+    const transfer = createEmptyTransfer({
+      address: destination,
+      amount: amount,
+      identityAddress
+    })
+    await getClient().payment.send(transfer)
+  }
 }
 
 const _sendPendingDirectMessages = async (dispatch, getState) => {
