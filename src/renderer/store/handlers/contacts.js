@@ -90,7 +90,10 @@ const sendDirectMessageOnEnter = event => async (dispatch, getState) => {
   }
 }
 
-const sendDirectMessage = payload => async (dispatch, getState) => {
+const sendDirectMessage = (redirect = true) => payload => async (
+  dispatch,
+  getState
+) => {
   const { spent, type, message: messageData } = payload
   const privKey = identitySelectors.signerPrivKey(getState())
   const message = zbayMessages.createMessage({
@@ -113,7 +116,8 @@ const sendDirectMessage = payload => async (dispatch, getState) => {
         recipientAddress,
         recipientUsername
       },
-      0
+      0,
+      redirect
     )
   )
 }
@@ -172,7 +176,9 @@ const setLastSeen = createAction(actionTypes.SET_CONTACTS_LAST_SEEN)
 const setUsernames = createAction(actionTypes.SET_CONTACTS_USERNAMES)
 const removeContact = createAction(actionTypes.REMOVE_CONTACT)
 const setMessageBlockTime = createAction(actionTypes.SET_MESSAGE_BLOCKTIME)
-const setVaultMessageBlockTime = createAction(actionTypes.SET_VAULT_MESSAGE_BLOCKTIME)
+const setVaultMessageBlockTime = createAction(
+  actionTypes.SET_VAULT_MESSAGE_BLOCKTIME
+)
 
 export const actions = {
   setMessages,

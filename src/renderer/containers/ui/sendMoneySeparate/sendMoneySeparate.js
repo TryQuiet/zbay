@@ -33,7 +33,7 @@ export const SendMoneyModal = props => {
   return <SendMoneyModalComponent {...props} />
 }
 export const mapDispatchToProps = dispatch => bindActionCreators({
-  sendMessageHandler: directMessages.epics.sendDirectMessage,
+  sendMessageHandler: directMessages.epics.sendDirectMessage(true),
   openSentFundsModal: (payload) => actionCreators.openModal('sentFunds', payload)(),
   sendPlainTransfer: (payload) => transfers.epics.sendPlainTransfer(payload)
 }, dispatch)
