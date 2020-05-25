@@ -123,6 +123,7 @@ export const ChannelHeader = ({
   unmute
 }) => {
   const ActionsMenu = channelTypeToActions[channelType]
+  const isFromZbay = channel.get('name') !== 'c7e7c14740c3372fffe47c845a2b6720'
   const [silenceHover, setSilenceHover] = React.useState(false)
   return (
     <div className={classes.wrapper}>
@@ -143,7 +144,7 @@ export const ChannelHeader = ({
                   [classes.bold]: true
                 })}
               >
-                {`${prefix[channelType]}${channel.get('name')}`}
+                {`${prefix[channelType]}${isFromZbay ? channel.get('name') : 'unknown'}`}
               </Typography>
             </Grid>
             {mutedFlag && (

@@ -58,6 +58,7 @@ const _RecivedFromUnknownMessage = Immutable.Record(
     sender: MessageSender(),
     type: messageType.BASIC,
     message: '',
+    spent: new BigNumber(0),
     createdAt: 0,
     specialType: null,
     blockTime: Number.MAX_SAFE_INTEGER
@@ -67,11 +68,12 @@ const _RecivedFromUnknownMessage = Immutable.Record(
 
 export const ReceivedMessage = values => {
   if (values.type === 'UNKNOWN') {
-    console.log('values', values)
     delete values.payload.type
     const unknownRecord = _RecivedFromUnknownMessage({
       ...values.payload,
-      id: values.id
+      type: new BigNumber(values.spent).gt(new BigNumber(0)) ? messageType.TRANSFER : messageType.BASIC,
+      id: values.id,
+      spent: new BigNumber(values.spent)
     })
     return unknownRecord
   }

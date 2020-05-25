@@ -43,6 +43,8 @@ import notificationsHandlers from './notifications'
 import { errorNotification } from './utils'
 import notificationCenterSelector from '../selectors/notificationCenter'
 import nodeSelectors from '../selectors/node'
+import txnTimestampsSelector from '../selectors/txnTimestamps'
+import txnTimestampsHandlers from '../handlers/txnTimestamps'
 
 const sendDirectMessageOnEnter = event => async (dispatch, getState) => {
   const enterPressed = event.nativeEvent.keyCode === 13
@@ -254,13 +256,6 @@ export const fetchMessages = () => async (dispatch, getState) => {
       .filter(msg => msg !== null)
       .filter(msg => msg.sender.username === 'unknown')
       .filter(msg => msg.specialType === 1)
-    const contacts = selectors.contacts(getState()).get('unknown')
-    console.log(contacts.toJS(), 'contacts')
-    for (const msg of messagesFromUnknown) {
-      console.log(msg.get('id'))
-      const tx = await getClient().confirmations.getResult(msg.get('id'))
-      console.log('tx', tx)
-    }
     console.log(messagesFromUnknown)
     const messages = messagesAll
       .filter(msg => msg !== null)
@@ -338,16 +333,60 @@ export const fetchMessages = () => async (dispatch, getState) => {
       }
     })
     if (messagesFromUnknown.length > 0) {
-      console.log('woking 123213131321')
-      await dispatch(setUsernames({ sender: 'unknown' }))
-      await dispatch(loadVaultMessages({ contact: { replyTo: 'unknown', username: 'unknown' } }))
+      const unknownSender = {
+        username: 'c7e7c14740c3372fffe47c845a2b6720',
+        replyTo: 'c7e7c14740c3372fffe47c845a2b6720'
+      }
+      await dispatch(setUsernames({ sender: unknownSender }))
+      await dispatch(loadVaultMessages({ contact: unknownSender }))
+      const txnTimestamps = txnTimestampsSelector.tnxTimestamps(getState())
+      const uknownSenderMessagesWithTimestamp = []
+      for (const msg of messagesFromUnknown) {
+        const messageId = msg.get('id')
+        let messageDetails = txnTimestamps.get(messageId)
+        if (!messageDetails) {
+          const result = await getClient().confirmations.getResult(messageId)
+          messageDetails = result.timereceived
+          await getVault().transactionsTimestamps.addTransaction(
+            messageId,
+            result.timereceived
+          )
+          await dispatch(
+            txnTimestampsHandlers.actions.addTxnTimestamp({
+              tnxs: { [messageId]: result.timereceived.toString() }
+            })
+          )
+        }
+        const updatedMessageRecord = msg.set('createdAt', parseInt(messageDetails))
+        uknownSenderMessagesWithTimestamp.push(updatedMessageRecord)
+      }
+      const previousMessages = selectors.messages(unknownSender.replyTo)(
+        getState()
+      )
+      const identityId = identitySelectors.id(getState())
+      let lastSeen = selectors.lastSeen(unknownSender.replyTo)(getState())
+      if (!lastSeen) {
+        lastSeen = await getVault().contacts.getLastSeen({
+          identityId,
+          recipientAddress: unknownSender.replyTo,
+          recipientUsername: unknownSender.username
+        })
+      }
+      const newMessages = zbayMessages.calculateDiff({
+        previousMessages,
+        nextMessages: Immutable.List(uknownSenderMessagesWithTimestamp),
+        lastSeen,
+        identityAddress
+      })
       dispatch(
         appendNewMessages({
-          contactAddress: 'unknown',
-          messagesIds: messagesFromUnknown.map(R.prop('id'))
+          contactAddress: unknownSender.replyTo,
+          messagesIds: newMessages.map(R.prop('id'))
         })
       )
-      dispatch(setMessages({ messages: messagesFromUnknown, contactAddress: 'unknown' }))
+      console.log(uknownSenderMessagesWithTimestamp, unknownSender.replyTo)
+      dispatch(setMessages({ messages: uknownSenderMessagesWithTimestamp, contactAddress: unknownSender.replyTo }))
+      remote.app.badgeCount = remote.app.badgeCount + newMessages.size
     }
     const senderToMessages = R.compose(
       R.groupBy(msg => msg.sender.replyTo),

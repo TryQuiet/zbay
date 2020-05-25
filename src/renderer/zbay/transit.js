@@ -99,6 +99,19 @@ const moderationTypeToSize = {
   [moderationActionsType.REMOVE_CHANNEL]: TXID_SIZE,
   [moderationActionsType.REMOVE_MESSAGE]: TXID_SIZE
 }
+
+export const addStandardToMemo = message => {
+  const formatFlag = Buffer.alloc(MEMO_FORMAT_FLAG_SIZE)
+  formatFlag.writeUInt8(MEMO_FORMAT_FLAG_VALUE)
+  const allocatedMessage = Buffer.alloc(MEMO_SIZE - MEMO_FORMAT_FLAG_SIZE)
+  allocatedMessage.write(message)
+  const result = Buffer.concat([
+    formatFlag,
+    allocatedMessage
+  ])
+  return result.toString('hex')
+}
+
 export const packMemo = async message => {
   const formatFlag = Buffer.alloc(MEMO_FORMAT_FLAG_SIZE)
   formatFlag.writeUInt8(MEMO_FORMAT_FLAG_VALUE)

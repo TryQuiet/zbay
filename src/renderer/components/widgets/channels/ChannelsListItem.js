@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import { Typography, Grid } from '@material-ui/core'
 
 import ZcashIcon from '../../ui/ZcashIcon'
-import { messageType } from '../../../../shared/static'
+import { messageType, unknownUserId } from '../../../../shared/static'
 
 const styles = theme => ({
   root: {
@@ -60,6 +60,7 @@ const styles = theme => ({
 
 export const ChannelsListItem = ({ classes, channel, history, directMessages, selected }) => {
   const channelObj = channel.toJS()
+  const isFromZbay = channelObj.username !== unknownUserId
   const size = 15
   const highlight = directMessages
     ? selected.targetRecipientAddress === channel.address
@@ -97,7 +98,7 @@ export const ChannelsListItem = ({ classes, channel, history, directMessages, se
                   [classes.newMessages]: newMessages
                 })}
               >
-                {directMessages ? `@ ${channelObj.username}` : `# ${channelObj.name}`}
+                {directMessages ? `@ ${isFromZbay ? channelObj.username : 'unknown'}` : `# ${channelObj.name}`}
               </Typography>
             </Grid>
             {recievedMoney && (
