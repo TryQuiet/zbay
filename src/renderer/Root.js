@@ -30,8 +30,9 @@ import OpenExternalLinkModal from './containers/ui/OpenExternalLinkModal'
 import SendFundsModal from './containers/ui/adverts/SendFundsModal'
 import AddModerator from './containers/widgets/channelSettings/AddModerator'
 import BlockchainLocationModal from './containers/widgets/blockchainLocation/BlockchainLocation'
-import theme from './theme'
+import FailedUsernameRegister from './containers/ui/FailedUsernameRegister'
 import SendMoney from './containers/ui/sendMoneySeparate/sendMoney'
+import theme from './theme'
 
 export default () => {
   return (
@@ -60,6 +61,7 @@ export default () => {
             <OpenExternalLinkModal />
             <BlockchainLocationModal />
             <SendMoney />
+            <FailedUsernameRegister />
             <Route path='/vault' exact component={Vault} />
             <Route path='/main' component={Main} />
             <Route path='/zcashNode' component={Index} />
