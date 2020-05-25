@@ -112,6 +112,12 @@ export const addStandardToMemo = message => {
   return result.toString('hex')
 }
 
+export const createStandardMemo = async message => {
+  const allocatedMessage = Buffer.alloc(MEMO_SIZE)
+  allocatedMessage.write(message)
+  return allocatedMessage.toString('hex')
+}
+
 export const packMemo = async message => {
   const formatFlag = Buffer.alloc(MEMO_FORMAT_FLAG_SIZE)
   formatFlag.writeUInt8(MEMO_FORMAT_FLAG_VALUE)
@@ -262,7 +268,6 @@ export const packMemo = async message => {
 
 export const unpackMemo = async memo => {
   const memoBuff = Buffer.from(memo, 'hex')
-
   const formatFlagEnds = MEMO_FORMAT_FLAG_SIZE
   const formatFlag = memoBuff.slice(0, formatFlagEnds).readUInt8()
   if (formatFlag !== MEMO_FORMAT_FLAG_VALUE) {
