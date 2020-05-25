@@ -229,14 +229,11 @@ exports[`SendMoneyForm renders component 1`] = `
         Memo
       </WithStyles(ForwardRef(Typography))>
       <TextField
-        InputProps={
-          Object {
-            "className": "field-mock",
-          }
-        }
         disabled={false}
+        multiline={true}
         name="memo"
         placeholder="Enter a message"
+        rows={8}
       />
     </WithStyles(ForwardRef(Grid))>
   </WithStyles(ForwardRef(Grid))>
