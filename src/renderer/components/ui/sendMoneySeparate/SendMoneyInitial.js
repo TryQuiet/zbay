@@ -52,6 +52,9 @@ const styles = theme => ({
   bold: {
     fontWeight: 'bold'
   },
+  radioContainer: {
+    marginBottom: 5
+  },
   infoBox: {
     width: '100%',
     backgroundColor: theme.palette.colors.gray03,
@@ -111,13 +114,6 @@ const styles = theme => ({
   },
   rootClass: {
     height: 24
-  },
-  field: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    height: 140,
-    paddingTop: 4,
-    boxSizing: 'border-box'
   },
   avaiableBox: {
     width: '100%',
@@ -188,6 +184,7 @@ export const SendMoneyInitial = ({
   rateUsd,
   isValid,
   touched,
+  resetForm,
   errors,
   submitForm,
   amountZec,
@@ -211,6 +208,7 @@ export const SendMoneyInitial = ({
       <span />
     )
   }
+  console.log('values', values)
   return (
     <Grid
       container
@@ -233,8 +231,16 @@ export const SendMoneyInitial = ({
           )
         }
         value={values.recipient}
-        onChange={(e, v) => setFieldValue('recipient', v)}
+        onChange={(e, v) => {
+          if (v && (v.length === 35 || v.length === 78)) {
+            setFieldValue('shouldIncludeMeta', 'no')
+          }
+          setFieldValue('recipient', v)
+        }}
         onInputChange={(e, v) => {
+          if (v && (v.length === 35 || v.length === 78)) {
+            setFieldValue('shouldIncludeMeta', 'no')
+          }
           setFieldValue('recipient', v)
         }}
         renderInput={params => (
@@ -243,23 +249,22 @@ export const SendMoneyInitial = ({
             className={classes.gutter}
             variant='outlined'
             multiline
-            placeholder={`Enter Zbay username or z-address`}
+            placeholder={`Enter Zbay username or Zcash address`}
             margin='normal'
             fullWidth
           />
         )}
       />
       <ErrorText name={'recipient'} />
-      {isUserSelected && (
+      {(isUserSelected) && (
         <Grid container direction={'column'} item>
           <Grid className={classes.recipientInfo} item>
             <Typography variant='body2'>{`Tell recipient it's from `}<span className={classes.bold}>{nickname}</span>?</Typography>
           </Grid>
-          <Grid item>
+          <Grid item className={classes.radioContainer}>
             <Field
               name='shouldIncludeMeta'
               render={({ field }) => {
-                console.log(field, values)
                 return (
                   <Grid container direction={'column'} item>
                     <Grid item className={classes.spacing}>
@@ -305,10 +310,9 @@ export const SendMoneyInitial = ({
       }
       {((values.shouldIncludeMeta && isUserSelected) || (!isUserSelected && !errors.recipient && values.recipient)) && (
         <Grid container item>
-          {isUserSelected && (
+          {isUserSelected && values.shouldIncludeMeta === 'no' && (
             <Grid className={classes.infoBox} item>
-              {values.shouldIncludeMeta === 'yes' ? <Typography className={classes.typo} variant='caption'><span className={classes.bold}>Warning:</span>{` This could linkable your payment to other activity.`}</Typography>
-                : <Typography className={classes.typo} variant='body2'><span className={classes.bold}>Warning:</span>{` The recipient will not know who it is from, and you may not be able to prove you made the payment`}</Typography>}
+              <Typography className={classes.typo} variant='body2'><span className={classes.bold}>Warning:</span>{` The recipient will not know who it is from, and you may not be able to prove you made the payment`}</Typography>
             </Grid>
           )}
           <Grid item xs={12} container className={classes.divMoney}>
@@ -393,22 +397,25 @@ export const SendMoneyInitial = ({
             </Grid>
             <ErrorText name={'amountZec'} />
           </Grid>
-          <Grid item xs={12}>
-            <Typography className={classes.fieldName} variant='body1'>
+          {values.recipient.length !== 35 && (
+            <Grid item xs={12}>
+              <Typography className={classes.fieldName} variant='body1'>
                 Memo
-            </Typography>
-            <FormikTextField
-              name='memo'
-              placeholder={
-                values.recipient ? values.recipient.length === 35
-                  ? `You can't include message to transparent address`
-                  : 'Enter a message'
-                  : 'Enter a message'
-              }
-              InputProps={{ className: classes.field }}
-              disabled={values.recipient ? values.recipient.length === 35 : false}
-            />
-          </Grid>
+              </Typography>
+              <FormikTextField
+                name='memo'
+                placeholder={
+                  values.recipient ? values.recipient.length === 35
+                    ? `Only shielded Zcash addresses (beginning with a 'z') can receive messages`
+                    : 'Enter a message'
+                    : 'Enter a message'
+                }
+                multiline
+                rows={8}
+                disabled={values.recipient ? values.recipient.length === 35 : false}
+              />
+            </Grid>
+          )}
         </Grid>
       )}
       <Button

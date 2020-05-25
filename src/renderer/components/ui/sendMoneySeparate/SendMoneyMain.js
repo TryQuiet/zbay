@@ -105,7 +105,7 @@ export const SendMoneyMain = ({
           const transferData = {
             amount: values.amountZec,
             destination: includesNickname ? includesNickname.get('address') : values.recipient,
-            memo: values.memo
+            memo: values.recipient.length !== 35 ? values.memo : null
           }
           sendPlainTransfer(transferData)
         }

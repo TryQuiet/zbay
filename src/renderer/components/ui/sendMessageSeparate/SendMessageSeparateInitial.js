@@ -69,13 +69,6 @@ const styles = theme => ({
     color: theme.palette.colors.black30,
     marginBottom: 6
   },
-  field: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    height: 140,
-    paddingTop: 4,
-    boxSizing: 'border-box'
-  },
   avaiableBox: {
     width: '100%',
     height: 86,
@@ -229,10 +222,8 @@ export const SendMessageSeparateInitial = ({
       {(shouldSendAnonymously || (isUserSelected && values.sendAnonymously)) && (
         <Grid container item>
           <Grid className={classes.infoBox} item>
-            <Typography className={classes.typo} variant='body2'><span className={classes.bold}>Warning:</span>{` anonymity in Zcash has limits. Lorem ipsum where we explain this
-            anonymity in Zcash has limits. Lorem ipsum where we explain this,
-            anonymity in Zcash has limits. Lorem ipsum where we explain this
-            anonymity in Zcash has limits. Lorem ipsum where we explain this
+            <Typography className={classes.typo} variant='body2'><span className={classes.bold}>Warning:</span>
+              {` anonymity in Zcash has limits. For example, an attacker may be able to discover your IP address or link this message to your other activity on Zbay.
             `}</Typography>
           </Grid>
           <ErrorText name={'amountZec'} />
@@ -248,7 +239,8 @@ export const SendMessageSeparateInitial = ({
                   : 'Enter a message'
                   : 'Enter a message'
               }
-              InputProps={{ className: classes.field }}
+              multiline
+              rows={8}
               disabled={values.recipient ? values.recipient.length === 35 : false}
             />
           </Grid>
@@ -259,14 +251,16 @@ export const SendMessageSeparateInitial = ({
         onClick={() => {
           submitForm()
           handleClose()
-          openSentFundsModal({
-            feeUsd,
-            feeZec,
-            recipient,
-            memo,
-            title,
-            timestamp: DateTime.utc().toSeconds()
-          })
+          if (values.sendAnonymously === true) {
+            openSentFundsModal({
+              feeUsd,
+              feeZec,
+              recipient,
+              memo,
+              title,
+              timestamp: DateTime.utc().toSeconds()
+            })
+          }
         }}
         variant='contained'
         color='primary'

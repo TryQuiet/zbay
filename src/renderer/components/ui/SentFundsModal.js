@@ -104,7 +104,7 @@ export const SentFundsModal = ({
           >
             <Grid container className={classes.root}>
               <Grid className={classes.title} item xs={12}>
-                <Typography variant='h3'>{title || `Sent Fundss`}</Typography>
+                <Typography variant='h3'>{title || `Sent Funds`}</Typography>
               </Grid>
               <Grid className={classes.details} item xs={12}>
                 <Typography variant='body2'>Transaction details</Typography>

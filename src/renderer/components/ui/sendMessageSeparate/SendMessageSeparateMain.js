@@ -9,7 +9,6 @@ import * as Yup from 'yup'
 import BigNumber from 'bignumber.js'
 
 import { MESSAGE_SIZE } from '../../../zbay/transit'
-// import { createTransfer } from '../../../zbay/messages'
 import { networkFee } from '../../../../shared/static'
 import SendMessageInitial from './SendMessageSeparateInitial'
 
@@ -23,7 +22,7 @@ export const formSchema = users => {
       recipient: Yup.mixed()
         .test(
           'match',
-          'Wrong address format or username does not exist',
+          `Wrong address format (You can't include message to transparent address) or username does not exist`,
           function (string) {
             const isAddressValid = /^zs1[a-z0-9]{75}$/.test(
               string
