@@ -169,7 +169,6 @@ export const transferToMessage = async (props, users) => {
     message = await unpackMemo(memo)
     const { type } = message
     if (type === 'UNKNOWN') {
-      console.log(message)
       return {
         type: 'UNKNOWN',
         payload: message,
