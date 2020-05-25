@@ -12,10 +12,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import BigNumber from 'bignumber.js'
 
-import { AutocompleteField } from '../../ui/form/Autocomplete'
+import { AutocompleteField } from '../form/Autocomplete'
 import CheckboxChecked from '../../../static/images/checkbox.svg'
 import CheckboxUnchecked from '../../../static/images/bg-unchecked.svg'
-import FormikTextField from '../../../components/ui/form/TextField'
+import FormikTextField from '../form/TextField'
 import Icon from '../Icon'
 
 const styles = theme => ({
@@ -113,7 +113,7 @@ const styles = theme => ({
     marginTop: 26
   }
 })
-export const SendMessageSeparateInitial = ({
+export const SendMessageInitial = ({
   classes,
   handleClose,
   users,
@@ -274,7 +274,7 @@ export const SendMessageSeparateInitial = ({
   )
 }
 
-SendMessageSeparateInitial.propTypes = {
+SendMessageInitial.propTypes = {
   classes: PropTypes.object.isRequired,
   rateUsd: PropTypes.instanceOf(BigNumber),
   rateZec: PropTypes.number,
@@ -292,4 +292,4 @@ SendMessageSeparateInitial.propTypes = {
 export default R.compose(
   React.memo,
   withStyles(styles)
-)(SendMessageSeparateInitial)
+)(SendMessageInitial)

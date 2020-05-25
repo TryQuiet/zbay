@@ -3,29 +3,25 @@ import BigNumber from 'bignumber.js'
 import { shallow } from 'enzyme'
 import Immutable from 'immutable'
 
-import { SendMessageSeparateMain } from './SendMessageSeparateMain'
+import { SendMessageInitial } from './SendMessageInitial'
 import { mockClasses } from '../../../../shared/testing/mocks'
 
-describe('SendMessageSeparateMain', () => {
+describe('SendMessageSeparateInitial', () => {
   it('renders component', () => {
     const result = shallow(
-      <SendMessageSeparateMain
+      <SendMessageInitial
         classes={mockClasses}
         balanceZec={new BigNumber(0.7)}
         values={{ recipient: 'address123' }}
-        touched={{}}
+        touched={false}
         isValid
-        initialValues={{
-          recipient: '',
-          sendAnonymously: false,
-          memo: ''
-        }}
         memo={'test memo'}
         errors={{}}
         feeZec={0.00001}
         feeUsd={0.00001}
         submitForm={jest.fn()}
         handleClose={jest.fn()}
+        setFieldValue={jest.fn()}
         nickname={'test-nickname'}
         users={Immutable.fromJS([
           {
@@ -34,7 +30,6 @@ describe('SendMessageSeparateMain', () => {
           }
         ])}
         openSentFundsModal={jest.fn()}
-        sendPlainTransfer={jest.fn()}
       />
     )
     expect(result).toMatchSnapshot()

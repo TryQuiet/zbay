@@ -208,7 +208,6 @@ export const SendMoneyInitial = ({
       <span />
     )
   }
-  console.log('values', values)
   return (
     <Grid
       container

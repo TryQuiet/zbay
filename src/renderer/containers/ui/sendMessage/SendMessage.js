@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 
 import { withModal, actionCreators } from '../../../store/handlers/modals'
-import SendMessageModalComponent from '../../../components/ui/sendMessageSeparate/SendMessageSeparateMain'
+import SendMessageModalComponent from '../../../components/ui/sendMessage/SendMessageMain'
 import identitySelector from '../../../store/selectors/identity'
 import directMessages from '../../../store/handlers/contacts'
 import transfers from '../../../store/handlers/directMessagesQueue'
@@ -24,7 +24,7 @@ export const mapStateToProps = state => ({
     : ''
 })
 
-export const SendMessageSeparateModal = props => {
+export const SendMessageModal = props => {
   return <SendMessageModalComponent {...props} />
 }
 export const mapDispatchToProps = dispatch => bindActionCreators({
@@ -39,4 +39,4 @@ export default R.compose(
   withRouter,
   withModal('newMessageSeparate'),
   React.memo
-)(SendMessageSeparateModal)
+)(SendMessageModal)

@@ -10,7 +10,7 @@ import BigNumber from 'bignumber.js'
 
 import { MESSAGE_SIZE } from '../../../zbay/transit'
 import { networkFee } from '../../../../shared/static'
-import SendMessageInitial from './SendMessageSeparateInitial'
+import SendMessageInitial from './SendMessageInitial'
 
 import Modal from '../Modal'
 
@@ -57,7 +57,7 @@ export const validateForm = ({ balanceZec }) => values => {
   return errors
 }
 
-export const SendMessageSeparateMain = ({
+export const SendMessageMain = ({
   initialValues,
   open,
   users,
@@ -161,7 +161,7 @@ export const SendMessageSeparateMain = ({
   )
 }
 
-SendMessageSeparateMain.propTypes = {
+SendMessageMain.propTypes = {
   classes: PropTypes.object.isRequired,
   initialValues: PropTypes.shape({
     recipient: PropTypes.string.isRequired,
@@ -179,7 +179,7 @@ SendMessageSeparateMain.propTypes = {
   openSentFundsModal: PropTypes.func.isRequired
 }
 
-SendMessageSeparateMain.defaultProps = {
+SendMessageMain.defaultProps = {
   initialValues: {
     recipient: '',
     sendAnonymously: false,
@@ -187,4 +187,4 @@ SendMessageSeparateMain.defaultProps = {
   }
 }
 
-export default R.compose(React.memo, withStyles(styles))(SendMessageSeparateMain)
+export default R.compose(React.memo, withStyles(styles))(SendMessageMain)

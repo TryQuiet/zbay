@@ -19,7 +19,7 @@ import SendMoneyModal from './containers/ui/sendMoney/SendMoneyModal'
 import UpdateModal from './containers/widgets/update/UpdateModal'
 import CreateChannelModal from './containers/widgets/channels/CreateChannelModal'
 import NewMessageModal from './containers/widgets/channels/NewMessageModal'
-import NewMessageSeparateModal from './containers/ui/sendMessageSeparate/SendMessageSeparate'
+import SendMessageModal from './containers/ui/sendMessage/SendMessage'
 import JoinChannelModal from './containers/widgets/channels/JoinChannelModal'
 import ChannelSettingsModal from './containers/widgets/channelSettings/ChannelSettingsModal'
 import AdvertModal from './containers/ui/adverts/AdvertModal'
@@ -31,7 +31,7 @@ import SendFundsModal from './containers/ui/adverts/SendFundsModal'
 import AddModerator from './containers/widgets/channelSettings/AddModerator'
 import BlockchainLocationModal from './containers/widgets/blockchainLocation/BlockchainLocation'
 import theme from './theme'
-import SendMoneySeparate from './containers/ui/sendMoneySeparate/sendMoneySeparate'
+import SendMoney from './containers/ui/sendMoneySeparate/sendMoney'
 
 export default () => {
   return (
@@ -48,7 +48,7 @@ export default () => {
             <CssBaseline />
             <CreateChannelModal />
             <NewMessageModal />
-            <NewMessageSeparateModal />
+            <SendMessageModal />
             <JoinChannelModal />
             <AdvertModal />
             <AdvertActionsModal />
@@ -59,7 +59,7 @@ export default () => {
             <AddModerator />
             <OpenExternalLinkModal />
             <BlockchainLocationModal />
-            <SendMoneySeparate />
+            <SendMoney />
             <Route path='/vault' exact component={Vault} />
             <Route path='/main' component={Main} />
             <Route path='/zcashNode' component={Index} />
