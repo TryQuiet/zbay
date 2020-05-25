@@ -30,7 +30,8 @@ import removedChannelsHandlers from './removedChannels'
 import {
   messageType,
   actionTypes,
-  notificationFilterType
+  notificationFilterType,
+  unknownUserId
 } from '../../../shared/static'
 
 import directMessagesQueueHandlers, {
@@ -256,7 +257,6 @@ export const fetchMessages = () => async (dispatch, getState) => {
       .filter(msg => msg !== null)
       .filter(msg => msg.sender.username === 'unknown')
       .filter(msg => msg.specialType === 1)
-    console.log(messagesFromUnknown)
     const messages = messagesAll
       .filter(msg => msg !== null)
       .filter(msg => msg.sender.replyTo !== '')
@@ -334,8 +334,8 @@ export const fetchMessages = () => async (dispatch, getState) => {
     })
     if (messagesFromUnknown.length > 0) {
       const unknownSender = {
-        username: 'c7e7c14740c3372fffe47c845a2b6720',
-        replyTo: 'c7e7c14740c3372fffe47c845a2b6720'
+        username: unknownUserId,
+        replyTo: unknownUserId
       }
       await dispatch(setUsernames({ sender: unknownSender }))
       await dispatch(loadVaultMessages({ contact: unknownSender }))
@@ -384,9 +384,33 @@ export const fetchMessages = () => async (dispatch, getState) => {
           messagesIds: newMessages.map(R.prop('id'))
         })
       )
-      console.log(uknownSenderMessagesWithTimestamp, unknownSender.replyTo)
       dispatch(setMessages({ messages: uknownSenderMessagesWithTimestamp, contactAddress: unknownSender.replyTo }))
       remote.app.badgeCount = remote.app.badgeCount + newMessages.size
+
+      const userFilter = notificationCenterSelector.userFilterType(
+        getState()
+      )
+      if (newMessages.size > 0) {
+        if (userFilter !== notificationFilterType.MUTE) {
+          for (const nm of newMessages) {
+            if (
+              notificationCenterSelector.contactFilterByAddress(
+                unknownSender.replyTo
+              )(getState()) !== notificationFilterType.MUTE
+            ) {
+              const notification = displayDirectMessageNotification({
+                message: nm,
+                username: unknownSender.replyTo
+              })
+              notification.onclick = () => {
+                history.push(
+                  `/main/direct-messages/${unknownSender.replyTo}/${unknownSender.replyTo}`
+                )
+              }
+            }
+          }
+        }
+      }
     }
     const senderToMessages = R.compose(
       R.groupBy(msg => msg.sender.replyTo),

@@ -10,6 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import { Typography, Grid } from '@material-ui/core'
 
 import ZcashIcon from '../../ui/ZcashIcon'
+import Icon from '../../ui/Icon'
+import anonIcon from '../../../static/images/st-anon.svg'
 import { messageType, unknownUserId } from '../../../../shared/static'
 
 const styles = theme => ({
@@ -50,11 +52,19 @@ const styles = theme => ({
     marginTop: 6,
     fill: theme.palette.colors.green
   },
+  anonIcon: {
+    marginLeft: 16,
+    width: 11,
+    height: 11
+  },
   itemText: {
     margin: 0
   },
   nameSpacing: {
     marginLeft: 4
+  },
+  anonTile: {
+    paddingLeft: 3
   }
 })
 
@@ -91,14 +101,21 @@ export const ChannelsListItem = ({ classes, channel, history, directMessages, se
       <ListItemText
         primary={
           <Grid container alignItems='center'>
+            {!isFromZbay && (
+              <Icon
+                className={classes.anonIcon}
+                src={anonIcon}
+              />
+            )}
             <Grid item>
               <Typography
                 variant='body2'
                 className={classNames(classes.title, {
-                  [classes.newMessages]: newMessages
+                  [classes.newMessages]: newMessages,
+                  [classes.anonTile]: !isFromZbay
                 })}
               >
-                {directMessages ? `@ ${isFromZbay ? channelObj.username : 'unknown'}` : `# ${channelObj.name}`}
+                {directMessages ? `${isFromZbay ? `@ ${channelObj.username}` : 'unknown'}` : `# ${channelObj.name}`}
               </Typography>
             </Grid>
             {recievedMoney && (
