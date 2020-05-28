@@ -123,7 +123,7 @@ export const sendPendingMessages = (debounce = null) => {
 
 const addMessageEpic = payload => async (dispatch, getState) => {
   dispatch(addMessage(payload))
-  dispatch(sendPendingMessages())
+  await dispatch(sendPendingMessages())
 }
 
 export const epics = {
