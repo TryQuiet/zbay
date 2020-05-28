@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles'
 import WarningIcon from '@material-ui/icons/Warning'
 import orange from '@material-ui/core/colors/orange'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import { shell } from 'electron'
 
 import MentionPoper from './MentionPoper'
 import ChannelInputAction from '../../../../containers/widgets/channels/ChannelInputAction'
@@ -123,6 +124,12 @@ const styles = theme => {
     },
     errorBox: {
       marginTop: 5
+    },
+    linkBlue: {
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      cursor: 'pointer',
+      color: theme.palette.colors.linkBlue
     }
   }
 }
@@ -439,7 +446,7 @@ export const ChannelInput = ({
             <Icon src={errorIcon} />
           </Grid>
           <Grid item>
-            <Typography className={classes.errorText} variant={'caption'}>Your message size is too long to fit in a memo</Typography>
+            <Typography className={classes.errorText} variant={'caption'}>{`Your message is over the size limit. `}<span onClick={() => shell.openExternal('https://www.zbay.app/#message-size-info')} className={classes.linkBlue}>Learn More</span></Typography>
           </Grid>
         </Grid>
       )}
