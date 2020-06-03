@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { createAction, handleActions } from 'redux-actions'
 import secp256k1 from 'secp256k1'
 import { randomBytes } from 'crypto'
+import { ipcRenderer } from 'electron'
 
 import { getClient } from '../../zcash'
 import channels from '../../zcash/channels'
@@ -369,6 +370,10 @@ export const loadIdentity = () => async (dispatch, getState) => {
   }
 }
 
+export const createWalletBackup = () => async (dispatch, getState) => {
+  ipcRenderer.send('make-wallet-backup')
+}
+
 export const setIdentityEpic = (identityToSet, isNewUser) => async (
   dispatch,
   getState
@@ -382,6 +387,7 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
     })
   )
   const isRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
+  // const isWalletCopyCreated = electronStore.get('isWalletCopyCreated')
   try {
     dispatch(setLoadingMessage('Ensuring identity integrity'))
     // Make sure identity is handled by the node
@@ -389,12 +395,18 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
     const network = nodeSelectors.network(getState())
     await migrateTo_0_7_0.ensureDefaultChannels(identity, network)
     await dispatch(channelsHandlers.actions.loadChannelsToNode(identity.id))
+    console.log('start importing')
     await getClient().keys.importTPK({ tpk: identity.keys.tpk, rescan: false })
     await getClient().keys.importSK({
       sk: identity.keys.sk,
       rescan: isRescanned ? 'no' : 'yes',
       startHeight: 700000
     })
+    console.log('imported')
+    // if (!isRescanned && !isWalletCopyCreated) {
+    //   console.log('creating wallet copy')
+    //   await dispatch(createWalletBackup())
+    // }
     await dispatch(whitelistHandlers.epics.initWhitelist())
     await dispatch(notificationCenterHandlers.epics.init())
     dispatch(setLoadingMessage('Setting identity'))

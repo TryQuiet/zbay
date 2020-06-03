@@ -26,6 +26,7 @@ import { createRpcCredentials } from '../renderer/zcash'
 import config from './config'
 import { spawnZcashNode } from './zcash/bootstrap'
 import electronStore from '../shared/electronStore'
+import recoveryHandlers from './zcash/recover'
 
 const osPathsBlockchainCustom = {
   darwin: `${process.env.HOME ||
@@ -622,6 +623,15 @@ app.on('ready', async () => {
         }
       })
     })
+    setTimeout(() => {
+      recoveryHandlers.checkIfProcessIsRunning((status) => {
+        if (!status) {
+          recoveryHandlers.replaceWalletFile()
+          electronStore.set('AppStatus.blockchain.isRescanned', false)
+          app.relaunch()
+        }
+      })
+    }, 600000)
 
     if (!isDev) {
       checkForUpdate(mainWindow)
@@ -633,6 +643,11 @@ app.on('ready', async () => {
 
   ipcMain.on('proceed-update', (event, arg) => {
     autoUpdater.quitAndInstall()
+  })
+
+  ipcMain.on('make-wallet-backup', (event, arg) => {
+    recoveryHandlers.makeWalletCopy()
+    electronStore.get('isWalletCopyCreated', true)
   })
 
   let rescanningInterval
@@ -734,7 +749,10 @@ app.on('ready', async () => {
     checkPath(osPathLogs[process.platform])
     checkLogsFiles()
     const transactions = JSON.parse(fs.readFileSync(targetPath.transactions))
-    const applicationLogs = JSON.parse(fs.readFileSync(targetPath.rpcCalls))
+    let applicationLogs = JSON.parse(fs.readFileSync(targetPath.rpcCalls))
+    if (applicationLogs.length > 100) {
+      applicationLogs = applicationLogs.slice(0, 100)
+    }
     const debugFileLines = await readLastLines.read(targetPath.debug, 100)
     if (mainWindow) {
       mainWindow.webContents.send('load-logs-to-store', {
