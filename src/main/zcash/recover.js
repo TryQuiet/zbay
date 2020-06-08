@@ -56,7 +56,7 @@ const checkIfProcessIsRunning = (status) => {
   let cmd = ''
   switch (platform) {
     case 'win32' : cmd = `tasklist`; break
-    case 'darwin' : cmd = `ps -ax | grep ${query}`; break
+    case 'darwin' : cmd = `ps -ax`; break
     case 'linux' : cmd = `ps -A`; break
     default: break
   }
