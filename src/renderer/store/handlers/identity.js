@@ -397,7 +397,6 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
     const network = nodeSelectors.network(getState())
     await migrateTo_0_7_0.ensureDefaultChannels(identity, network)
     await dispatch(channelsHandlers.actions.loadChannelsToNode(identity.id))
-    console.log('start importing')
     await getClient().keys.importTPK({ tpk: identity.keys.tpk, rescan: false })
     await getClient().keys.importSK({
       sk: identity.keys.sk,
