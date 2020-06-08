@@ -371,8 +371,9 @@ export const loadIdentity = () => async (dispatch, getState) => {
 }
 
 export const createWalletBackup = () => async (dispatch, getState) => {
+  const isDev = process.env.NODE_ENV === 'development'
   const isWalletCopyCreated = electronStore.get('isWalletCopyCreated')
-  if (!isWalletCopyCreated) {
+  if (!isWalletCopyCreated && !isDev) {
     ipcRenderer.send('make-wallet-backup')
   }
 }

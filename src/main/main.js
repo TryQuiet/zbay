@@ -445,7 +445,7 @@ let powerSleepId
 
 const createZcashNode = async (win, torUrl) => {
   const isBlockchainRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
-  if (isBlockchainRescanned) {
+  if (isBlockchainRescanned && !isDev) {
     setTimeout(() => {
       recoveryHandlers.checkIfProcessIsRunning((status) => {
         if (!status) {
@@ -650,7 +650,6 @@ app.on('ready', async () => {
   })
 
   ipcMain.on('make-wallet-backup', (event, arg) => {
-    console.log('makkinnng copy of your wallet')
     recoveryHandlers.makeWalletCopy()
     electronStore.set('isWalletCopyCreated', true)
   })
@@ -756,7 +755,8 @@ app.on('ready', async () => {
     const transactions = JSON.parse(fs.readFileSync(targetPath.transactions))
     let applicationLogs = JSON.parse(fs.readFileSync(targetPath.rpcCalls))
     if (applicationLogs.length > 100) {
-      applicationLogs = applicationLogs.slice(0, 100)
+      const startHeight = applicationLogs.length - 100
+      applicationLogs = applicationLogs.slice(startHeight, applicationLogs.length)
     }
     const debugFileLines = await readLastLines.read(targetPath.debug, 100)
     if (mainWindow) {
