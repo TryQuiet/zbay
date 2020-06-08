@@ -20,15 +20,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.colors.white,
     padding: '0 4px',
     width: '100%'
-  },
-  bold: {
-    fontWeight: 'bold'
-  },
-  link: {
-    color: theme.palette.colors.lushSky,
-    backgroundColor: theme.palette.colors.lushSky12,
-    borderRadius: 4,
-    cursor: 'pointer'
   }
 })
 
@@ -151,9 +142,9 @@ export const ChannelMessages = ({
                             ? users.get(msg.owner).nickname
                             : 'Anonymous'
                         }
-                        onChannelClick={onLinkedChannel(
-                          publicChannels.get(msg.name)
-                        )}
+                        onChannelClick={() => {
+                          onLinkedChannel(publicChannels.get(msg.name))
+                        }}
                       />
                     )
                   } else {

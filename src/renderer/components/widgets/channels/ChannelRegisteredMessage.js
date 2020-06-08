@@ -11,6 +11,12 @@ const styles = theme => ({
   nickname: {
     fontWeight: 'bold',
     cursor: 'pointer'
+  },
+  link: {
+    color: theme.palette.colors.lushSky,
+    backgroundColor: theme.palette.colors.lushSky12,
+    borderRadius: 4,
+    cursor: 'pointer'
   }
 })
 
