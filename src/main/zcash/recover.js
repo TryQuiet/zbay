@@ -27,7 +27,6 @@ const walletPathBackup = {
 
 const makeWalletCopy = () => {
   const blockchainConfiguration = electronStore.get('blockchainConfiguration')
-  console.log('blockchain conf', blockchainConfiguration)
   const targetPath = blockchainConfiguration === config.BLOCKCHAIN_STATUSES.DEFAULT_LOCATION_SELECTED ? walletPathDefault[process.platform] : walletPathCustom[process.platform]
   const destinationPath = walletPathBackup[process.platform]
   try {

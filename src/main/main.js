@@ -444,6 +444,19 @@ const fetchBlockchain = async (win, torUrl) => {
 let powerSleepId
 
 const createZcashNode = async (win, torUrl) => {
+  const isBlockchainRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
+  if (isBlockchainRescanned) {
+    setTimeout(() => {
+      recoveryHandlers.checkIfProcessIsRunning((status) => {
+        if (!status) {
+          recoveryHandlers.replaceWalletFile()
+          electronStore.set('AppStatus.blockchain.isRescanned', false)
+          app.relaunch()
+          createZcashNode(win, torUrl)
+        }
+      })
+    }, 180000)
+  }
   const updateStatus = electronStore.get('updateStatus')
   const blockchainConfiguration = electronStore.get('blockchainConfiguration')
   if (updateStatus !== config.UPDATE_STATUSES.NO_UPDATE || (blockchainConfiguration === config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION && isFetchedFromExternalSource)) {
@@ -623,15 +636,6 @@ app.on('ready', async () => {
         }
       })
     })
-    setTimeout(() => {
-      recoveryHandlers.checkIfProcessIsRunning((status) => {
-        if (!status) {
-          recoveryHandlers.replaceWalletFile()
-          electronStore.set('AppStatus.blockchain.isRescanned', false)
-          app.relaunch()
-        }
-      })
-    }, 600000)
 
     if (!isDev) {
       checkForUpdate(mainWindow)
@@ -646,8 +650,9 @@ app.on('ready', async () => {
   })
 
   ipcMain.on('make-wallet-backup', (event, arg) => {
+    console.log('makkinnng copy of your wallet')
     recoveryHandlers.makeWalletCopy()
-    electronStore.get('isWalletCopyCreated', true)
+    electronStore.set('isWalletCopyCreated', true)
   })
 
   let rescanningInterval

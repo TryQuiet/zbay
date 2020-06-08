@@ -371,7 +371,10 @@ export const loadIdentity = () => async (dispatch, getState) => {
 }
 
 export const createWalletBackup = () => async (dispatch, getState) => {
-  ipcRenderer.send('make-wallet-backup')
+  const isWalletCopyCreated = electronStore.get('isWalletCopyCreated')
+  if (!isWalletCopyCreated) {
+    ipcRenderer.send('make-wallet-backup')
+  }
 }
 
 export const setIdentityEpic = (identityToSet, isNewUser) => async (
@@ -387,7 +390,6 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
     })
   )
   const isRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
-  // const isWalletCopyCreated = electronStore.get('isWalletCopyCreated')
   try {
     dispatch(setLoadingMessage('Ensuring identity integrity'))
     // Make sure identity is handled by the node
@@ -402,11 +404,6 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
       rescan: isRescanned ? 'no' : 'yes',
       startHeight: 700000
     })
-    console.log('imported')
-    // if (!isRescanned && !isWalletCopyCreated) {
-    //   console.log('creating wallet copy')
-    //   await dispatch(createWalletBackup())
-    // }
     await dispatch(whitelistHandlers.epics.initWhitelist())
     await dispatch(notificationCenterHandlers.epics.init())
     dispatch(setLoadingMessage('Setting identity'))
