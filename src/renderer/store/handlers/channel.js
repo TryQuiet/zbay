@@ -151,10 +151,11 @@ const sendOnEnter = (event, resetTab) => async (dispatch, getState) => {
   const messageToSend = channelSelectors.message(getState())
   const messageQueueLock = appSelectors.messageQueueLock(getState())
   let locked = false
-
-  const currentMessage = messagesQueue
-    .queue(getState())
+  const msgQueue = messagesQueue.queue(getState())
+  const currentMessage = msgQueue
     .find(dm => dm.get('channelId') === channel.id)
+  const msgKey = msgQueue
+    .findKey(dm => dm.get('channelId') === channel.id)
   if (enterPressed && !shiftPressed) {
     if (!messageQueueLock) {
       await dispatch(appHandlers.actions.lockMessageQueue())
@@ -164,6 +165,7 @@ const sendOnEnter = (event, resetTab) => async (dispatch, getState) => {
     const privKey = identitySelectors.signerPrivKey(getState())
     let message
     if (currentMessage !== undefined && locked) {
+      await dispatch(messagesQueueHandlers.actions.removeMessage(msgKey))
       message = messages.createMessage({
         messageData: {
           type: messageType.BASIC,
