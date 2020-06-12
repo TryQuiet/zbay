@@ -149,7 +149,7 @@ export const ChannelHeader = ({
                   [classes.bold]: true
                 })}
               >
-                {isRegisteredUsername && isFromZbay ? `${prefix[channelType]}${isFromZbay ? channel.get('name') : 'unknown'}` : channel.get('address')}
+                {isRegisteredUsername || !isFromZbay ? `${prefix[channelType]}${isFromZbay ? channel.get('name') : 'unknown'}` : channel.get('address')}
               </Typography>
             </Grid>
             {mutedFlag && (

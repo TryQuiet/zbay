@@ -146,7 +146,7 @@ ItemTransferMessage.propTypes = {
   currentBlock: PropTypes.number.isRequired,
   openSentModal: PropTypes.func.isRequired,
   message: PropTypes.instanceOf(_DisplayableMessage).isRequired,
-  isRegisteredUsername: PropTypes.bool.isRequired
+  isRegisteredUsername: PropTypes.bool
 }
 
 export default R.compose(React.memo, withStyles(styles))(ItemTransferMessage)
