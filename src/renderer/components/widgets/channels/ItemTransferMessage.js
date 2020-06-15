@@ -133,8 +133,17 @@ export const ItemTransferMessage = ({
             } ZEC) ${message.tag ? `for #${message.tag}` : ''}`}
         </Typography>
         <Typography variant='body2' className={classes.message}>
-          {message.message && `${message.message}`}
+          {(message.message || message.shippingData) && `${message.message}`}
         </Typography>
+        {message.shippingData && (
+          <Typography variant='body2' className={classes.message}>
+            {`${message.shippingData.firstName} ${message.shippingData.lastName}
+              ${message.shippingData.street} ${message.shippingData.city}
+              ${message.shippingData.postalCode} ${message.shippingData.region}
+              ${message.shippingData.country} 
+            `}
+          </Typography>
+        )}
       </Grid>
     </BasicMessage>
   )
