@@ -133,7 +133,7 @@ export const ItemTransferMessage = ({
             } ZEC) ${message.tag ? `for #${message.tag}` : ''}`}
         </Typography>
         <Typography variant='body2' className={classes.message}>
-          {(message.message || message.shippingData) && `${message.message}`}
+          {message.message && `${message.message}`}
         </Typography>
         {message.shippingData && (
           <Typography variant='body2' className={classes.message}>
