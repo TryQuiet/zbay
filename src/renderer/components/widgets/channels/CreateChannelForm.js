@@ -46,10 +46,14 @@ const styles = theme => ({
 const parseChannelName = (name = '') => {
   return name.toLowerCase().replace(/ /g, '-')
 }
-export const CreateChannelForm = ({ classes, onSubmit }) => (
+export const CreateChannelForm = ({ classes, onSubmit, setStep }) => (
   <Formik
     onSubmit={(values, formActions) => {
-      onSubmit({ ...values, name: parseChannelName(values.name) }, formActions)
+      onSubmit(
+        { ...values, name: parseChannelName(values.name) },
+        formActions,
+        setStep
+      )
     }}
   >
     {({ isSubmitting, values }) => (
@@ -101,7 +105,8 @@ export const CreateChannelForm = ({ classes, onSubmit }) => (
 
 CreateChannelForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  setStep: PropTypes.func.isRequired
 }
 
 export default R.compose(React.memo, withStyles(styles))(CreateChannelForm)
