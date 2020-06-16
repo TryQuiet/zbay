@@ -37,7 +37,7 @@ exports[`CreateChannelFormFinish renders component 1`] = `
       className="info-mock"
       variant="body1"
     >
-      Creating a channel
+      Generating keys
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Grid))>
 </WithStyles(ForwardRef(Grid))>

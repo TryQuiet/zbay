@@ -36,7 +36,7 @@ export const CreateChannelFormFinish = ({ classes }) => (
     </Grid>
     <Grid item>
       <Typography variant='body1' className={classes.info}>
-        Creating a channel
+        Generating keys
       </Typography>
     </Grid>
   </Grid>
