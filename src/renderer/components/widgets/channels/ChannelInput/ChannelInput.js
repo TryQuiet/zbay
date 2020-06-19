@@ -382,7 +382,6 @@ export const ChannelInput = ({
                         refMentionsToSelect.current[refSelected.current]
                           .nickname
                       currentMsg.push(String.fromCharCode(160))
-                      console.log(currentMsg.join(String.fromCharCode(160)))
                       setHtmlMessage(currentMsg.join(String.fromCharCode(160)))
                       e.preventDefault()
                     }
