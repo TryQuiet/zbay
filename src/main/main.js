@@ -487,6 +487,14 @@ ipcMain.on('restart-node-proc', async (event, arg) => {
 })
 
 const createZcashNode = async (win, torUrl) => {
+  const updateStatus = electronStore.get('updateStatus')
+  const blockchainConfiguration = electronStore.get('blockchainConfiguration')
+  if (updateStatus !== config.UPDATE_STATUSES.NO_UPDATE || (blockchainConfiguration === config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION && isFetchedFromExternalSource)) {
+    setTimeout(() => {
+      createZcashNode(win, torUrl)
+    }, 5000)
+    return
+  }
   const isBlockchainRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
   if (isBlockchainRescanned && !isDev) {
     await killZcashdProcess()
@@ -499,14 +507,6 @@ const createZcashNode = async (win, torUrl) => {
         }
       })
     }, 180000)
-  }
-  const updateStatus = electronStore.get('updateStatus')
-  const blockchainConfiguration = electronStore.get('blockchainConfiguration')
-  if (updateStatus !== config.UPDATE_STATUSES.NO_UPDATE || (blockchainConfiguration === config.BLOCKCHAIN_STATUSES.WAITING_FOR_USER_DECISION && isFetchedFromExternalSource)) {
-    setTimeout(() => {
-      createZcashNode(win, torUrl)
-    }, 5000)
-    return
   }
   let AppStatus = electronStore.get('AppStatus')
   const vaultStatus = electronStore.get('vaultStatus')
