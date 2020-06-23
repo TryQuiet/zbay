@@ -458,7 +458,8 @@ const killZcashdProcess = async () => {
 }
 
 const checkZcashdStatus = async () => {
-  if (mainWindow) {
+  const isBlockchainRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
+  if (mainWindow && isBlockchainRescanned && !isDev) {
     const zcashProcess = await find('name', 'zcashd')
     if (zcashProcess.length > 0) {
       mainWindow.webContents.send('checkNodeStatus', {
