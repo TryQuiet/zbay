@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import { withStyles } from '@material-ui/core/styles'
-import { shell, app, remote } from 'electron'
+import { shell } from 'electron'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
@@ -143,8 +143,6 @@ export const AddFunds = ({
   const [expanded, setExpanded] = React.useState(false)
   const [dialogOpen, setDialogOpen] = React.useState(false)
   const [isCopied, setIsCopied] = React.useState(false)
-  console.log(app)
-  console.log(remote)
   return (
     <>
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
