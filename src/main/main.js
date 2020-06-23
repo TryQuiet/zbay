@@ -481,7 +481,6 @@ setTimeout(() => {
 }, 1200000)
 
 ipcMain.on('restart-node-proc', async (event, arg) => {
-  console.log('running new proccess')
   await killZcashdProcess()
   spawnZcashNode(process.platform, isTestnet)
 })
