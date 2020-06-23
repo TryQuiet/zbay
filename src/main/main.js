@@ -21,12 +21,17 @@ import convert from 'convert-seconds'
 import R from 'ramda'
 import findInFiles from 'find-in-files'
 import readLastLines from 'read-last-lines'
+import find from 'find-process'
+import ps from 'ps-node'
+import util from 'util'
 
 import { createRpcCredentials } from '../renderer/zcash'
 import config from './config'
 import { spawnZcashNode } from './zcash/bootstrap'
 import electronStore from '../shared/electronStore'
 import recoveryHandlers from './zcash/recover'
+
+const _killProcess = util.promisify(ps.kill)
 
 const osPathsBlockchainCustom = {
   darwin: `${process.env.HOME ||
@@ -443,9 +448,48 @@ const fetchBlockchain = async (win, torUrl) => {
 
 let powerSleepId
 
+const killZcashdProcess = async () => {
+  const zcashProcess = await find('name', 'zcashd')
+  if (zcashProcess.length > 0) {
+    const [ processDetails ] = zcashProcess
+    const { pid } = processDetails
+    await _killProcess(pid)
+  }
+}
+
+const checkZcashdStatus = async () => {
+  if (mainWindow) {
+    const zcashProcess = await find('name', 'zcashd')
+    if (zcashProcess.length > 0) {
+      mainWindow.webContents.send('checkNodeStatus', {
+        status: 'up'
+      })
+    } else {
+      mainWindow.webContents.send('checkNodeStatus', {
+        status: 'down'
+      })
+    }
+  }
+  setTimeout(checkZcashdStatus, 1200000)
+}
+
+setTimeout(() => {
+  const isBlockchainRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
+  if (isBlockchainRescanned && !isDev) {
+    checkZcashdStatus()
+  }
+}, 1200000)
+
+ipcMain.on('restart-node-proc', async (event, arg) => {
+  console.log('running new proccess')
+  await killZcashdProcess()
+  spawnZcashNode(process.platform, isTestnet)
+})
+
 const createZcashNode = async (win, torUrl) => {
   const isBlockchainRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
   if (isBlockchainRescanned && !isDev) {
+    await killZcashdProcess()
     setTimeout(() => {
       recoveryHandlers.checkIfProcessIsRunning((status) => {
         if (!status) {
