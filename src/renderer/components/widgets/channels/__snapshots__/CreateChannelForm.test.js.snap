@@ -46,6 +46,7 @@ exports[`CreateChannelForm renders component 1`] = `
           "_conditions": Array [],
           "_deps": Array [],
           "_exclusive": Object {
+            "max": true,
             "required": true,
           },
           "_mutate": undefined,
@@ -60,6 +61,7 @@ exports[`CreateChannelForm renders component 1`] = `
             "refs": Map {},
           },
           "tests": Array [
+            [Function],
             [Function],
           ],
           "transforms": Array [

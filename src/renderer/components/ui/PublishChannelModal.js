@@ -99,6 +99,9 @@ const styles = theme => ({
     width: 24,
     height: 28,
     marginRight: 8
+  },
+  warrningMessage: {
+    wordBreak: 'break-word'
   }
 })
 
@@ -146,7 +149,7 @@ Yup.addMethod(Yup.mixed, 'validateSize', function (maxSize, errorMessage) {
   })
 })
 const parseChannelName = (name = '') => {
-  return name.toLowerCase().replace(/  +/g, '-')
+  return name.toLowerCase().replace(/ +/g, '-')
 }
 export const PublishChannelModal = ({
   classes,
@@ -235,7 +238,10 @@ export const PublishChannelModal = ({
                             <WarningIcon className={classes.warrningIcon} />
                           </Grid>
                           <Grid item xs className=''>
-                            <Typography variant='body2'>
+                            <Typography
+                              variant='body2'
+                              className={classes.warrningMessage}
+                            >
                               Your channel will be created as{' '}
                               {parseChannelName(values.name)}
                             </Typography>
