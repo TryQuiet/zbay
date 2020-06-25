@@ -53,6 +53,9 @@ const parseChannelName = (name = '') => {
 export const formSchema = Yup.object().shape({
   name: Yup.string()
     .max(20, 'Channel name is too long.')
+    .test('testFormat', 'Channel name can contain only small characters and up to one hyphen.', function (value) {
+      return parseChannelName(value).match(/^[a-z0-9]+(-[a-z0-9]+)?$/)
+    })
     .required('Your channel must have a name.')
 })
 export const CreateChannelForm = ({ classes, onSubmit, setStep }) => (
