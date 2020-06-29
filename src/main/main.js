@@ -269,7 +269,9 @@ app.on('open-url', (event, url) => {
 })
 
 const checkForPayloadOnStartup = (payload) => {
-  if (mainWindow) {
+  const isInvitation = payload.includes('invitation')
+  const isNewChannel = payload.includes('importchannel')
+  if (mainWindow && ( isInvitation || isNewChannel )) {
     const data = new URL(payload)
     if (data.searchParams.has('invitation')) {
       mainWindow.webContents.send('newInvitation', {
