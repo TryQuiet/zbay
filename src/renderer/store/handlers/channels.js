@@ -57,9 +57,11 @@ const loadChannelsToNode = createAction(
         await getClient().keys.importIVK({
           ivk: channel.keys.ivk,
           rescan: isNewUser ? 'no' : 'whenkeyisnew',
-          startHeight: '880000'
+          startHeight: 880000
         })
-        await getClient().keys.importSK({ sk: channel.keys.sk, rescan: 'no' })
+        if (channel.keys.sk) {
+          await getClient().keys.importSK({ sk: channel.keys.sk, rescan: 'no' })
+        }
       } catch (error) {
         console.warn(`Channel ${channel.name} already imported.`)
       }
