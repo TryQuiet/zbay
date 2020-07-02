@@ -714,7 +714,12 @@ app.on('ready', async () => {
   })
 
   ipcMain.on('proceed-update', (event, arg) => {
-    autoUpdater.quitAndInstall()
+    if (nodeProc) {
+      nodeProc.kill('SIGKILL')
+    }
+    setTimeout(() => {
+      autoUpdater.quitAndInstall()
+    }, 2000)
   })
 
   ipcMain.on('make-wallet-backup', (event, arg) => {
