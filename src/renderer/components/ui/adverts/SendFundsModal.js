@@ -257,7 +257,7 @@ export const SendFundsModal = ({
   }
   React.useEffect(() => {
     validateForm()
-  }, [payload])
+  }, [payload, values])
   return (
     <Modal
       open={open}
