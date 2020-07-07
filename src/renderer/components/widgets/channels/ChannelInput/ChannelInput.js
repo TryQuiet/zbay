@@ -235,7 +235,7 @@ export const ChannelInput = ({
     }
     for (const key in splitedMsg) {
       const element = splitedMsg[key]
-      if (users.find(user => user.nickname === element.substring(1))) {
+      if (element.startsWith('@') && users.find(user => user.nickname === element.substring(1))) {
         splitedMsg[key] = renderToString(
           <span className={classes.highlight}>{element}</span>
         )
@@ -277,7 +277,7 @@ export const ChannelInput = ({
               currentMsg[currentMsg.length - 1] =
                 '@' + refMentionsToSelect.current[refSelected.current].nickname
               currentMsg.push(String.fromCharCode(160))
-
+              onChange(currentMsg.join(String.fromCharCode(160)))
               setHtmlMessage(currentMsg.join(String.fromCharCode(160)))
               inputRef.current.el.current.focus()
             }}
