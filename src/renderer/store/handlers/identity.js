@@ -38,6 +38,7 @@ import modalsHandlers from './modals'
 import notificationsHandlers from './notifications'
 import { networkFee, actionTypes } from '../../../shared/static'
 import electronStore from '../../../shared/electronStore'
+import { createStandardMemo } from '../../zbay/transit'
 
 export const ShippingData = Immutable.Record(
   {
@@ -142,6 +143,7 @@ export const shieldBalance = ({ from, to, amount, fee }) => async (
   let transactions = []
   const taxAmount = amount.div(100).toFixed(8) // 1% tax
   const newAmount = amount.minus(taxAmount).toFixed(8)
+  const standardMemo = await createStandardMemo('Shielding internal balance')
   if (donationAllow === 'true') {
     transactions.push({
       address: isAddressValid ? donationAddress : zbay.address,
@@ -149,12 +151,14 @@ export const shieldBalance = ({ from, to, amount, fee }) => async (
     })
     transactions.push({
       address: to,
-      amount: newAmount.toString()
+      amount: newAmount.toString(),
+      memo: standardMemo
     })
   } else {
     transactions.push({
       address: to,
-      amount: amount.toString()
+      amount: amount.toString(),
+      memo: standardMemo
     })
   }
   const opId = await getClient().payment.send({
