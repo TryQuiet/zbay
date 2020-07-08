@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { notarize } = require('electron-notarize')
 
 exports.default = async function notarizing (context) {
@@ -8,7 +7,6 @@ exports.default = async function notarizing (context) {
   }
 
   const appName = context.packager.appInfo.productFilename
-  console.log(process.env.APPLEID, process.env.APPLEIDPASS)
 
   try {
     const response = await notarize({
@@ -19,7 +17,7 @@ exports.default = async function notarizing (context) {
     })
     return response
   } catch (e) {
-    console.log('some error', e)
+    console.log('error')
   }
   console.log('notarization done')
 }
