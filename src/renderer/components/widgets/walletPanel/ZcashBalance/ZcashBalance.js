@@ -29,14 +29,14 @@ const styles = theme => ({
   }
 })
 
-export const ZcashBalance = ({ classes, usdBalance, zecBalance, usdLocked, zecLocked }) => {
+export const ZcashBalance = ({ classes, usdBalance, zecBalance, usdLocked, zecLocked, pendingBalance }) => {
   return (
     <Grid container align='flex-start' direction='column' spacing={0}>
       <Grid item>
         <Typography display='inline' variant='body2' className={classes.zecBalance}>
           {zecBalance.toString().substring(0, 5)} ZEC
         </Typography>
-        {(!usdLocked.isZero() || !zecLocked.isZero()) && (
+        {(!usdLocked.isZero() || !zecLocked.isZero() || !!pendingBalance) && (
           <Tooltip
             title='Some funds are unavailable until pending transactions complete.'
             className={classes.tooltip}
@@ -63,14 +63,16 @@ ZcashBalance.propTypes = {
   usdBalance: PropTypes.instanceOf(BigNumber),
   zecBalance: PropTypes.instanceOf(BigNumber),
   usdLocked: PropTypes.instanceOf(BigNumber),
-  zecLocked: PropTypes.instanceOf(BigNumber)
+  zecLocked: PropTypes.instanceOf(BigNumber),
+  pendingBalance: PropTypes.number.isRequired
 }
 
 ZcashBalance.defaultProps = {
   usdBalance: new BigNumber(0),
   zecBalance: new BigNumber(0),
   usdLocked: new BigNumber(0),
-  zecLocked: new BigNumber(0)
+  zecLocked: new BigNumber(0),
+  pendingBalance: 0
 }
 
 export default R.compose(withStyles(styles))(ZcashBalance)

@@ -6,6 +6,7 @@ import zbayMessages from '../../zbay/messages'
 import operationsSelectors from './operations'
 import { operationTypes } from '../handlers/operations'
 import usersSelectors from './users'
+import nodeSelectors from './node'
 import { mergeIntoOne } from './channel'
 
 export const Contact = Immutable.Record({
@@ -32,6 +33,16 @@ const messages = address =>
   createSelector(
     contact(address),
     c => c.messages
+  )
+const allMessages =
+  createSelector(
+    contacts,
+    c => Array.from(c.values()).reduce((acc, contact) => (acc.concat(contact.messages)), Immutable.List())
+  )
+const pendingBalance =
+  createSelector(
+    allMessages, nodeSelectors.currentBlock,
+    (allMessages, currentBlock) => allMessages.filter(txn => currentBlock - txn.blockTime).reduce((acc, txn) => acc + parseFloat(txn.spent), 0)
   )
 const lastSeen = address =>
   createSelector(
@@ -131,5 +142,7 @@ export default {
   lastSeen,
   vaultMessages,
   username,
-  newMessages
+  newMessages,
+  allMessages,
+  pendingBalance
 }

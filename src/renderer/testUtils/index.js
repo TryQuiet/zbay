@@ -117,12 +117,14 @@ export const createItemMessage = (id, createdAt = now.minus({ hours: id }).toSec
 export const createReceivedMessage = ({
   id,
   createdAt = now.toSeconds(),
-  sender = identities[0]
+  sender = identities[0],
+  blockTime = Number.MAX_SAFE_INTEGER
 }) => ({
   id,
   spent: new BigNumber('0.32'),
   type: messageType.BASIC,
   createdAt,
+  blockTime,
   message: `This is a message with id ${id}`,
   signature: secp256k1.sign(hash(`This is a message with id ${id}`), pKey).signature
 })
