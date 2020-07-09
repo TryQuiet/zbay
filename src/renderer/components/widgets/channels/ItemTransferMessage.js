@@ -90,7 +90,7 @@ export const ItemTransferMessage = ({
   const [actionsOpen, setActionsOpen] = React.useState(false)
   const usdAmount = new BigNumber(message.spent)
     .times(rateUsd)
-    .toFixed(2)
+    .toFixed(2, BigNumber.ROUND_CEIL)
     .toString()
   return (
     <BasicMessage
