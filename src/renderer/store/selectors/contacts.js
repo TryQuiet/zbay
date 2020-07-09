@@ -42,7 +42,7 @@ const allMessages =
 const pendingBalance =
   createSelector(
     allMessages, nodeSelectors.currentBlock,
-    (allMessages, currentBlock) => allMessages.filter(txn => currentBlock - txn.blockTime).reduce((acc, txn) => acc + parseFloat(txn.spent), 0)
+    (allMessages, currentBlock) => allMessages.filter(txn => currentBlock - txn.blockTime < 24).reduce((acc, txn) => acc + parseFloat(txn.spent), 0)
   )
 const lastSeen = address =>
   createSelector(

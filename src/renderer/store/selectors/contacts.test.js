@@ -123,7 +123,7 @@ describe('operations selectors', () => {
   it(' - allMessages', () => {
     expect(selectors.allMessages(store.getState())).toMatchSnapshot()
   })
-  it.only(' - pendingBalance', () => {
+  it(' - pendingBalance', () => {
     expect(selectors.pendingBalance(store.getState())).toMatchSnapshot()
   })
   it(' - messages', () => {
