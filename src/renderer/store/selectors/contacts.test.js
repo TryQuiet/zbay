@@ -8,6 +8,7 @@ import testUtils from '../../testUtils'
 import { ReceivedMessage } from '../handlers/messages'
 import { operationTypes, PendingDirectMessageOp, Operation } from '../handlers/operations'
 import { PendingMessage } from '../handlers/directMessagesQueue'
+import { NodeState } from '../handlers/node'
 
 describe('operations selectors', () => {
   const [identity1, identity2] = testUtils.identities
@@ -16,7 +17,8 @@ describe('operations selectors', () => {
       testUtils.messages.createReceivedMessage({
         id,
         createdAt: testUtils.now.minus({ hours: 2 * id }).toSeconds(),
-        sender: identity1
+        sender: identity1,
+        blockTime: 100
       })
     ))
   )
@@ -35,6 +37,9 @@ describe('operations selectors', () => {
   beforeEach(() => {
     store = create({
       initialState: Immutable.Map({
+        node: NodeState({
+          currentBlock: 123
+        }),
         contacts: Immutable.Map({
           [identity1.address]: Contact({
             username: identity1.username,
@@ -115,6 +120,12 @@ describe('operations selectors', () => {
     expect(selectors.contact(identity1.address)(store.getState())).toMatchSnapshot()
   })
 
+  it(' - allMessages', () => {
+    expect(selectors.allMessages(store.getState())).toMatchSnapshot()
+  })
+  it.only(' - pendingBalance', () => {
+    expect(selectors.pendingBalance(store.getState())).toMatchSnapshot()
+  })
   it(' - messages', () => {
     expect(selectors.messages(identity1.address)(store.getState())).toMatchSnapshot()
   })

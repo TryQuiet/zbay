@@ -1,5 +1,5 @@
 const PARAMS_LINK = 'https://zbay-blockchain-and-params.zbay.app/params/params.json'
-const BLOCKCHAIN_LINK = 'https://zbay-blockchain-and-params.zbay.app/v6/indexV6.json'
+const BLOCKCHAIN_LINK = 'https://zbay-blockchain-and-params.zbay.app/v7/indexV7.json'
 
 const PARAMS_STATUSES = {
   SUCCESS: 'SUCCESS',
