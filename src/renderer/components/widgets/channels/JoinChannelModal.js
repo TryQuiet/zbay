@@ -242,7 +242,7 @@ export const JoinChannelModal = ({
                     />
                   ) : (
                     <Typography variant='caption' className={classes.info}>
-                      If you have an invite link, open it in a browser
+                      If you have an invite link, open it in a browser. Want to list your own channel here? Create it, then select "Make public" in its settings.
                     </Typography>
                   )}
                 </Grid>
