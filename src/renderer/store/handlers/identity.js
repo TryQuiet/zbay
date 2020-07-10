@@ -424,7 +424,7 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
       )
       identity = updatedIdentity
     }
-    await dispatch(setIdentity(identity))
+    await dispatch(setIdentity(Identity(identity)))
     await dispatch(txnTimestampsHandlers.epics.getTnxTimestamps())
     dispatch(removedChannelsHandlers.epics.getRemovedChannelsTimestamp())
 
