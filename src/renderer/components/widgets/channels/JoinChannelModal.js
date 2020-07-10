@@ -122,11 +122,12 @@ export const JoinChannelModal = ({
                 return
               }
               setLoading(true)
-              await joinChannel(ch)
-              setLoading(false)
-              setStep(0)
-              handleClose()
-              resetForm()
+              joinChannel(ch, () => {
+                setLoading(false)
+                setStep(0)
+                handleClose()
+                resetForm()
+              })
               return
             }
             showNotification(
