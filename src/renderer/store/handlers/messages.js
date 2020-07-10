@@ -69,7 +69,7 @@ const _RecivedFromUnknownMessage = Immutable.Record(
 )
 
 export const ReceivedMessage = values => {
-  if (values.type === 'UNKNOWN') {
+  if (values && values.type === 'UNKNOWN') {
     delete values.payload.type
     const unknownRecord = _RecivedFromUnknownMessage({
       ...values.payload,
