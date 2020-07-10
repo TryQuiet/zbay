@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Immutable from 'immutable'
-
+import BigNumber from 'bignumber.js'
 import ListingMessageComponent from '../../../components/widgets/channels/ListingMessage'
 import { actionCreators } from '../../../store/handlers/modals'
 import ratesSelectors from '../../../store/selectors/rates'
@@ -30,7 +30,7 @@ const ListingMessage = ({ message, rateUsd, ...props }) => {
     priceZcash: rateUsd
       .div(rateUsd.times(rateUsd))
       .times(message.message.amount)
-      .toFixed(4)
+      .toFixed(4, BigNumber.ROUND_CEIL)
       .toString(),
     offerOwner: message.sender.username,
     id: message.id,
