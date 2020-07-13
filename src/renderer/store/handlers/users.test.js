@@ -9,7 +9,7 @@ import handlers, { initialState, ReceivedUser } from './users'
 import { NodeState } from './node'
 import selectors from '../selectors/users'
 import { packMemo } from '../../zbay/transit'
-import { mock as zcashMock } from '../../zcash'
+import { mock as zcashMock, getClient } from '../../zcash'
 import vault from '../../vault'
 import { ChannelsState } from './channels'
 import { IdentityState, Identity } from './identity'
@@ -87,6 +87,7 @@ describe('users reducer', () => {
 
   describe('handles epics -', () => {
     describe('fetch users', () => {
+      jest.spyOn(getClient().confirmations, 'getResult').mockImplementation(async () => ({ 'time': '123' }))
       const _createMessagesForUsers = num => async address =>
         Promise.all(
           R.range(0, num).map(async i => {
