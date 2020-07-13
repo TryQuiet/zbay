@@ -32,7 +32,7 @@ export const SendFundsForm = ({
 }) => {
   const initialValues = {
     zec: payload ? parseFloat(payload.priceZcash).toFixed(4) : 0.0,
-    usd: payload ? parseFloat(payload.priceUSD).toFixed(2) : 0.0,
+    usd: payload ? Number(parseFloat(payload.priceUSD).toFixed(4)) : 0.0,
     shippingInfo: false
   }
   return (

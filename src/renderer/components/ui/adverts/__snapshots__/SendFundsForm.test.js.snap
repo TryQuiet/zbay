@@ -6,7 +6,7 @@ exports[`SendFundsForm renders component SendFoundsForm 1`] = `
   initialValues={
     Object {
       "shippingInfo": false,
-      "usd": "123.00",
+      "usd": 123,
       "zec": "0.1200",
     }
   }

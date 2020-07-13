@@ -47,19 +47,28 @@ const styles = theme => ({
     wordBreak: 'break-word'
   }
 })
-const parseChannelName = (name = '') => {
+export const parseChannelName = (name = '') => {
   return name.toLowerCase().replace(/ +/g, '-')
 }
 export const formSchema = Yup.object().shape({
   name: Yup.string()
     .max(20, 'Channel name is too long.')
-    .test('testFormat', 'Channel name can contain only small characters and up to one hyphen.', function (value) {
-      return parseChannelName(value).match(/^[a-z0-9]+(-[a-z0-9]+)?$/)
-    })
+    .test(
+      'testFormat',
+      'Channel names must be less than 20 characters long, lowercase letters and numbers only. Hyphens can be used for spacing.',
+      function (value) {
+        return parseChannelName(value).match(/^[a-z0-9]+([\s-][a-z0-9]+){0,}$/)
+      }
+    )
     .required('Your channel must have a name.')
 })
+export const showParsedMessage = (message = '') => {
+  return message.includes(' ') || message !== message.toLowerCase()
+}
 export const CreateChannelForm = ({ classes, onSubmit, setStep }) => (
   <Formik
+    validateOnChange
+    validateOnBlur
     validationSchema={formSchema}
     onSubmit={(values, formActions) => {
       onSubmit(
@@ -70,49 +79,57 @@ export const CreateChannelForm = ({ classes, onSubmit, setStep }) => (
     }}
     initialValues={{ name: '' }}
   >
-    {({ isSubmitting, values, isValid }) => (
-      <Form className={classes.fullContainer}>
-        <Grid
-          container
-          justify='flex-start'
-          direction='column'
-          className={classes.fullContainer}
-        >
-          <Typography variant='h3' className={classes.title}>
-            Create a private new channel
-          </Typography>
-          <Typography variant='body2'>Channel name</Typography>
-          <TextField name='name' placeholder='my-channel' />
-          <div className={classes.gutter}>
-            {values.name.includes(' ') && (
-              <Grid container alignItems='center' direction='row'>
-                <Grid item className={classes.iconDiv}>
-                  <WarningIcon className={classes.warrningIcon} />
+    {({ isSubmitting, values, isValid, setFieldTouched }) => {
+      return (
+        <Form className={classes.fullContainer}>
+          <Grid
+            container
+            justify='flex-start'
+            direction='column'
+            className={classes.fullContainer}
+          >
+            <Typography variant='h3' className={classes.title}>
+              Create a new private channel
+            </Typography>
+            <Typography variant='body2'>Channel name</Typography>
+            <TextField
+              onKeyPress={e => {
+                setFieldTouched('name', true)
+              }}
+              name='name'
+              placeholder='my-channel'
+            />
+            <div className={classes.gutter}>
+              {showParsedMessage(values.name) && (
+                <Grid container alignItems='center' direction='row'>
+                  <Grid item className={classes.iconDiv}>
+                    <WarningIcon className={classes.warrningIcon} />
+                  </Grid>
+                  <Grid item xs className=''>
+                    <Typography
+                      variant='body2'
+                      className={classes.warrningMessage}
+                    >
+                      Your channel will be created as{' '}
+                      {parseChannelName(values.name)}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs className=''>
-                  <Typography
-                    variant='body2'
-                    className={classes.warrningMessage}
-                  >
-                    Your channel will be created as{' '}
-                    {parseChannelName(values.name)}
-                  </Typography>
-                </Grid>
-              </Grid>
-            )}
-          </div>
-          <LoadingButton
-            className={classes.button}
-            variant='contained'
-            color='primary'
-            disabled={isSubmitting || !isValid}
-            inProgress={isSubmitting}
-            type='submit'
-            text='Create Channel'
-          />
-        </Grid>
-      </Form>
-    )}
+              )}
+            </div>
+            <LoadingButton
+              className={classes.button}
+              variant='contained'
+              color='primary'
+              disabled={isSubmitting || !isValid}
+              inProgress={isSubmitting}
+              type='submit'
+              text='Create Channel'
+            />
+          </Grid>
+        </Form>
+      )
+    }}
   </Formik>
 )
 

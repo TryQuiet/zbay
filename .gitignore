@@ -39,3 +39,4 @@ coverage/
 .webpack
 dist
 node_modules
+native

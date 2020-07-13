@@ -188,6 +188,9 @@ export const transferToMessage = async (props, users) => {
             : `anon${publicKey.substring(0, 10)}`
         })
       } else {
+        if (type === messageType.AD) {
+          throw Error('Advert without owner')
+        }
         sender = ExchangeParticipant({
           replyTo: '',
           username: `anon${publicKey}`
@@ -296,7 +299,9 @@ const _buildUtxo = ({
   //   }
   //   transfers.push(donate)
   // }
-  if (utxos.filter(utxo => utxo.amount >= networkFee).length <= targetUtxoCount) {
+  if (
+    utxos.filter(utxo => utxo.amount >= networkFee).length <= targetUtxoCount
+  ) {
     const utxo = utxos.find(
       utxo =>
         utxo.amount >

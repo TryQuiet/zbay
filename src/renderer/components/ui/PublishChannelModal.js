@@ -20,6 +20,10 @@ import {
 } from '../../zbay/transit'
 import LoadingButton from './LoadingButton'
 import { getBytesSize } from '../../../shared/helpers'
+import {
+  parseChannelName,
+  showParsedMessage
+} from '../widgets/channels/CreateChannelForm'
 
 const currentNetwork = parseInt(process.env.ZBAY_IS_TESTNET) ? 2 : 1
 // import { networkFee } from '../../../../shared/static'
@@ -113,7 +117,7 @@ export const formSchema = publicChannels =>
           'testFormat',
           'Channel name can contain only small characters and up to one hyphen.',
           function (value) {
-            return parseChannelName(value).match(/^[a-z0-9]+(-[a-z0-9]+)?$/)
+            return parseChannelName(value).match(/^[a-z0-9]+([\s-][a-z0-9]+){0,}$/)
           }
         )
         .validateName(publicChannels)
@@ -150,9 +154,6 @@ Yup.addMethod(Yup.mixed, 'validateSize', function (maxSize, errorMessage) {
     return getBytesSize(value) <= maxSize
   })
 })
-const parseChannelName = (name = '') => {
-  return name.toLowerCase().replace(/ +/g, '-')
-}
 export const PublishChannelModal = ({
   classes,
   balance,
@@ -234,7 +235,7 @@ export const PublishChannelModal = ({
                       />
                     </Grid>
                     <div className={classes.gutter}>
-                      {values.name.includes(' ') && (
+                      {showParsedMessage(values.name) && (
                         <Grid container alignItems='center' direction='row'>
                           <Grid item className={classes.iconDiv}>
                             <WarningIcon className={classes.warrningIcon} />
