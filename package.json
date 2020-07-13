@@ -44,9 +44,10 @@
       ]
     },
     "publish": {
-      "provider": "s3",
-      "bucket": "release.zbay.app",
-      "region": "us-east-1"
+      "provider": "github",
+      "repo": "zbay",
+      "owner": "ZbayApp",
+      "releaseType": "draft"
     },
     "extraResources": "zcash/**/*"
   },
