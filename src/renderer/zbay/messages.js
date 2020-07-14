@@ -248,11 +248,12 @@ export const getPublicKeysFromSignature = message => {
 export const createMessage = ({ messageData, privKey }) => {
   return signMessage({ messageData, privKey })
 }
-
+export const shippingDataToString = values =>
+  `\n\n Ship to: \n${values.shippingData.firstName} ${values.shippingData.lastName}\n${values.shippingData.country} ${values.shippingData.region} \n ${values.shippingData.city} ${values.shippingData.street} ${values.shippingData.postalCode}`
 export const createTransfer = values => {
   let memo = values.memo
   if (values.shippingInfo) {
-    memo += `\n\n Ship to: \n${values.shippingData.firstName} ${values.shippingData.lastName}\n${values.shippingData.country} ${values.shippingData.region} \n ${values.shippingData.city} ${values.shippingData.street} ${values.shippingData.postalCode}`
+    memo += shippingDataToString(values)
   }
   return DisplayableMessage({
     type: messageType.TRANSFER,

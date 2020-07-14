@@ -28,6 +28,7 @@ import operationsHandlers, {
   PendingDirectMessageOp
 } from './operations'
 import { ReceivedMessage, _checkMessageSize } from './messages'
+import { shippingDataToString } from '../../zbay/messages'
 import removedChannelsHandlers from './removedChannels'
 import {
   messageType,
@@ -358,7 +359,10 @@ export const fetchMessages = () => async (dispatch, getState) => {
         await dispatch(
           offersHandlers.actions.appendMessages({
             message: msg
-              .merge({ message: msg.message.text })
+              .merge({
+                message:
+                  msg.message.text || shippingDataToString(msg.message)
+              })
               .set('tag', msg.message.tag)
               .set('offerOwner', msg.message.offerOwner),
             itemId: offer.itemId
