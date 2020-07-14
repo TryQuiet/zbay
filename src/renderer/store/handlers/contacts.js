@@ -394,14 +394,14 @@ export const fetchMessages = () => async (dispatch, getState) => {
         let messageDetails = txnTimestamps.get(messageId)
         if (!messageDetails) {
           const result = await getClient().confirmations.getResult(messageId)
-          messageDetails = result.timereceived
+          messageDetails = result.time
           await getVault().transactionsTimestamps.addTransaction(
             messageId,
-            result.timereceived
+            result.time
           )
           await dispatch(
             txnTimestampsHandlers.actions.addTxnTimestamp({
-              tnxs: { [messageId]: result.timereceived.toString() }
+              tnxs: { [messageId]: result.time.toString() }
             })
           )
         }
