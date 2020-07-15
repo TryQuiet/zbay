@@ -48,7 +48,7 @@ const styles = theme => ({
   }
 })
 export const parseChannelName = (name = '') => {
-  return name.toLowerCase().replace(/ +/g, '-')
+  return name.toLowerCase().replace(/ +/g, '-').replace(/-+/g, '-')
 }
 export const formSchema = Yup.object().shape({
   name: Yup.string()
