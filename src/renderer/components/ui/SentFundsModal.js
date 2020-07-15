@@ -123,7 +123,7 @@ export const SentFundsModal = ({
                     Amount
                   </Grid>
                   <Grid item className={classes.value} xs>
-                    {parseFloat(amountZec).toFixed(4)} ZEC ($
+                    {parseFloat(amountZec)} ZEC ($
                     {parseFloat(amountUsd).toFixed(2)} USD)
                   </Grid>
                 </Grid>
@@ -200,7 +200,7 @@ export const SentFundsModal = ({
                     Total
                   </Grid>
                   <Grid item className={classes.total} xs>
-                    {(parseFloat(amountZec) + feeZec).toFixed(4)} ZEC ($
+                    {(parseFloat(amountZec) + feeZec)} ZEC ($
                     {(parseFloat(amountUsd) + feeUsd).toFixed(2)} USD)
                   </Grid>
                 </Grid>
