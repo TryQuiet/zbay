@@ -24,6 +24,7 @@ describe('ChannelMessages', () => {
         messages={messages}
         measureRef={ref}
         contentRect={contentRect}
+        initialStart={false}
       />
     )
     expect(result).toMatchSnapshot()

@@ -46,6 +46,7 @@ export const ChannelMessages = ({
   users,
   onLinkedChannel,
   publicChannels,
+  initialStart,
   isInitialLoadFinished
 }) => {
   const scrollbarRef = React.useRef()
@@ -96,7 +97,7 @@ export const ChannelMessages = ({
         .sortBy(o => o.createdAt)
     )
   }
-  const showLoader = !isInitialLoadFinished && messages.size === 0
+  const showLoader = !isInitialLoadFinished && !initialStart && messages.size === 0
   return (
     <Scrollbars
       ref={getScrollbarRef}
@@ -195,7 +196,8 @@ ChannelMessages.propTypes = {
     bounds: PropTypes.shape({
       height: PropTypes.number
     }).isRequired
-  })
+  }),
+  initialStart: PropTypes.bool.isRequired
 }
 
 ChannelMessages.defaultProps = {
