@@ -15,7 +15,7 @@ import publicChannelsSelector from '../../../store/selectors/publicChannels'
 import { messageType } from '../../../../shared/static'
 import channels from '../../../zcash/channels'
 import channelHandlers from '../../../store/handlers/channel'
-import electronStore from '../../../shared/electronStore'
+import electronStore from '../../../../shared/electronStore'
 
 export const mapStateToProps = (state, { signerPubKey }) => {
   const qMessages = queueMessages.queue(state)
