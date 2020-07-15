@@ -122,11 +122,12 @@ export const JoinChannelModal = ({
                 return
               }
               setLoading(true)
-              await joinChannel(ch)
-              setLoading(false)
-              setStep(0)
-              handleClose()
-              resetForm()
+              joinChannel(ch, () => {
+                setLoading(false)
+                setStep(0)
+                handleClose()
+                resetForm()
+              })
               return
             }
             showNotification(
@@ -242,7 +243,7 @@ export const JoinChannelModal = ({
                     />
                   ) : (
                     <Typography variant='caption' className={classes.info}>
-                      If you have an invite link, open it in a browser
+                      If you have an invite link, open it in a browser. Want to list your own channel here? Create it, then select "Make public" in its settings.
                     </Typography>
                   )}
                 </Grid>

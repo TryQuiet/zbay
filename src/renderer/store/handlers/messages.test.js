@@ -17,7 +17,7 @@ import channelsSelectors from '../selectors/channels'
 import criticalErrorSelectors from '../selectors/criticalError'
 import create from '../create'
 import testUtils from '../../testUtils'
-import { mock as zcashMock } from '../../zcash'
+import { mock as zcashMock, getClient } from '../../zcash'
 import { packMemo } from '../../zbay/transit'
 import { transferToMessage } from '../../zbay/messages'
 import { getVault } from '../../vault'
@@ -163,6 +163,7 @@ describe('messages reducer', () => {
           }
         }))
         jest.spyOn(DateTime, 'utc').mockImplementation(() => testUtils.now)
+        jest.spyOn(getClient().confirmations, 'getResult').mockImplementation(async () => ({ 'time': '123' }))
       })
 
       it('when no channel messages', async () => {
@@ -225,7 +226,6 @@ describe('messages reducer', () => {
             )
           )
         expect(channelsSelectors.lastSeen(channelId)(store.getState())).toBeUndefined()
-
         const actions = channels.map(channel => () => handlers.epics.fetchMessages(channel))
         for (let i = 0; i < actions.length; i++) {
           await store.dispatch(actions[i]())

@@ -48,6 +48,7 @@ Immutable.Map {
         "spent": "0.32",
         "type": 1,
         "createdAt": 1551963828,
+        "blockTime": 9007199254740991,
         "message": "This is a message with id test-message-3",
         "signature": Object {
           "data": Array [
@@ -124,6 +125,7 @@ Immutable.Map {
         "spent": "0.32",
         "type": 1,
         "createdAt": 1551963828,
+        "blockTime": 9007199254740991,
         "message": "This is a message with id test-message-4",
         "signature": Object {
           "data": Array [
@@ -210,6 +212,7 @@ Immutable.Map {
         "spent": "0.32",
         "type": 1,
         "createdAt": 1551963828,
+        "blockTime": 9007199254740991,
         "message": "This is a message with id test-message-0",
         "signature": Object {
           "data": Array [
@@ -286,6 +289,7 @@ Immutable.Map {
         "spent": "0.32",
         "type": 1,
         "createdAt": 1551963828,
+        "blockTime": 9007199254740991,
         "message": "This is a message with id test-message-1",
         "signature": Object {
           "data": Array [
@@ -362,6 +366,7 @@ Immutable.Map {
         "spent": "0.32",
         "type": 1,
         "createdAt": 1551963828,
+        "blockTime": 9007199254740991,
         "message": "This is a message with id test-message-2",
         "signature": Object {
           "data": Array [
@@ -443,6 +448,7 @@ Immutable.Map {
         "spent": "0.32",
         "type": 1,
         "createdAt": 1551963828,
+        "blockTime": 9007199254740991,
         "message": "This is a message with id test-message-3",
         "signature": Object {
           "data": Array [
@@ -519,6 +525,7 @@ Immutable.Map {
         "spent": "0.32",
         "type": 1,
         "createdAt": 1551963828,
+        "blockTime": 9007199254740991,
         "message": "This is a message with id test-message-4",
         "signature": Object {
           "data": Array [

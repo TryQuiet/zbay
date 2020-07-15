@@ -62,11 +62,11 @@ export const fetchPrices = () => async (dispatch, getState) => {
         const result = await getClient().confirmations.getResult(transfer.txid)
         await getVault().transactionsTimestamps.addTransaction(
           transfer.txid,
-          result.timereceived
+          result.time
         )
         await dispatch(
           txnTimestampsHandlers.actions.addTxnTimestamp({
-            tnxs: { [transfer.txid]: result.timereceived.toString() }
+            tnxs: { [transfer.txid]: result.time.toString() }
           })
         )
       }
@@ -109,11 +109,11 @@ export const fetchPriceForTime = time => async (dispatch, getState) => {
         const result = await getClient().confirmations.getResult(transfer.txid)
         await getVault().transactionsTimestamps.addTransaction(
           transfer.txid,
-          result.timereceived
+          result.time
         )
         await dispatch(
           txnTimestampsHandlers.actions.addTxnTimestamp({
-            tnxs: { [transfer.txid]: result.timereceived.toString() }
+            tnxs: { [transfer.txid]: result.time.toString() }
           })
         )
       }

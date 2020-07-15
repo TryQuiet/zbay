@@ -69,7 +69,7 @@ const _RecivedFromUnknownMessage = Immutable.Record(
 )
 
 export const ReceivedMessage = values => {
-  if (values.type === 'UNKNOWN') {
+  if (values && values.type === 'UNKNOWN') {
     delete values.payload.type
     const unknownRecord = _RecivedFromUnknownMessage({
       ...values.payload,
@@ -148,11 +148,11 @@ export const fetchMessages = channel => async (dispatch, getState) => {
         const result = await getClient().confirmations.getResult(transfer.txid)
         await getVault().transactionsTimestamps.addTransaction(
           transfer.txid,
-          result.timereceived
+          result.time
         )
         await dispatch(
           txnTimestampsHandlers.actions.addTxnTimestamp({
-            tnxs: { [transfer.txid]: result.timereceived.toString() }
+            tnxs: { [transfer.txid]: result.time.toString() }
           })
         )
       }

@@ -1,5 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`operations selectors  - allMessages 1`] = `
+Immutable.List [
+  Immutable.ReceivedMessage {
+    "id": 0,
+    "type": 1,
+    "sender": Immutable.MessageSender {
+      "replyTo": "",
+      "username": "",
+    },
+    "createdAt": 1551963828,
+    "message": "This is a message with id 0",
+    "spent": "0.32",
+    "isUnregistered": false,
+    "tag": "",
+    "offerOwner": "",
+    "publicKey": null,
+    "blockTime": 100,
+  },
+  Immutable.ReceivedMessage {
+    "id": 1,
+    "type": 1,
+    "sender": Immutable.MessageSender {
+      "replyTo": "",
+      "username": "",
+    },
+    "createdAt": 1551956628,
+    "message": "This is a message with id 1",
+    "spent": "0.32",
+    "isUnregistered": false,
+    "tag": "",
+    "offerOwner": "",
+    "publicKey": null,
+    "blockTime": 100,
+  },
+]
+`;
+
 exports[`operations selectors  - contact 1`] = `
 Immutable.Record {
   "lastSeen": "2019-03-07T13:03:48.000Z",
@@ -20,7 +57,7 @@ Immutable.Record {
       "tag": "",
       "offerOwner": "",
       "publicKey": null,
-      "blockTime": 9007199254740991,
+      "blockTime": 100,
     },
     Immutable.ReceivedMessage {
       "id": 1,
@@ -36,7 +73,7 @@ Immutable.Record {
       "tag": "",
       "offerOwner": "",
       "publicKey": null,
-      "blockTime": 9007199254740991,
+      "blockTime": 100,
     },
   ],
   "newMessages": Immutable.List [
@@ -103,7 +140,7 @@ Immutable.Map {
         "tag": "",
         "offerOwner": "",
         "publicKey": null,
-        "blockTime": 9007199254740991,
+        "blockTime": 100,
       },
       Immutable.ReceivedMessage {
         "id": 1,
@@ -119,7 +156,7 @@ Immutable.Map {
         "tag": "",
         "offerOwner": "",
         "publicKey": null,
-        "blockTime": 9007199254740991,
+        "blockTime": 100,
       },
     ],
     "newMessages": Immutable.List [
@@ -248,7 +285,7 @@ This is some message test-pending-message",
     "offerOwner": "",
     "isUnregistered": false,
     "publicKey": null,
-    "blockTime": 9007199254740991,
+    "blockTime": 100,
   },
   Immutable.DisplayableMessage {
     "id": "test-operation-id",
@@ -297,7 +334,7 @@ This is a message with id 0",
     "offerOwner": "",
     "isUnregistered": false,
     "publicKey": null,
-    "blockTime": 9007199254740991,
+    "blockTime": 100,
   },
 ]
 `;
@@ -320,7 +357,7 @@ Immutable.List [
     "tag": "",
     "offerOwner": "",
     "publicKey": null,
-    "blockTime": 9007199254740991,
+    "blockTime": 100,
   },
   Immutable.ReceivedMessage {
     "id": 1,
@@ -336,7 +373,7 @@ Immutable.List [
     "tag": "",
     "offerOwner": "",
     "publicKey": null,
-    "blockTime": 9007199254740991,
+    "blockTime": 100,
   },
 ]
 `;
@@ -615,6 +652,8 @@ Immutable.Map {
   },
 }
 `;
+
+exports[`operations selectors  - pendingBalance 1`] = `0.64`;
 
 exports[`operations selectors  - queue messages 1`] = `
 Immutable.Map {

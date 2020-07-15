@@ -95,7 +95,10 @@ const loadOffer = (id, address) => async (dispatch, getState) => {
     dispatch(setAddress(address))
   } catch (err) {}
 }
-const linkChannelRedirect = targetChannel => async (dispatch, getState) => {
+const linkChannelRedirect = (targetChannel, closeModal = () => {}) => async (
+  dispatch,
+  getState
+) => {
   let channels = channelsSelectors.channels(getState())
   let channel = channels.data.find(
     channel => channel.get('address') === targetChannel.address
@@ -115,6 +118,7 @@ const linkChannelRedirect = targetChannel => async (dispatch, getState) => {
       channel => channel.get('address') === targetChannel.address
     )
     await dispatch(setLoading(true))
+    history.push(`/main/channel/${channel.get('id')}`)
     dispatch(
       notificationsHandlers.actions.enqueueSnackbar({
         message: `Successfully imported channel ${targetChannel.name}`,
@@ -123,7 +127,7 @@ const linkChannelRedirect = targetChannel => async (dispatch, getState) => {
         }
       })
     )
-    history.push(`/main/channel/${channel.get('id')}`)
+    closeModal()
     try {
       await getClient().keys.importIVK({
         ivk: targetChannel.keys.ivk,

@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    tags: '*'
+
+jobs:
+  build_on_mac:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1.0.0
+      with:
+        ref: refs/heads/master
+    - uses: actions/setup-node@master
+      with:
+        node-version: '12'
+    - name: fetch zcashd
+      run: mkdir ./zcash/darwin && curl https://zbay-binaries.s3.us-east-2.amazonaws.com/darwin/zcashd --output ./zcash/darwin/zcashd && chmod 755 ./zcash/darwin/zcashd
+    - name: install dependencies
+      run: npm install
+    - name: test
+      run: npm run test
+    - name: build on Mac
+      run: npm run build:prod
+    - name: install electron builder
+      run: npm install -g electron-builder@22.3.2
+    - name: release
+      env:
+        CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+        CSC_LINK: ${{ secrets.CSC_LINK }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        APPLEID: ${{ secrets.APPLEID }}
+        APPLEIDPASS: ${{ secrets.APPLEIDPASS }}
+        USE_HARD_LINKS: false
+      run: electron-builder -p always --mac
+
+  build_on_linux:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1.0.0
+      with:
+        ref: refs/heads/master
+    - uses: actions/setup-node@master
+      with:
+        node-version: '12'
+    - name: fetch zcashd
+      run: mkdir ./zcash/linux && curl https://zbay-binaries.s3.us-east-2.amazonaws.com/linux/ubuntu18/zcashd --output ./zcash/linux/zcashd && chmod 755 ./zcash/linux/zcashd
+    - name: install dependencies
+      run: npm install
+    - name: test
+      run: npm run test
+    - name: build on Linux
+      run: npm run build:prod
+    - name: install electron builder
+      run: npm install -g electron-builder@22.3.2
+    - name: release
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: electron-builder -p always --linux
