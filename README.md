@@ -48,6 +48,11 @@ Ubuntu16 ```npm run distUbuntu16```
 Ubuntu18 ```npm run distUbuntu18```
 
 The built installers can then be found in the `dist` folder.
+## Custom protocol support (Only Linux)
+
+To be able to take advantage of zbay protocol on linux (Other platforms work by default) you need to create Desktop Entry.
+You can find template file in repository ```zbay.desktop```. You need to change ```Exec=/path/to/zbay/Zbay-version.AppImage``` inside ```zbay.desktop``` to match your path to Zbay AppImage file. 
+Then place file inside ```~/.local/share/applications/``` folder and run command to register new entry ```xdg-mime default zbay.desktop x-scheme-handler/zbay```
 
 ## Managing keys
 

@@ -13,6 +13,8 @@ import channelHandlers from './channel'
 import contactsHandlers from './contacts'
 import directMessagesQueueHandlers from './directMessagesQueue'
 import { messageType, actionTypes } from '../../../shared/static'
+import appSelectors from '../selectors/app'
+import appHandlers from './app'
 
 import * as Here from './offers'
 
@@ -176,10 +178,24 @@ const sendItemMessageOnEnter = event => async (dispatch, getState) => {
       dm.get('recipientAddress') === channel.address &&
       dm.message.get('type') === messageType.ITEM_BASIC
   )
+  const currentMessageKey = dmQueue.findKey(
+    dm =>
+      dm.get('recipientAddress') === channel.address &&
+      dm.message.get('type') === messageType.ITEM_BASIC
+  )
   if (enterPressed && !shiftPressed) {
     event.preventDefault()
+    const messageQueueLock = appSelectors.directMessageQueueLock(getState())
+    let locked = false
+    if (!messageQueueLock) {
+      await dispatch(appHandlers.actions.lockDmQueue())
+      locked = true
+    }
     let message
-    if (currentMessage !== undefined) {
+    if (currentMessage !== undefined && locked) {
+      await dispatch(
+        directMessagesQueueHandlers.actions.removeMessage(currentMessageKey)
+      )
       message = zbayMessages.createMessage({
         messageData: {
           type: zbayMessages.messageType.ITEM_BASIC,
@@ -217,6 +233,9 @@ const sendItemMessageOnEnter = event => async (dispatch, getState) => {
       )
     )
     dispatch(channelHandlers.actions.setMessage(''))
+    if (locked) {
+      dispatch(appHandlers.actions.unlockDmQueue())
+    }
   }
 }
 const updateLastSeen = ({ itemId }) => async (dispatch, getState) => {

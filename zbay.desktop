@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Zbay
+Exec=/path/to/zbay/Zbay-version.AppImage %U
+Terminal=false
+Type=Application
+Icon=zbay
+StartupWMClass=Zbay
+Comment=Distributed goods and bulletin board
+MimeType=x-scheme-handler/zbay;
+Categories=Network;Chat;
