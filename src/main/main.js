@@ -913,6 +913,11 @@ app.on('before-quit', () => {
   if (browserWidth && browserHeight) {
     electronStore.set('windowSize', { width: browserWidth, height: browserHeight })
   }
+  const initialStart = electronStore.get('initialStart')
+  const isNewUser = electronStore.get('isNewUser')
+  if (initialStart && isNewUser === false) {
+    electronStore.set('initialStart', false)
+  }
 })
 
 // Quit when all windows are closed.

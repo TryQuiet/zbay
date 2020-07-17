@@ -15,6 +15,7 @@ import publicChannelsSelector from '../../../store/selectors/publicChannels'
 import { messageType } from '../../../../shared/static'
 import channels from '../../../zcash/channels'
 import channelHandlers from '../../../store/handlers/channel'
+import electronStore from '../../../../shared/electronStore'
 
 export const mapStateToProps = (state, { signerPubKey }) => {
   const qMessages = queueMessages.queue(state)
@@ -57,6 +58,7 @@ export const ChannelMessages = ({
   loader
 }) => {
   const [scrollPosition, setScrollPosition] = React.useState(-1)
+  const [initialStart, setInitialStart] = React.useState(false)
   useEffect(() => {
     setScrollPosition(-1)
   }, [channelId, contactId])
@@ -65,6 +67,10 @@ export const ChannelMessages = ({
       setScrollPosition(-1)
     }
   }, [triggerScroll])
+  useEffect(() => {
+    const isInitialStart = electronStore.get('initialStart')
+    setInitialStart(isInitialStart)
+  }, [])
   const isOwner = !!channelData.get('keys').get('sk')
   let usersRegistration = []
   let publicChannelsRegistration = []
@@ -94,6 +100,7 @@ export const ChannelMessages = ({
       users={users}
       onLinkedChannel={onLinkedChannel}
       publicChannels={publicChannels}
+      initialStart={initialStart}
       isInitialLoadFinished={loader.loading ? false : isInitialLoadFinished}
     />
   )

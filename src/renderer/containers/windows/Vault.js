@@ -30,6 +30,7 @@ export const Vault = ({ loadVaultStatus, createZcashNode, exists, nodeConnected 
   const userStatus = electronStore.get('isNewUser')
   if (userStatus === undefined) {
     electronStore.set('isNewUser', true)
+    electronStore.set('initialStart', true)
   }
   useEffect(() => {
     loadVaultStatus()
