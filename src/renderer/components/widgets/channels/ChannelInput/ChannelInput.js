@@ -235,7 +235,10 @@ export const ChannelInput = ({
     }
     for (const key in splitedMsg) {
       const element = splitedMsg[key]
-      if (element.startsWith('@') && users.find(user => user.nickname === element.substring(1))) {
+      if (
+        element.startsWith('@') &&
+        users.find(user => user.nickname === element.substring(1))
+      ) {
         splitedMsg[key] = renderToString(
           <span className={classes.highlight}>{element}</span>
         )
@@ -441,6 +444,7 @@ export const ChannelInput = ({
                     <Picker
                       onEmojiClick={(e, emoji) => {
                         setHtmlMessage(message + emoji.emoji)
+                        onChange(message + emoji.emoji)
                         setOpenEmoji(false)
                       }}
                     />
@@ -461,7 +465,9 @@ export const ChannelInput = ({
               {`Your message is over the size limit. `}
               <span
                 onClick={() =>
-                  shell.openExternal('https://www.zbay.app/faq.html#message-size-info')
+                  shell.openExternal(
+                    'https://www.zbay.app/faq.html#message-size-info'
+                  )
                 }
                 className={classes.linkBlue}
               >
