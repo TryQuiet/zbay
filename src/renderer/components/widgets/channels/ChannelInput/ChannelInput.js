@@ -177,6 +177,10 @@ export const ChannelInput = ({
     inputRef.current.el.current.focus()
     setFocused(true)
   }
+  const scrollToBottom = () => {
+    const scroll = document.getElementById('messages-scroll').parentElement
+    scroll.scrollTop = scroll.scrollHeight
+  }
   React.useEffect(() => {
     inputRef.current.updater.enqueueForceUpdate(inputRef.current)
   }, [inputPlaceholder])
@@ -394,6 +398,7 @@ export const ChannelInput = ({
                     inputState === INPUT_STATE.AVAILABLE &&
                     e.nativeEvent.keyCode === 13
                   ) {
+                    scrollToBottom()
                     onKeyPress(e)
                   } else {
                     if (e.nativeEvent.keyCode === 13) {
