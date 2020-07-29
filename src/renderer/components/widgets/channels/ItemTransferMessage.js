@@ -100,17 +100,18 @@ export const ItemTransferMessage = ({
     >
       <Grid
         className={classes.messageInput}
-        onClick={() =>
+        onClick={() => {
           openSentModal({
             fromYou: true,
             provideShipping: message.provideShipping,
             amountZec: parseFloat(message.spent.toString()),
             txid: message.id,
             memo: message.message,
-            recipient: message.receiver.replyTo,
+            recipient: message.receiver ? message.receiver.replyTo : '',
             timestamp: message.createdAt,
             blockTime: message.blockTime
           })
+        }
         }
         item
       >
