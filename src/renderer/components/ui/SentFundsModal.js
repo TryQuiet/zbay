@@ -93,7 +93,6 @@ export const SentFundsModal = ({
     timeTransaction.slice(pos + 1) +
     ' ' +
     DateTime.local().offsetNameShort
-
   return (
     <Modal open={open} handleClose={handleClose}>
       <AutoSizer>
@@ -195,6 +194,16 @@ export const SentFundsModal = ({
                     )}
                   </Grid>
                 </Grid>
+                {feeZec > 0 && (
+                  <Grid item container className={classes.field} xs={12}>
+                    <Grid item className={classes.label}>
+                    Network fee
+                    </Grid>
+                    <Grid item className={classes.total} xs>
+                      {(parseFloat(feeZec))} ZEC
+                    </Grid>
+                  </Grid>
+                )}
                 <Grid item container className={classes.field} xs={12}>
                   <Grid item className={classes.label}>
                     Total

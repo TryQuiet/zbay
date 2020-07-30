@@ -128,7 +128,9 @@ export const fetchPriceForTime = time => async (dispatch, getState) => {
           : prev
       })
     const txn = transfers.find(txn => txn.txid === closesTransaction)
-    return parseFloat(Buffer.from(txn.memo, 'hex').toString())
+    const txnMemo = trimNull(Buffer.from(txn.memo, 'hex').toString())
+    const price = trimNull(txnMemo.substring(129))
+    return parseFloat(price)
   } catch (err) {
     console.warn(err)
   }

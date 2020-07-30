@@ -109,6 +109,7 @@ export const ChannelMessages = ({
       <List
         disablePadding
         ref={msgRef}
+        id='messages-scroll'
         className={classes.list}
         style={{ marginTop: offset }}
       >

@@ -240,16 +240,18 @@ export const fetchMessages = channel => async (dispatch, getState) => {
         newMessages.map(nm =>
           displayMessageNotification({ message: nm, channel })
         )
-      }
-      if (
-        username &&
-        (userFilter === notificationFilterType.ALL_MESSAGES ||
-          userFilter === notificationFilterType.MENTIONS) &&
-        filterType === notificationFilterType.MENTIONS
-      ) {
-        newMessages
-          .filter(msg => containsString(msg.message, `@${username.nickname}`))
-          .map(nm => displayMessageNotification({ message: nm, channel }))
+      } else {
+        if (
+          username &&
+          (userFilter === notificationFilterType.MENTIONS ||
+            userFilter === notificationFilterType.ALL_MESSAGES) &&
+          (filterType === notificationFilterType.MENTIONS ||
+            filterType === notificationFilterType.ALL_MESSAGES)
+        ) {
+          newMessages
+            .filter(msg => containsString(msg.message, `@${username.nickname}`))
+            .map(nm => displayMessageNotification({ message: nm, channel }))
+        }
       }
     }
     return 1

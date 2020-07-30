@@ -16,7 +16,7 @@ describe('SentFundsModal', () => {
         handleClose={() => {}}
         amountUsd={12}
         feeUsd={0}
-        feeZec={0}
+        feeZec={0.1}
         memo='random text'
         timestamp={DateTime.utc(2017).toSeconds()}
         valueWhenSent={100}
