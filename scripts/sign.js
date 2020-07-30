@@ -15,4 +15,3 @@ exports.default = async function (configuration) {
     }
   )
 }
-
