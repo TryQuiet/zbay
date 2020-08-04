@@ -117,7 +117,9 @@ export const formSchema = publicChannels =>
           'testFormat',
           'Channel name can contain only small characters and up to one hyphen.',
           function (value) {
-            return parseChannelName(value).match(/^[a-z0-9]+([\s-][a-z0-9]+){0,}$/)
+            return parseChannelName(value).match(
+              /^[a-z0-9]+([\s-][a-z0-9]+){0,}$/
+            )
           }
         )
         .validateName(publicChannels)
@@ -235,7 +237,7 @@ export const PublishChannelModal = ({
                       />
                     </Grid>
                     <div className={classes.gutter}>
-                      {showParsedMessage(values.name) && (
+                      {showParsedMessage(values.name) && isValid && (
                         <Grid container alignItems='center' direction='row'>
                           <Grid item className={classes.iconDiv}>
                             <WarningIcon className={classes.warrningIcon} />
