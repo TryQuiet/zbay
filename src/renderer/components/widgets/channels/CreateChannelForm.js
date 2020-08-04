@@ -48,7 +48,10 @@ const styles = theme => ({
   }
 })
 export const parseChannelName = (name = '') => {
-  return name.toLowerCase().replace(/ +/g, '-').replace(/-+/g, '-')
+  return name
+    .toLowerCase()
+    .replace(/ +/g, '-')
+    .replace(/-+/g, '-')
 }
 export const formSchema = Yup.object().shape({
   name: Yup.string()
@@ -100,7 +103,7 @@ export const CreateChannelForm = ({ classes, onSubmit, setStep }) => (
               placeholder='my-channel'
             />
             <div className={classes.gutter}>
-              {showParsedMessage(values.name) && (
+              {showParsedMessage(values.name) && isValid && (
                 <Grid container alignItems='center' direction='row'>
                   <Grid item className={classes.iconDiv}>
                     <WarningIcon className={classes.warrningIcon} />
