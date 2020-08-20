@@ -1,7 +1,10 @@
 import { ipcRenderer } from 'electron'
 import { actionCreators } from './modals'
-
+import { createMigrationFile } from './identity'
 export const checkForUpdate = () => async (dispatch, getState) => {
+  // create file on new update
+  // Note it will recreate file on each new update so file will be up to date
+  await dispatch(createMigrationFile())
   dispatch(actionCreators.openModal('applicationUpdate')())
 }
 
