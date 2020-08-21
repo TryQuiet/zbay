@@ -298,11 +298,13 @@ export const fetchFreeUtxos = () => async (dispatch, getState) => {
 export const createMigrationFile = () => async (dispatch, getState) => {
   // Dont use any redux state since we do not know when update will trigger
   const [identity] = await vault.identity.listIdentities()
+  console.log(identity)
   migrationStore.set('identity', {
     address: identity.address,
     signerPrivKey: identity.signerPrivKey,
     signerPubKey: identity.signerPubKey,
-    keys: identity.keys
+    keys: identity.keys,
+    transparentAddress: identity.transparentAddress
   })
   const userChannels = await vault.getVault().channels.listChannels(identity.id)
   const defaultChannels = Object.values(channels).map(a => a.mainnet.address)
