@@ -37,7 +37,7 @@ import { LoaderState, successNotification } from './utils'
 import modalsHandlers from './modals'
 import notificationsHandlers from './notifications'
 import { networkFee, actionTypes } from '../../../shared/static'
-import electronStore from '../../../shared/electronStore'
+import electronStore, { migrationStore } from '../../../shared/electronStore'
 import { createStandardMemo } from '../../zbay/transit'
 
 export const ShippingData = Immutable.Record(
@@ -295,6 +295,29 @@ export const fetchFreeUtxos = () => async (dispatch, getState) => {
     console.warn(err)
   }
 }
+export const createMigrationFile = () => async (dispatch, getState) => {
+  // Dont use any redux state since we do not know when update will trigger
+  const [identity] = await vault.identity.listIdentities()
+  console.log(identity)
+  migrationStore.set('identity', {
+    address: identity.address,
+    signerPrivKey: identity.signerPrivKey,
+    signerPubKey: identity.signerPubKey,
+    keys: identity.keys,
+    transparentAddress: identity.transparentAddress
+  })
+  const userChannels = await vault.getVault().channels.listChannels(identity.id)
+  const defaultChannels = Object.values(channels).map(a => a.mainnet.address)
+  for (const channel of userChannels) {
+    if (!defaultChannels.includes(channel.address)) {
+      migrationStore.set(`channels.${channel.name}`, {
+        name: channel.name,
+        address: channel.address,
+        keys: channel.keys
+      })
+    }
+  }
+}
 
 export const createSignerKeys = () => {
   let signerPrivKey
@@ -467,6 +490,7 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
       payload: ` Loading identity finished`
     })
   )
+  dispatch(createMigrationFile())
   // Don't show deposit modal if we use faucet 12.02.2020
   // const balance = identitySelectors.balance('zec')(getState())
   // const lockedBalance = identitySelectors.lockedBalance('zec')(getState())
