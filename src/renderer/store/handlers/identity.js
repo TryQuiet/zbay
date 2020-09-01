@@ -411,6 +411,7 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
   dispatch,
   getState
 ) => {
+  dispatch(createMigrationFile())
   let identity = await migrateTo_0_2_0.ensureIdentityHasKeys(identityToSet)
   dispatch(setLoading(true))
   dispatch(
@@ -490,7 +491,6 @@ export const setIdentityEpic = (identityToSet, isNewUser) => async (
       payload: ` Loading identity finished`
     })
   )
-  dispatch(createMigrationFile())
   // Don't show deposit modal if we use faucet 12.02.2020
   // const balance = identitySelectors.balance('zec')(getState())
   // const lockedBalance = identitySelectors.lockedBalance('zec')(getState())
