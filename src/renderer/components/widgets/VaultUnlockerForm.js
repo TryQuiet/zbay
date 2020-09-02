@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as Yup from 'yup'
 import { Formik, Form } from 'formik'
-import { Redirect } from 'react-router'
-import BigNumber from 'bignumber.js'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -14,9 +12,7 @@ import Icon from '../ui/Icon'
 import LoadingButton from '../ui/LoadingButton'
 
 import icon from '../../static/images/zcash/logo-lockup--circle.svg'
-import Tor from '../../containers/windows/Tor'
 import electronStore from '../../../shared/electronStore'
-import config from '../../../main/config'
 
 const styles = theme => ({
   paper: {
@@ -76,21 +72,21 @@ export const VaultUnlockerForm = ({
   setDone,
   tor,
   node,
-  isLogIn
+  isLogIn,
+  checkForUpdate
 }) => {
   const isDev = process.env.NODE_ENV === 'development'
   const vaultPassword = electronStore.get('vaultPassword')
-  const blockchainStatus = electronStore.get('AppStatus.blockchain.status')
-  const isRescanned = electronStore.get('AppStatus.blockchain.isRescanned')
-  const lastBlock = node.latestBlock.isEqualTo(0) ? 999999 : node.latestBlock
-  const isBlockchainFromExternalSouce = electronStore.get('isBlockchainFromExternalSource') && blockchainStatus !== config.BLOCKCHAIN_STATUSES.SUCCESS
-  const isSynced = (!node.latestBlock.isEqualTo(0) && node.latestBlock.minus(node.currentBlock).lt(10)) && new BigNumber(node.latestBlock).gt(755000)
+  React.useEffect(() => {
+    // for tests
+    checkForUpdate()
+  }, [])
   return (
     <Formik
       onSubmit={(values, actions) => {
         onSubmit(values, actions, setDone)
       }}
-      validationSchema={(vaultPassword || isDev) ? null : formSchema}
+      validationSchema={vaultPassword || isDev ? null : formSchema}
       initialValues={initialValues}
     >
       {({ isSubmitting }) => (
@@ -115,11 +111,16 @@ export const VaultUnlockerForm = ({
               <Icon className={classes.icon} src={icon} />
             </Grid>
             <Grid container item xs={12} wrap='wrap' justify='center'>
-              <Typography className={classes.title} variant='body1' gutterBottom>
+              <Typography
+                className={classes.title}
+                variant='body1'
+                gutterBottom
+              >
                 {vaultPassword ? 'Welcome Back' : 'Log In'}
               </Typography>
             </Grid>
-            {((!vaultPassword && !isDev) || (isDev && exists && !vaultPassword)) && (
+            {((!vaultPassword && !isDev) ||
+              (isDev && exists && !vaultPassword)) && (
               <Grid container item justify='center'>
                 <PasswordField
                   name='password'
@@ -138,36 +139,16 @@ export const VaultUnlockerForm = ({
                 margin='normal'
                 text={vaultPassword ? 'Sign in' : 'Login'}
                 fullWidth
-                disabled={
-                  isSubmitting ||
-                  unlocking ||
-                  (tor.enabled === true && tor.status !== 'stable') ||
-                  !done ||
-                  tor.status === 'loading' ||
-                  (!isSynced && isLogIn)
-                }
-                inProgress={isSubmitting || unlocking || !done || tor.status === 'loading' || (!isSynced && isLogIn)}
+                disabled
+                inProgress
               />
             </Grid>
-            {locked && (
-              <Grid item className={classes.torDiv}>
-                <Tor />
-              </Grid>
-            )}
           </Grid>
-          {(!isSynced && isLogIn) && (
-            <Grid item container justify='center' alignItems='center'>
-              <Typography variant='body2' className={classes.status}>
-                {nodeConnected ? `Syncing (${node.currentBlock}/${lastBlock})` : `Starting up. This can take a while...`}
-              </Typography>
-            </Grid>
-          )}
-          {!isDev && !locked && !loader.loading && ((blockchainStatus !== 'SUCCESS' && !isBlockchainFromExternalSouce) || !isRescanned) && (
-            <Redirect to='/zcashNode' />
-          )}
-          {!locked && !loader.loading && nodeConnected && done && isSynced && (
-            <Redirect to='/main/channel/general' />
-          )}
+          <Grid item container justify='center' alignItems='center'>
+            <Typography variant='body2' className={classes.status}>
+              {'Updating please wait...'}
+            </Typography>
+          </Grid>
         </Form>
       )}
     </Formik>
