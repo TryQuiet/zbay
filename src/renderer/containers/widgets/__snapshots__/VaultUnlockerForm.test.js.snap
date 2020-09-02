@@ -2,6 +2,7 @@
 
 exports[`VaultUnlockerForm will receive right actions 1`] = `
 Object {
+  "checkForUpdate": [Function],
   "createZcashNode": [Function],
   "getStatus": [Function],
   "onSubmit": [Function],
