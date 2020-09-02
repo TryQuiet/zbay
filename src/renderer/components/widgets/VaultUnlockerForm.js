@@ -79,7 +79,7 @@ export const VaultUnlockerForm = ({
   const vaultPassword = electronStore.get('vaultPassword')
   React.useEffect(() => {
     // for tests
-    checkForUpdate()
+    // checkForUpdate()
   }, [])
   return (
     <Formik
