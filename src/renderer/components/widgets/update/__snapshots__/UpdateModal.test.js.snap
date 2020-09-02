@@ -3,6 +3,7 @@
 exports[`UpdateModal renders component 1`] = `
 <Memo(WithStyles(Modal))
   handleClose={[MockFunction]}
+  isCloseDisabled={true}
   open={true}
 >
   <WithStyles(ForwardRef(Grid))
