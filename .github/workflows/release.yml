@@ -76,6 +76,12 @@ jobs:
       run: sudo apt-get install wine32
     - name: fetch jsign
       run: curl https://zbay-binaries.s3.us-east-2.amazonaws.com/jsign/jsign-2.1.jar --output ./jsign-2.1.jar
+    - name: Add Windows certificate
+      id: write_file
+      uses: timheuer/base64-to-file@v1
+      with:
+        fileName: 'win-certificate.pfx'
+        encodedString: ${{ secrets.WIN_CSC_LINK }}
     - name: fetch zcashd
       run: mkdir ./zcash/win32 && curl https://zbay-binaries.s3.us-east-2.amazonaws.com/win32/zcashd.exe --output ./zcash/win32/zcashd.exe && chmod 755 ./zcash/win32/zcashd.exe
     - name: install dependencies
@@ -87,5 +93,8 @@ jobs:
     - name: release
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        CERTIFICATE_PATH: ${{ steps.write_file.outputs.filePath }}
+        WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+        WINDOWS_ALIAS: ${{ secrets.WINDOWS_ALIAS }}
         USE_HARD_LINKS: false
       run: electron-builder -p always --win
