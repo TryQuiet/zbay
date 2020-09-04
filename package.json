@@ -46,7 +46,7 @@
     },
     "publish": {
       "provider": "github",
-      "repo": "zbay",
+      "repo": "ZbayLite",
       "owner": "ZbayApp",
       "releaseType": "draft"
     },
