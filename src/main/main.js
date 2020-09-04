@@ -203,6 +203,7 @@ let nodeProc = null
 
 export const isDev = process.env.NODE_ENV === 'development'
 const installExtensions = async () => {
+  if (!isDev) return
   require('electron-debug')({
     showDevTools: true
   })

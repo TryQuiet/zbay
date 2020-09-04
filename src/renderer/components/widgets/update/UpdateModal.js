@@ -38,7 +38,7 @@ const styles = theme => ({
 
 export const UpdateModal = ({ classes, open, handleClose, handleUpdate, rejectUpdate }) => {
   return (
-    <Modal open={open} handleClose={handleClose}>
+    <Modal open={open} handleClose={handleClose} isCloseDisabled>
       <Grid container direction='column' className={classes.root} alignItems='center' justify='flex-start'>
         <Grid className={classes.info} container justify='center'>
           <Grid item>

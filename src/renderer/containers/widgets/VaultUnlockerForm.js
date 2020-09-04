@@ -12,6 +12,7 @@ import { useInterval } from '../hooks'
 import torSelectors from '../../store/selectors/tor'
 import torHandlers from '../../store/handlers/tor'
 import electronStore from '../../../shared/electronStore'
+import updateHandlers from '../../store/handlers/update'
 
 export const mapStateToProps = state => ({
   unlocking: vaultSelectors.unlocking(state),
@@ -30,7 +31,8 @@ export const mapDispatchToProps = dispatch =>
       onSubmit: vaultHandlers.epics.unlockVault,
       setVaultIdentity: vaultHandlers.epics.setVaultIdentity,
       getStatus: nodeHandlers.epics.getStatus,
-      createZcashNode: torHandlers.epics.createZcashNode
+      createZcashNode: torHandlers.epics.createZcashNode,
+      checkForUpdate: updateHandlers.epics.checkForUpdate
     },
     dispatch
   )
@@ -48,31 +50,22 @@ export const VaultUnlockerForm = ({
   ...props
 }) => {
   const [done, setDone] = useState(true)
-  useEffect(
-    () => {
-      const isNewUser = electronStore.get('isNewUser')
-      if (!isNewUser && !locked && nodeConnected) {
-        setVaultIdentity()
-      }
-    },
-    [locked, nodeConnected]
-  )
-  useEffect(
-    () => {
-      if (!locked) {
-        createZcashNode(tor.url)
-      }
-    },
-    [locked]
-  )
-  useEffect(
-    () => {
-      if (!locked && !loader.loading) {
-        setDone(true)
-      }
-    },
-    [loader.loading]
-  )
+  useEffect(() => {
+    const isNewUser = electronStore.get('isNewUser')
+    if (!isNewUser && !locked && nodeConnected) {
+      setVaultIdentity()
+    }
+  }, [locked, nodeConnected])
+  useEffect(() => {
+    if (!locked) {
+      createZcashNode(tor.url)
+    }
+  }, [locked])
+  useEffect(() => {
+    if (!locked && !loader.loading) {
+      setDone(true)
+    }
+  }, [loader.loading])
 
   useInterval(getStatus, 5000)
   return (
@@ -90,7 +83,4 @@ export const VaultUnlockerForm = ({
     />
   )
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(VaultUnlockerForm)
+export default connect(mapStateToProps, mapDispatchToProps)(VaultUnlockerForm)
